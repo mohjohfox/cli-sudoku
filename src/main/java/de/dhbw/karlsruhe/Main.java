@@ -16,10 +16,10 @@ public class Main {
     String input = scanner.nextLine();
 
     if (input.equals("y") || input.equals("yes")) {
-      System.out.print("Please enter your username:");
+      System.out.print("Please enter your username: ");
       String userName = scanner.nextLine();
 
-      System.out.print("Please enter your password:");
+      System.out.print("Please enter your password: ");
       String password = scanner.nextLine();
 
       if (userService.isPasswordCorrect(userName, password)) {
@@ -28,10 +28,10 @@ public class Main {
         System.out.println("Password is wrong!");
       }
     } else {
-      System.out.print("Please enter a username:");
+      System.out.print("Please enter a username: ");
       String userName = scanner.nextLine();
 
-      System.out.print("Please enter a password:");
+      System.out.print("Please enter a password: ");
       String password = scanner.nextLine();
 
       userService.createUser(userName, password);

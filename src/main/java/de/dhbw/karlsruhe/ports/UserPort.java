@@ -4,7 +4,7 @@ import de.dhbw.karlsruhe.model.User;
 
 public interface UserPort {
 
-  String saveUser(User user);
+  void saveUser(User user);
 
   String getPassword(String userName);
 
