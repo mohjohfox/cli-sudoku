@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.ports;
 
 import de.dhbw.karlsruhe.model.User;
+import java.util.List;
 
 public interface UserPort {
 
@@ -8,4 +9,5 @@ public interface UserPort {
 
   String getPassword(String userName);
 
+  List<String> getAllUserNames();
 }

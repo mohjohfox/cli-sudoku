@@ -2,9 +2,13 @@ package de.dhbw.karlsruhe.adapter;
 
 import de.dhbw.karlsruhe.model.User;
 import de.dhbw.karlsruhe.ports.UserPort;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserAdapter implements UserPort {
 
@@ -23,6 +27,45 @@ public class UserAdapter implements UserPort {
 
   @Override
   public String getPassword(String userName) {
+    try(BufferedReader br = new BufferedReader(new FileReader(userFile))) {
+      String line = br.readLine();
+
+      while (line != null) {
+        String[] array = line.split("&");
+        String userNameInLine = array[0].split("=")[1];
+        String passwordInLine = array[1].split("=")[1];
+
+        if (userNameInLine.equals(userName)) {
+          return passwordInLine;
+        }
+
+        line = br.readLine();
+      }
+
+      System.err.println("Username not found!");
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
     return "";
+  }
+
+  @Override
+  public List<String> getAllUserNames() {
+
+    List<String> userNames = new ArrayList<>();
+
+    try(BufferedReader br = new BufferedReader(new FileReader(userFile))) {
+      String line = br.readLine();
+
+      while (line != null) {
+        userNames.add(line.split("&")[0].split("=")[1]);
+
+        line = br.readLine();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return userNames;
   }
 }
