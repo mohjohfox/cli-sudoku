@@ -7,6 +7,13 @@ public class Main {
   public static void main(String[] args) {
     StartUpDialogService startUpDialogService = new StartUpDialogService();
 
-    startUpDialogService.printLoginMessages();
+    boolean successfulLogin = startUpDialogService.login();
+
+    if (successfulLogin) {
+      System.out.println("You have successfully logged in!");
+    } else {
+      System.out.println("Login failed!");
+    }
+
   }
 }

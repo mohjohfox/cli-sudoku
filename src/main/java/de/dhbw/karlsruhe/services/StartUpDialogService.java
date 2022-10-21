@@ -14,29 +14,26 @@ public class StartUpDialogService {
     scanner = new Scanner(System.in);
   }
 
-  public void printLoginMessages() {
+  public boolean login() {
     System.out.println("Do you already have an account? y/n");
 
     String input = scanner.nextLine();
 
     try {
-      if (hasUserAccount(input)) {
-        loginUser();
-      } else {
+      if (!hasUserAccount(input)) {
         registerUser();
-        loginUser();
       }
+      return loginUser();
     } catch (NoSuchAlgorithmException e) {
       System.err.println("Oh! Es scheint so als wäre ein Fehler aufgetreten.");
       System.err.println(e.getMessage());
+      return false;
     }
   }
 
-  private void loginUser() throws NoSuchAlgorithmException {
+  private boolean loginUser() throws NoSuchAlgorithmException {
     User enteredUser = loginDialog();
-    String outputMessage =
-        userService.isPasswordCorrect(enteredUser) ? "Password is correct!" : "Password is wrong!";
-    System.out.println(outputMessage);
+    return userService.isPasswordCorrect(enteredUser);
   }
 
   private void registerUser() throws NoSuchAlgorithmException {
