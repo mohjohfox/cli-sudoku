@@ -16,22 +16,22 @@ public class UserService {
     userPort.saveUser(user);
   }
 
-  public void createUser(String userName, String password) throws NoSuchAlgorithmException {
+  public void createUser(User createUser) throws NoSuchAlgorithmException {
 
-    if (isUserNameFree(userName) && isUserNameWithoutSpecialCharacters(userName) && isPasswordWithoutSpecialCharacters(password)) {
-      String encryptPassword = encryptionService.getSHAEncryptedPassword(password);
-      saveUser(new User(userName, encryptPassword));
+    if (isUserNameFree(createUser.getUserName()) && isUserNameWithoutSpecialCharacters(createUser.getUserName()) && isPasswordWithoutSpecialCharacters(createUser.getPassword())) {
+      String encryptPassword = encryptionService.getSHAEncryptedPassword(createUser.getPassword());
+      saveUser(new User(createUser.getUserName(), encryptPassword));
     } else {
       System.err.println("Username is already forgiven or username / password contains forbidden characters!");
     }
 
   }
 
-  public boolean isPasswordCorrect(String userName, String enteredPassword)
+  public boolean isPasswordCorrect(User loginUser)
       throws NoSuchAlgorithmException {
-    return !getPasswordFromUserName(userName).isBlank()
-        && encryptionService.getSHAEncryptedPassword(enteredPassword)
-        .equals(getPasswordFromUserName(userName));
+    return !getPasswordFromUserName(loginUser.getUserName()).isBlank()
+        && encryptionService.getSHAEncryptedPassword(loginUser.getPassword())
+        .equals(getPasswordFromUserName(loginUser.getUserName()));
   }
 
   private String getPasswordFromUserName(String userName) {
