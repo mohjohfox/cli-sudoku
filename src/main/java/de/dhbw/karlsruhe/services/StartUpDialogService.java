@@ -30,7 +30,7 @@ public class StartUpDialogService {
 			}
 			return false;
 		} catch (NoSuchAlgorithmException e) {
-			System.err.println("Oh! Es scheint so als wäre ein Fehler aufgetreten.");
+			System.err.println("Oh! It seems that an error has occurred.");
 			System.err.println(e.getMessage());
 			return false;
 		}
