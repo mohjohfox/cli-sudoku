@@ -17,14 +17,17 @@ public class UserService {
 		userPort.saveUser(user);
 	}
 
-	public void createUser(User createUser) throws NoSuchAlgorithmException {
+	public boolean createUser(User createUser) throws NoSuchAlgorithmException {
 
-		if (isUserNameFree(createUser.getUserName()) && isUserNameWithoutSpecialCharacters(createUser.getUserName())
+		if (isUserNameFree(createUser.getUserName()) && isPasswordNotEmpty(createUser.getPassword())
+				&& isUserNameWithoutSpecialCharacters(createUser.getUserName())
 				&& isPasswordWithoutSpecialCharacters(createUser.getPassword())) {
 			String encryptPassword = encryptionService.getSHAEncryptedPassword(createUser.getPassword());
 			saveUser(new User(createUser.getUserName(), encryptPassword));
+			return true;
 		} else {
 			System.err.println("Username is already assigned or username / password contains forbidden characters!");
+			return false;
 		}
 
 	}
@@ -53,6 +56,10 @@ public class UserService {
 		Pattern p = Pattern.compile("&=", Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(password);
 		return !m.find();
+	}
+
+	private boolean isPasswordNotEmpty(String password) {
+		return !password.isBlank();
 	}
 
 }
