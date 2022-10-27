@@ -24,7 +24,7 @@ public class UserService {
 			saveUser(new User(createUser.getUserName(), encryptPassword));
 			return true;
 		} else {
-			System.err.println("Username is already assigned or username / password contains forbidden characters!");
+			System.out.println("Username is already assigned or username / password contains forbidden characters!");
 			return false;
 		}
 

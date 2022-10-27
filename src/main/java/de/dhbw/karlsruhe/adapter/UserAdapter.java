@@ -45,7 +45,7 @@ public class UserAdapter implements UserPort {
 				}
 				line = br.readLine();
 			}
-			System.err.println("Username not found!");
+			System.out.println("Username not found!");
 		} catch (IOException e) {
 			return "";
 		}

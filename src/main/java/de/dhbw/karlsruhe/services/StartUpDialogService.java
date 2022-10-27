@@ -15,20 +15,27 @@ public class StartUpDialogService {
 		scanner = new Scanner(System.in);
 	}
 
-	public boolean login() {
-		System.out.println("Do you already have an account? y/n");
+	public boolean signIn() {
+		boolean successfulSignedIn = false;
 
-		String input = scanner.nextLine();
+		while (!successfulSignedIn) {
+			System.out.println("Do you already have an account? y/n");
 
+			String input = scanner.nextLine();
+			successfulSignedIn = signInProcess(input);
+		}
+		return true;
+	}
+
+	private boolean signInProcess(String userInput) {
 		try {
-			if (!hasUserAccount(input)) {
-				if (registerUser()) {
-					return loginUser();
+			if (!hasUserAccount(userInput)) {
+				boolean successfulRegistrated = registrationProcess();
+				if (!successfulRegistrated) {
+					return false;
 				}
-			} else {
-				return loginUser();
 			}
-			return false;
+			return loginProcess();
 		} catch (NoSuchAlgorithmException e) {
 			System.err.println("Oh! It seems that an error has occurred.");
 			System.err.println(e.getMessage());
@@ -36,9 +43,38 @@ public class StartUpDialogService {
 		}
 	}
 
-	private boolean loginUser() throws NoSuchAlgorithmException {
+	private void printLoginFeedback(boolean loginSuccessful) {
+		if (loginSuccessful) {
+			System.out.println("Login was successful!");
+		} else {
+			System.out.println("Login failed!");
+		}
+	}
+
+	private boolean registrationProcess() {
+		try {
+			boolean registrationSuccessful = registerUser();
+			printRegistrationFeedback(registrationSuccessful);
+			return registrationSuccessful;
+		} catch (NoSuchAlgorithmException e) {
+			System.err.println("Registration error occurred.");
+			return false;
+		}
+	}
+
+	private void printRegistrationFeedback(boolean registrationSuccessful) {
+		if (registrationSuccessful) {
+			System.out.println("Registration was successful. Please login now!");
+		} else {
+			System.out.println("Registration failed!");
+		}
+	}
+
+	private boolean loginProcess() throws NoSuchAlgorithmException {
 		User enteredUser = loginDialog();
-		return userService.isPasswordCorrect(enteredUser);
+		boolean isLoginSuccessful = userService.isPasswordCorrect(enteredUser);
+		printLoginFeedback(isLoginSuccessful);
+		return isLoginSuccessful;
 	}
 
 	private boolean registerUser() throws NoSuchAlgorithmException {
