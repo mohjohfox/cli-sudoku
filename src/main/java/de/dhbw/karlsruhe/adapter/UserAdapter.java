@@ -2,7 +2,6 @@ package de.dhbw.karlsruhe.adapter;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,16 +11,16 @@ import java.util.List;
 import de.dhbw.karlsruhe.model.User;
 import de.dhbw.karlsruhe.ports.UserPort;
 
-public class UserAdapter implements UserPort {
+public class UserAdapter extends AbstractStoreAdapter implements UserPort {
 
-	final String userFilePath = "src/main/resources/fileStore/userStoreFile";
+	final String userFileName = "userStoreFile";
 
 	@Override
 	public void saveUser(User user) {
 
-		prepareFileStructure();
+		prepareFileStructure(userFileName);
 
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFilePath, true))) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFullFilePath(userFileName), true))) {
 			String formattedEntry = String.format("username=%s&password=%s", user.getUserName(), user.getPassword());
 			writer.append(formattedEntry);
 			writer.newLine();
@@ -32,7 +31,7 @@ public class UserAdapter implements UserPort {
 
 	@Override
 	public String getPassword(String userName) {
-		try (BufferedReader br = new BufferedReader(new FileReader(userFilePath))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(userFileName)))) {
 			String line = br.readLine();
 
 			while (line != null) {
@@ -57,7 +56,7 @@ public class UserAdapter implements UserPort {
 
 		List<String> userNames = new ArrayList<>();
 
-		try (BufferedReader br = new BufferedReader(new FileReader(userFilePath))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(userFileName)))) {
 			String line = br.readLine();
 
 			while (line != null) {
@@ -66,19 +65,8 @@ public class UserAdapter implements UserPort {
 				line = br.readLine();
 			}
 		} catch (IOException e) {
-			List.of();
+			return List.of();
 		}
 		return userNames;
 	}
-
-	private void prepareFileStructure() {
-		File userFile = new File(userFilePath);
-
-		try {
-			userFile.createNewFile();
-		} catch (IOException e) {
-			userFile.getParentFile().mkdirs();
-		}
-	}
-
 }
