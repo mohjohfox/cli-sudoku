@@ -19,9 +19,7 @@ public class UserService {
 
 	public boolean createUser(User createUser) throws NoSuchAlgorithmException {
 
-		if (isUserNameFree(createUser.getUserName()) && isPasswordNotEmpty(createUser.getPassword())
-				&& isUserNameWithoutSpecialCharacters(createUser.getUserName())
-				&& isPasswordWithoutSpecialCharacters(createUser.getPassword())) {
+		if (isUserNameValid(createUser.getUserName()) && isPasswordValid(createUser.getPassword())) {
 			String encryptPassword = encryptionService.getSHAEncryptedPassword(createUser.getPassword());
 			saveUser(new User(createUser.getUserName(), encryptPassword));
 			return true;
@@ -42,6 +40,14 @@ public class UserService {
 		return userPort.getPassword(userName);
 	}
 
+	private boolean isUserNameValid(String userName) {
+		return isUserNameNotEmpty(userName) && isUserNameFree(userName) && isUserNameWithoutSpecialCharacters(userName);
+	}
+
+	private boolean isPasswordValid(String password) {
+		return isPasswordNotEmpty(password) && isPasswordWithoutSpecialCharacters(password);
+	}
+
 	private boolean isUserNameFree(String userName) {
 		return !userPort.getAllUserNames().contains(userName);
 	}
@@ -56,6 +62,10 @@ public class UserService {
 		Pattern p = Pattern.compile("&=", Pattern.CASE_INSENSITIVE);
 		Matcher m = p.matcher(password);
 		return !m.find();
+	}
+
+	private boolean isUserNameNotEmpty(String userName) {
+		return !userName.isBlank();
 	}
 
 	private boolean isPasswordNotEmpty(String password) {
