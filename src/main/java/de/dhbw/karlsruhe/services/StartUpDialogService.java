@@ -47,7 +47,7 @@ public class StartUpDialogService {
 		if (loginSuccessful) {
 			System.out.println("Login was successful!");
 		} else {
-			System.out.println("Login failed!");
+			System.out.println("Username or password is wrong!");
 		}
 	}
 
