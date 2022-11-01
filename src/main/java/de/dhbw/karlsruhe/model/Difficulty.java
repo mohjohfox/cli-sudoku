@@ -1,6 +1,5 @@
 package de.dhbw.karlsruhe.model;
 
-import java.util.Locale;
 import java.util.stream.Stream;
 
 public enum Difficulty {
