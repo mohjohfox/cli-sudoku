@@ -13,8 +13,13 @@ public class Main {
         MenuDialogService menuDialogService = new MenuDialogService();
 
 		startUpDialogService.signIn();
-        menuDialogService.startMenuDialog();
 
+		if (successfulLogin) {
+			System.out.println("You have successfully logged in!");
+            menuDialogService.startMenuDialog();
+		} else {
+			System.out.println("Login failed!");
+		}
 		DifficultySelectionDialogService difficultySelectionDialogService = new DifficultySelectionDialogService();
 
 		// Returned Difficulty can be inserted into a createSudoku methode
