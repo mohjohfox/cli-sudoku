@@ -1,7 +1,6 @@
 package de.dhbw.karlsruhe;
 
 import de.dhbw.karlsruhe.services.MenuDialogService;
-
 import de.dhbw.karlsruhe.services.StartUpDialogService;
 
 public class Main {
