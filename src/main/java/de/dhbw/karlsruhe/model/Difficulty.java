@@ -7,7 +7,11 @@ public enum Difficulty {
     MEDIUM("m"),
     HARD("h");
 
-    public final String shortDifficultyName;
+    private final String shortDifficultyName;
+
+    public String getShortDifficultyName() {
+        return shortDifficultyName;
+    }
 
     Difficulty(String shortDifficultyName) {
         this.shortDifficultyName = shortDifficultyName;
