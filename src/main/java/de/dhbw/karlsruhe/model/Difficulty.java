@@ -17,8 +17,7 @@ public enum Difficulty {
         this.shortDifficultyName = shortDifficultyName;
     }
 
-    @Override
-    public String toString() {
+    public String getName() {
         return this.name();
     }
 

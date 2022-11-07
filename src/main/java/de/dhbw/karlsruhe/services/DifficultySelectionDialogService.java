@@ -15,7 +15,7 @@ public class DifficultySelectionDialogService {
     public Difficulty selectDifficulty() {
         StringBuilder difficultyDialog = new StringBuilder("Select a difficulty: ");
         Difficulty.stream()
-                .forEach(d -> difficultyDialog.append(d.toString()).append(" (")
+                .forEach(d -> difficultyDialog.append(d.getName()).append(" (")
                                 .append(d.getShortDifficultyName()).append(") "));
         System.out.println(difficultyDialog);
 
