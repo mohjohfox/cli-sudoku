@@ -7,7 +7,6 @@ import de.dhbw.karlsruhe.services.StartUpDialogService;
 public class Main {
 
 	public static void main(String[] args) {
-		
 		LogoutService logoutService = new LogoutService();
 		StartUpDialogService startUpDialogService = new StartUpDialogService();
         MenuDialogService menuDialogService = new MenuDialogService();
