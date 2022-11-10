@@ -38,7 +38,7 @@ public class MenuDialogService {
         while (input == -1) {
             try {
                 input = this.scanner.nextInt();
-                if (!(input >=1 & input <= 3)) {
+                if (!(input > 0 & input <= this.menuOptions.length)) {
                     input = -1;
                     System.out.println("Invalid Input - Please enter a valid number!");
                 }
