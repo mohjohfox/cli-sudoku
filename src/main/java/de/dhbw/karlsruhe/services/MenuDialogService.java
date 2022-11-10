@@ -4,15 +4,15 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuDialogService {
-    private Scanner scanner;
     private String[] menuOptions;
     private int userInput;
     private PlayDialogService playDialogService;
     private LeaderboardDialogService leaderboardDialogService;
     private LogoutService logoutService;
+    private ScannerService scannerService;
 
     public MenuDialogService() {
-        this.scanner = new Scanner(System.in);
+        this.scannerService = new ScannerService();
         this.menuOptions = new String[]{"Play", "Leaderboard", "Logout"};
         this.playDialogService = new PlayDialogService();
         this.leaderboardDialogService = new LeaderboardDialogService();
@@ -37,14 +37,14 @@ public class MenuDialogService {
         int input = -1;
         while (input == -1) {
             try {
-                input = this.scanner.nextInt();
+                input = this.scannerService.getInt();
                 if (!(input > 0 & input <= this.menuOptions.length)) {
                     input = -1;
                     System.out.println("Invalid Input - Please enter a valid number!");
                 }
             } catch (InputMismatchException ie) {
                 System.out.println("Invalid Input - Please enter a valid number!");
-                this.scanner.next();
+                this.scannerService.getNext();
             }
         }
         return input;
@@ -53,16 +53,13 @@ public class MenuDialogService {
     private void checkUserInput(int pUserInput) {
         switch(pUserInput) {
             case 1:
-                this.scanner.close();
                 // Replace with forwarding to Alisas implementation of Play Dialog
                 this.playDialogService.startPlayDialog();
                 break;
             case 2:
-                this.scanner.close();
                 this.leaderboardDialogService.startLeaderboardDialog();
                 break;
             case 3:
-                this.scanner.close();
                 this.logoutService.logout();
                 break;
             default:

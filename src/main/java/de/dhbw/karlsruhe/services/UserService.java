@@ -4,8 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.dhbw.karlsruhe.adapter.UserAdapter;
-import de.dhbw.karlsruhe.model.User;
+import de.dhbw.karlsruhe.adapters.UserAdapter;
+import de.dhbw.karlsruhe.models.User;
 import de.dhbw.karlsruhe.ports.UserPort;
 
 public class UserService {

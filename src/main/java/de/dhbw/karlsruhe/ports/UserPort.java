@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.ports;
 
-import de.dhbw.karlsruhe.model.User;
+import de.dhbw.karlsruhe.models.User;
 import java.util.List;
 
 public interface UserPort {
