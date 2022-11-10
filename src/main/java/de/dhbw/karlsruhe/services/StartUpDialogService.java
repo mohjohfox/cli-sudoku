@@ -1,18 +1,16 @@
 package de.dhbw.karlsruhe.services;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Scanner;
-
-import de.dhbw.karlsruhe.model.User;
+import de.dhbw.karlsruhe.models.User;
 
 public class StartUpDialogService {
 
-	UserService userService;
-	Scanner scanner;
+	private UserService userService;
+	private ScannerService scannerService;
 
 	public StartUpDialogService() {
+		this.scannerService = new ScannerService();
 		userService = new UserService();
-		scanner = new Scanner(System.in);
 	}
 
 	public void signIn() {
@@ -20,8 +18,7 @@ public class StartUpDialogService {
 
 		while (!successfulSignedIn) {
 			System.out.println("Do you already have an account? y/n");
-
-			String input = scanner.nextLine();
+			String input = this.scannerService.getLine();
 			successfulSignedIn = signInProcess(input);
 		}
 	}
@@ -87,20 +84,20 @@ public class StartUpDialogService {
 
 	private User loginDialog() {
 		System.out.print("Please enter your username: ");
-		String userName = scanner.nextLine();
+		String userName = this.scannerService.getLine();
 
 		System.out.print("Please enter your password: ");
-		String password = scanner.nextLine();
+		String password = this.scannerService.getLine();
 
 		return new User(userName, password);
 	}
 
 	private User registerDialog() {
 		System.out.print("Please enter a username: ");
-		String userName = scanner.nextLine();
+		String userName = this.scannerService.getLine();
 
 		System.out.print("Please enter a password: ");
-		String password = scanner.nextLine();
+		String password = this.scannerService.getLine();
 
 		return new User(userName, password);
 	}

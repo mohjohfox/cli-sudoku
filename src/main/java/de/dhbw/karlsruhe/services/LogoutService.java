@@ -2,11 +2,22 @@ package de.dhbw.karlsruhe.services;
 
 public class LogoutService {
 
-    public LogoutService() {
+    private static boolean signedIn;
 
+    public LogoutService() {
+        this.signedIn = false;
     }
 
     public void logout() {
-        System.out.println("Logout");
+        System.out.println("You have successfully logged out!");
+        this.signedIn = false;
+    }
+
+    public boolean getSignedIn() {
+        return this.signedIn;
+    }
+
+    public void setSignedIn(boolean pSignedIn) {
+        this.signedIn = pSignedIn;
     }
 }

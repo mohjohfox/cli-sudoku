@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.adapter;
+package de.dhbw.karlsruhe.adapters;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.dhbw.karlsruhe.model.User;
+import de.dhbw.karlsruhe.models.User;
 import de.dhbw.karlsruhe.ports.UserPort;
 
 public class UserAdapter extends AbstractStoreAdapter implements UserPort {

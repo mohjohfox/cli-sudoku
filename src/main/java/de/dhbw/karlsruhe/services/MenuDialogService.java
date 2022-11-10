@@ -1,14 +1,13 @@
 package de.dhbw.karlsruhe.services;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class MenuDialogService {
-    private Scanner scanner;
     private int userInput;
     private PlayDialogService playDialogService;
     private LeaderboardDialogService leaderboardDialogService;
     private LogoutService logoutService;
+    private ScannerService scannerService;
 
     public enum MenuOptions {
         PLAY("Play"),
@@ -23,10 +22,6 @@ public class MenuDialogService {
         public String getRepresentation() {
             return representation;
         }
-    }
-
-    public MenuDialogService() {
-        this.scanner = new Scanner(System.in);
     }
 
     public void startMenuDialog() {
@@ -55,7 +50,7 @@ public class MenuDialogService {
                 }
             } catch (InputMismatchException ie) {
                 System.out.println("Invalid Input - Please enter a valid number!");
-                this.scanner.next();
+                this.scannerService.getNext();
             }
         }
         return input;
@@ -64,18 +59,15 @@ public class MenuDialogService {
     private void checkUserInput(int pUserInput) {
         switch(pUserInput) {
             case 1:
-                this.scanner.close();
                 // Replace with forwarding to Alisas implementation of Play Dialog
                 this.playDialogService = new PlayDialogService();
                 this.playDialogService.startPlayDialog();
                 break;
             case 2:
-                this.scanner.close();
                 this.leaderboardDialogService = new LeaderboardDialogService();
                 this.leaderboardDialogService.startLeaderboardDialog();
                 break;
             case 3:
-                this.scanner.close();
                 this.logoutService = new LogoutService();
                 this.logoutService.logout();
                 break;
