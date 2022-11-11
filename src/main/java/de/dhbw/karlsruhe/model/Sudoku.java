@@ -12,16 +12,12 @@ public class Sudoku {
 		gameField = new String[9][9];
 	}
 
-	public String[][] getGameField() {
-		return gameField;
+	public String getId() {
+		return id;
 	}
 
-	public void setValueEntry(int row, int column, String value) {
-		try {
-			gameField[row][column] = value;
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Eingabe war außerhalb des Spielbereichs!");
-		}
+	public String[][] getGameField() {
+		return gameField;
 	}
 
 }
