@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.adapter;
+package de.dhbw.karlsruhe.adapters;
 
 import java.io.File;
 import java.io.IOException;
