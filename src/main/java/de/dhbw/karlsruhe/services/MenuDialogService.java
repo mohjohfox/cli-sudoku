@@ -14,9 +14,6 @@ public class MenuDialogService {
     public MenuDialogService() {
         this.scanner = new Scanner(System.in);
         this.menuOptions = new String[]{"Play", "Leaderboard", "Logout"};
-        this.playDialogService = new PlayDialogService();
-        this.leaderboardDialogService = new LeaderboardDialogService();
-        this.logoutService = new LogoutService();
     }
 
     public void startMenuDialog() {
@@ -55,14 +52,17 @@ public class MenuDialogService {
             case 1:
                 this.scanner.close();
                 // Replace with forwarding to Alisas implementation of Play Dialog
+                this.playDialogService = new PlayDialogService();
                 this.playDialogService.startPlayDialog();
                 break;
             case 2:
                 this.scanner.close();
+                this.leaderboardDialogService = new LeaderboardDialogService();
                 this.leaderboardDialogService.startLeaderboardDialog();
                 break;
             case 3:
                 this.scanner.close();
+                this.logoutService = new LogoutService();
                 this.logoutService.logout();
                 break;
             default:
