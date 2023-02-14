@@ -1,5 +1,7 @@
 package de.dhbw.karlsruhe.model;
 
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Sudoku {
@@ -13,8 +15,8 @@ public class Sudoku {
   }
 
   public Sudoku(String id, String[][] gameField) {
-    id = UUID.randomUUID().toString();
-    gameField = new String[9][9];
+    this.id = id;
+    this.gameField = gameField;
   }
 
   public String getId() {
@@ -23,6 +25,21 @@ public class Sudoku {
 
   public String[][] getGameField() {
     return gameField;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Sudoku sudoku = (Sudoku) o;
+    return id.equals(sudoku.id) && Arrays.deepEquals(gameField, sudoku.gameField);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects.hash(id);
+    result = 31 * result + Arrays.hashCode(gameField);
+    return result;
   }
 
   public void print() {

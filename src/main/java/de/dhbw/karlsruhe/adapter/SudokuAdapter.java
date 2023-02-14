@@ -86,6 +86,7 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
                     return new Sudoku(tmpId, readGameField(br));
                 }
 
+                line = br.readLine();
             }
             System.out.println("Sudoku not found!");
         } catch (IOException e) {
