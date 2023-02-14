@@ -12,6 +12,11 @@ public class Sudoku {
     gameField = new String[9][9];
   }
 
+  public Sudoku(String id, String[][] gameField) {
+    id = UUID.randomUUID().toString();
+    gameField = new String[9][9];
+  }
+
   public String getId() {
     return id;
   }
