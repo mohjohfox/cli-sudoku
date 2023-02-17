@@ -11,4 +11,6 @@ public interface SudokuPort {
     List<Sudoku> getAllSudoku();
 
     Sudoku getSudoku(String id);
+
+    void deleteSudoku(String id);
 }

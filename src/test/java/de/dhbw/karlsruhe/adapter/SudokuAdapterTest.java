@@ -2,18 +2,19 @@ package de.dhbw.karlsruhe.adapter;
 
 import de.dhbw.karlsruhe.model.Sudoku;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.UUID;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 class SudokuAdapterTest {
 
     @Test
     void saveSudokuTest(){
-        String id = UUID.randomUUID().toString();
+        // Same Id for deleting Test
+        String id = "123";
         String[][] gameField = new String[9][9];
 
         for (int i = 0; i<9; i++){
@@ -22,6 +23,7 @@ class SudokuAdapterTest {
             }
         }
 
+        // valid Sudoku from sudoku.com
         gameField[0][5] = "5";
         gameField[0][6] = "9";
         gameField[0][7] = "2";
@@ -78,6 +80,38 @@ class SudokuAdapterTest {
         Sudoku readSudoku = sudokuAdapter.getSudoku(id);
 
         assertEquals(sudoku, readSudoku);
+
+    }
+
+    @Test
+    void deleteSudokuTest(){
+        SudokuAdapter sudokuAdapter = new SudokuAdapter();
+        sudokuAdapter.deleteSudoku("123");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(sudokuAdapter.getFullFilePath(SudokuAdapter.SUDOKUFILENAME)))) {
+            String line = br.readLine();
+
+            while (line != null) {
+                if (!line.contains("ID=")) {
+                    line = br.readLine();
+                    continue;
+                }
+
+                String[] idArray = line.split("=");
+                String tmpId = idArray[1];
+
+                if (tmpId.equals("123")){
+                    fail();
+                }
+
+                line = br.readLine();
+            }
+            assertTrue(true);
+        } catch (IOException e) {
+            System.out.println("Error occurred while reading file.");
+        }
+
+
 
     }
 }

@@ -4,19 +4,20 @@ import de.dhbw.karlsruhe.model.Sudoku;
 import de.dhbw.karlsruhe.ports.SudokuPort;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
 
-    final String sudokuFileName = "SudokuStoreFile";
+    static final String SUDOKUFILENAME = "SudokuStoreFile";
 
     @Override
     public void saveSudoku(Sudoku sudoku) {
-        prepareFileStructure(sudokuFileName);
+        prepareFileStructure(SUDOKUFILENAME);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFullFilePath(sudokuFileName), true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFullFilePath(SUDOKUFILENAME), true))) {
             String id = String.format("ID=%s", sudoku.getId());
             writer.append(id);
             writer.newLine();
@@ -42,7 +43,7 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
     public List<Sudoku> getAllSudoku() {
         List<Sudoku> sudokuList = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(sudokuFileName)))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(SUDOKUFILENAME)))) {
             String line = br.readLine();
 
             while (line != null) {
@@ -70,7 +71,7 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
     @Override
     public Sudoku getSudoku(String id) {
 
-        try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(sudokuFileName)))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(SUDOKUFILENAME)))) {
             String line = br.readLine();
 
             while (line != null) {
@@ -95,6 +96,42 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
         return null;
     }
 
+    @Override
+    public void deleteSudoku(String id) {
+        File inFile = new File(getFullFilePath(SUDOKUFILENAME));
+        File tmpFile = new File(inFile.getAbsolutePath() + ".tmp");
+        try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(SUDOKUFILENAME)));
+             PrintWriter pw = new PrintWriter(new FileWriter(tmpFile))) {
+
+            String line = br.readLine();
+            while (line != null) {
+                if (!line.trim().equals("ID=" + id)) {
+                    pw.println(line);
+                    pw.flush();
+                    line = br.readLine();
+                }else {
+                    line = br.readLine();
+                    line = br.readLine();
+                }
+
+            }
+        } catch (IOException e) {
+            System.out.println("Error occurred while deleting sudoku.");
+        }
+
+        try {
+            Files.delete(inFile.toPath());
+        }catch(IOException e){
+            System.out.println("Could not delete file.");
+        }
+
+
+        //Rename the new file to the filename the original file had.
+        if (!tmpFile.renameTo(inFile))
+            System.out.println("Could not rename file");
+
+    }
+
     private String[][] readGameField(BufferedReader br) throws IOException {
         String line = br.readLine();
 
@@ -110,7 +147,6 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
                 fieldCount++;
             }
         }
-
         return tmpGameField;
     }
 }
