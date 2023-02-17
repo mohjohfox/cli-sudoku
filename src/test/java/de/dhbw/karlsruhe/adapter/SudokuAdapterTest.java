@@ -72,7 +72,7 @@ class SudokuAdapterTest {
         gameField[8][7] = "1";
         gameField[8][8] = "6";
 
-        Sudoku sudoku = new Sudoku(id, gameField, null);
+        Sudoku sudoku = new Sudoku(id, gameField, Difficulty.EASY);
 
         SudokuAdapter sudokuAdapter = new SudokuAdapter();
 
