@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.adapter;
 
+import de.dhbw.karlsruhe.model.Difficulty;
 import de.dhbw.karlsruhe.model.Sudoku;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +72,7 @@ class SudokuAdapterTest {
         gameField[8][7] = "1";
         gameField[8][8] = "6";
 
-        Sudoku sudoku = new Sudoku(id, gameField);
+        Sudoku sudoku = new Sudoku(id, gameField, null);
 
         SudokuAdapter sudokuAdapter = new SudokuAdapter();
 
@@ -111,7 +112,6 @@ class SudokuAdapterTest {
             System.out.println("Error occurred while reading file.");
         }
 
-
-
     }
+
 }

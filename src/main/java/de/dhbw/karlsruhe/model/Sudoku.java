@@ -8,15 +8,22 @@ public class Sudoku {
 
   private String id;
   private String[][] gameField;
+  private Difficulty difficulty;
 
   public Sudoku() {
     id = UUID.randomUUID().toString();
     gameField = new String[9][9];
+    difficulty = null;
   }
 
-  public Sudoku(String id, String[][] gameField) {
+  public Difficulty getDifficulty() {
+    return difficulty;
+  }
+
+  public Sudoku(String id, String[][] gameField, Difficulty difficulty) {
     this.id = id;
     this.gameField = gameField;
+    this.difficulty = difficulty;
   }
 
   public String getId() {
@@ -27,17 +34,18 @@ public class Sudoku {
     return gameField;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Sudoku sudoku = (Sudoku) o;
-    return id.equals(sudoku.id) && Arrays.deepEquals(gameField, sudoku.gameField);
+    return id.equals(sudoku.id) && Arrays.deepEquals(gameField, sudoku.gameField) && difficulty == sudoku.difficulty;
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(id);
+    int result = Objects.hash(id, difficulty);
     result = 31 * result + Arrays.hashCode(gameField);
     return result;
   }
