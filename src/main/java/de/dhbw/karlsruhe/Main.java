@@ -10,11 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 		StartUpDialogService startUpDialogService = new StartUpDialogService();
 
-		boolean successfulLogin = startUpDialogService.signIn();
-
-		if (successfulLogin) {
-			System.out.println("You have successfully logged in!");
-		}
+		startUpDialogService.signIn();
 
 		DifficultySelectionDialogService difficultySelectionDialogService = new DifficultySelectionDialogService();
 
