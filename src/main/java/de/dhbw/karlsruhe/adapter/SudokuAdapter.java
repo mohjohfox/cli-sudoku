@@ -92,7 +92,6 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
             while (line != null) {
                 if (!line.contains("ID=")) {
                     line = br.readLine();
-                    line = br.readLine();
                     continue;
                 }
                 String[] idArray = line.split("=");
