@@ -57,30 +57,32 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
             while (line != null) {
                 if (!line.contains("ID=")) {
                     line = br.readLine();
-                    line = br.readLine();
                     continue;
                 }
                 String[] idArray = line.split("=");
                 String tmpId = idArray[1];
                 line = br.readLine();
-                String[] diffArray = line.split("=");
-                String tmpDiff= "";
-                if (diffArray.length > 1) {
-                    tmpDiff = diffArray[1];
-                }
-                String finalTmpDiff = tmpDiff;
-                Difficulty selectedDiff = Difficulty.stream()
-                        .filter(d -> d.match(finalTmpDiff))
-                        .findFirst()
-                        .orElse(null);
 
-                sudokuList.add(new Sudoku(tmpId, readGameField(br), selectedDiff));
+                sudokuList.add(new Sudoku(tmpId, readGameField(br), extractDifficulty(line)));
                 line = br.readLine();
             }
         } catch (IOException e) {
             return Collections.emptyList();
         }
         return sudokuList;
+    }
+
+    private Difficulty extractDifficulty(String line) {
+        String[] diffArray = line.split("=");
+        String tmpDiff= "";
+        if (diffArray.length > 1) {
+            tmpDiff = diffArray[1];
+        }
+        String finalTmpDiff = tmpDiff;
+        return Difficulty.stream()
+                .filter(d -> d.match(finalTmpDiff))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -98,18 +100,7 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
                 String tmpId = idArray[1];
                 line = br.readLine();
                 if (id.equals(tmpId)){
-                    String[] diffArray = line.split("=");
-                    String tmpDiff= "";
-                    if (diffArray.length > 1) {
-                        tmpDiff = diffArray[1];
-                    }
-                    String finalTmpDiff = tmpDiff;
-                    Difficulty selectedDiff = Difficulty.stream()
-                            .filter(d -> d.match(finalTmpDiff))
-                            .findFirst()
-                            .orElse(null);
-                    return new Sudoku(tmpId, readGameField(br), selectedDiff);
-
+                    return new Sudoku(tmpId, readGameField(br), extractDifficulty(line));
                 }
                 line = br.readLine();
             }
@@ -132,13 +123,11 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
                 if (!line.trim().equals("ID=" + id)) {
                     pw.println(line);
                     pw.flush();
-                    line = br.readLine();
                 }else {
                     line = br.readLine();
                     line = br.readLine();
-                    line = br.readLine();
                 }
-
+                line = br.readLine();
             }
         } catch (IOException e) {
             System.out.println("Error occurred while deleting sudoku.");
@@ -149,7 +138,6 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
         }catch(IOException e){
             System.out.println("Could not delete file.");
         }
-
 
         //Rename the new file to the filename the original file had.
         if (!tmpFile.renameTo(inFile))
@@ -162,7 +150,6 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
 
         String[] array = line.split("=");
         String[] fieldArray = array[1].split(",");
-
         String[][] tmpGameField = new String[9][9];
 
         int fieldCount = 0;
