@@ -8,7 +8,7 @@ public interface SudokuPort {
 
     void saveSudoku(Sudoku sudoku);
 
-    List<Sudoku> getAllSudoku();
+    List<Sudoku> getAllSudokus();
 
     Sudoku getSudoku(String id);
 

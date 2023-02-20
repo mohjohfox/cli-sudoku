@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
 
-    static final String SUDOKUFILENAME = "SudokuStoreFile";
+    private static final String SUDOKUFILENAME = "SudokuStoreFile";
 
     @Override
     public void saveSudoku(Sudoku sudoku) {
@@ -48,7 +48,7 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
     }
 
     @Override
-    public List<Sudoku> getAllSudoku() {
+    public List<Sudoku> getAllSudokus() {
         List<Sudoku> sudokuList = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(SUDOKUFILENAME)))) {

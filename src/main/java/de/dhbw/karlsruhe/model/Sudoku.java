@@ -13,17 +13,17 @@ public class Sudoku {
   public Sudoku() {
     id = UUID.randomUUID().toString();
     gameField = new String[9][9];
-    difficulty = null;
-  }
-
-  public Difficulty getDifficulty() {
-    return difficulty;
+    difficulty = Difficulty.EASY;
   }
 
   public Sudoku(String id, String[][] gameField, Difficulty difficulty) {
     this.id = id;
     this.gameField = gameField;
     this.difficulty = difficulty;
+  }
+
+  public Difficulty getDifficulty() {
+    return difficulty;
   }
 
   public String getId() {
