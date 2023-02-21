@@ -8,8 +8,6 @@ public class ScannerService {
     public ScannerService(){
         if (scanner == null) {
             scanner = new Scanner(System.in);
-        } else {
-            return;
         }
     }
 
