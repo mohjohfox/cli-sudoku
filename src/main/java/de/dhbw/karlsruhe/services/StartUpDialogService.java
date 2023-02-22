@@ -3,9 +3,6 @@ package de.dhbw.karlsruhe.services;
 import java.security.NoSuchAlgorithmException;
 import de.dhbw.karlsruhe.models.User;
 
-import de.dhbw.karlsruhe.Main;
-import de.dhbw.karlsruhe.models.User;
-
 public class StartUpDialogService {
 
 	private UserService userService;

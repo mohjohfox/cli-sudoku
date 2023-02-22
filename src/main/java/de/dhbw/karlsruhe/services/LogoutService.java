@@ -31,9 +31,9 @@ public class LogoutService {
 
         if (userInput.equalsIgnoreCase("y")) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
 }

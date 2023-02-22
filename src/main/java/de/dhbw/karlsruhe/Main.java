@@ -20,20 +20,5 @@ public class Main {
 
 			desireToRun = logoutService.checkDesireToRun();
 		} while (desireToRun);
-
-
-
-		/**
-		while (!logoutService.getSignedIn()) {
-			boolean successfulLogin = startUpDialogService.signIn();
-
-			if (successfulLogin) {
-				logoutService.setSignedIn(true);
-				System.out.println("You have successfully logged in!");
-				menuDialogService.startMenuDialog();
-			} else {
-				System.out.println("Login failed!");
-			}
-		} */
 	}
 }
