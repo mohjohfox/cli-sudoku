@@ -22,16 +22,5 @@ public class Main {
 
 			desireToRun = logoutService.checkDesireToRun();
 		} while (desireToRun);
-
-		// ToDo: Has to be moved to MenuDialogService
-		DifficultySelectionDialogService difficultySelectionDialogService = new DifficultySelectionDialogService();
-
-		// Returned Difficulty can be inserted into a createSudoku methode
-		Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
-		System.out.println(selectedDifficulty.toString() + " was selected!");
-
-		Sudoku sudoku = new Sudoku();
-		sudoku.print();
-
 	}
 }
