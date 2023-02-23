@@ -38,11 +38,15 @@ public class LogoutService {
 
         String userInput = ScannerService.getScanner().nextLine();
 
-        if (userInput.equalsIgnoreCase("y")) {
-            this.logoutDesired = false;
-            return true;
+        while (true) {
+            if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("yes")) {
+                this.logoutDesired = false;
+                return true;
+            } else if (userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("no")) {
+                return false;
+            }
+            System.out.println("Please type \"y\" if you want to login or \"n\" if you want to end the application");
+            userInput = ScannerService.getScanner().nextLine();
         }
-
-        return false;
     }
 }
