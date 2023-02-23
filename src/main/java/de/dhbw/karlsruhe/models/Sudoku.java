@@ -1,15 +1,29 @@
 package de.dhbw.karlsruhe.models;
 
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Sudoku {
 
   private String id;
   private String[][] gameField;
+  private Difficulty difficulty;
 
   public Sudoku() {
     id = UUID.randomUUID().toString();
     gameField = new String[9][9];
+    difficulty = Difficulty.EASY;
+  }
+
+  public Sudoku(String id, String[][] gameField, Difficulty difficulty) {
+    this.id = id;
+    this.gameField = gameField;
+    this.difficulty = difficulty;
+  }
+
+  public Difficulty getDifficulty() {
+    return difficulty;
   }
 
   public String getId() {
@@ -18,6 +32,22 @@ public class Sudoku {
 
   public String[][] getGameField() {
     return gameField;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Sudoku sudoku = (Sudoku) o;
+    return id.equals(sudoku.id) && Arrays.deepEquals(gameField, sudoku.gameField) && difficulty == sudoku.difficulty;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects.hash(id, difficulty);
+    result = 31 * result + Arrays.hashCode(gameField);
+    return result;
   }
 
   public void print() {
