@@ -43,7 +43,7 @@ public class MenuDialogService {
         while (input == -1) {
             try {
                 input = Integer.parseInt(ScannerService.getScanner().nextLine());
-                if (!(input > 0 & input <= this.menuOptions.length)) {
+                if (!(input > 0 & input <= MenuOptions.values().length)) {
                     input = -1;
                     System.out.println("Invalid Input - Please enter a valid number!");
                 }
