@@ -28,6 +28,10 @@ public class LogoutService {
         this.signedIn = pSignedIn;
     }
 
+    public void setLogoutDesired(boolean pLogoutDesired) {
+        this.logoutDesired = pLogoutDesired;
+    }
+
     public boolean checkDesireToRun() {
         System.out.println("----------------------------------------");
         System.out.println("Do you want to re login? y/n");
@@ -35,6 +39,7 @@ public class LogoutService {
         String userInput = ScannerService.getScanner().nextLine();
 
         if (userInput.equalsIgnoreCase("y")) {
+            this.logoutDesired = false;
             return true;
         }
 

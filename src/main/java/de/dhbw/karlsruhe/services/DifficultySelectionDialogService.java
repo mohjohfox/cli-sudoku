@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.services;
 
-import de.dhbw.karlsruhe.model.Difficulty;
+import de.dhbw.karlsruhe.models.Difficulty;
 
 import java.util.Scanner;
 

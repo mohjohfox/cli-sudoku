@@ -6,12 +6,14 @@ import de.dhbw.karlsruhe.models.User;
 public class StartUpDialogService {
 
 	private UserService userService;
+	private LogoutService logoutService;
 
 	public StartUpDialogService() {
 		userService = new UserService();
+		logoutService = new LogoutService();
 	}
 
-	public boolean signIn() {
+	public void signIn() {
 		boolean successfulSignedIn = false;
 
 		while (!successfulSignedIn) {
@@ -20,7 +22,7 @@ public class StartUpDialogService {
 			successfulSignedIn = signInProcess(input);
 		}
 
-		return successfulSignedIn;
+		logoutService.setSignedIn(true);
 	}
 
 	private boolean signInProcess(String userInput) {

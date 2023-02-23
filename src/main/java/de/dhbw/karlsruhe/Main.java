@@ -1,7 +1,7 @@
 package de.dhbw.karlsruhe;
 
-import de.dhbw.karlsruhe.model.Difficulty;
-import de.dhbw.karlsruhe.model.Sudoku;
+import de.dhbw.karlsruhe.models.Difficulty;
+import de.dhbw.karlsruhe.models.Sudoku;
 import de.dhbw.karlsruhe.services.DifficultySelectionDialogService;
 import de.dhbw.karlsruhe.services.StartUpDialogService;
 import de.dhbw.karlsruhe.services.LogoutService;
@@ -17,13 +17,13 @@ public class Main {
 
 
 		do {
-			boolean successfullLogin = startUpDialogService.signIn();
-			logoutService.setSignedIn(successfullLogin);
+			startUpDialogService.signIn();
 			menuDialogService.startMenuDialog();
 
 			desireToRun = logoutService.checkDesireToRun();
 		} while (desireToRun);
 
+		// ToDo: Has to be moved to MenuDialogService
 		DifficultySelectionDialogService difficultySelectionDialogService = new DifficultySelectionDialogService();
 
 		// Returned Difficulty can be inserted into a createSudoku methode

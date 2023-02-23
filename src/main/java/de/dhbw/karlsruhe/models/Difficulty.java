@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.model;
+package de.dhbw.karlsruhe.models;
 
 import java.util.stream.Stream;
 
