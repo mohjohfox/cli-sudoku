@@ -7,7 +7,6 @@ public class MenuDialogService {
     private PlayDialogService playDialogService;
     private LeaderboardDialogService leaderboardDialogService;
     private LogoutService logoutService;
-    private ScannerService scannerService;
 
     public enum MenuOptions {
         PLAY("Play"),
@@ -43,14 +42,14 @@ public class MenuDialogService {
         int input = -1;
         while (input == -1) {
             try {
-                input = this.scanner.nextInt();
-                if (!(input > 0 & input <= MenuOptions.values().length)) {
+                input = Integer.parseInt(ScannerService.getScanner().nextLine());
+                if (!(input > 0 & input <= this.menuOptions.length)) {
                     input = -1;
                     System.out.println("Invalid Input - Please enter a valid number!");
                 }
             } catch (InputMismatchException ie) {
                 System.out.println("Invalid Input - Please enter a valid number!");
-                this.scannerService.getNext();
+                ScannerService.getScanner().next();
             }
         }
         return input;

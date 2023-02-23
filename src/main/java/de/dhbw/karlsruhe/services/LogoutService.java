@@ -3,11 +3,9 @@ package de.dhbw.karlsruhe.services;
 public class LogoutService {
 
     private static boolean signedIn;
-    private ScannerService scannerService;
 
     public LogoutService() {
         this.signedIn = false;
-        scannerService = new ScannerService();
     }
 
     public void logout() {
@@ -27,7 +25,7 @@ public class LogoutService {
         System.out.println("----------------------------------------");
         System.out.println("Do you want to re login? y/n");
 
-        String userInput = this.scannerService.getLine();
+        String userInput = ScannerService.getScanner().nextLine();
 
         if (userInput.equalsIgnoreCase("y")) {
             return true;
