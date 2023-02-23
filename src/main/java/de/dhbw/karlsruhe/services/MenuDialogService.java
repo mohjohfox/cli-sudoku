@@ -23,11 +23,16 @@ public class MenuDialogService {
         }
     }
 
+    public MenuDialogService() {
+        this.logoutService = new LogoutService();
+    }
+
     public void startMenuDialog() {
-        // ToDo: Check login status to Display Menu till logout
-        this.displayMenuOptions();
-        this.userInput = this.awaitUserInput();
-        this.checkUserInput(this.userInput);
+        while(!this.logoutService.getLogoutDesiredStatus()) {
+            this.displayMenuOptions();
+            this.userInput = this.awaitUserInput();
+            this.checkUserInput(this.userInput);
+        }
     }
 
     private void displayMenuOptions() {
@@ -43,7 +48,7 @@ public class MenuDialogService {
         while (input == -1) {
             try {
                 input = Integer.parseInt(ScannerService.getScanner().nextLine());
-                if (!(input > 0 & input <= MenuOptions.values().length)) {
+                if (!(input > 0 && input <= MenuOptions.values().length)) {
                     input = -1;
                     System.out.println("Invalid Input - Please enter a valid number!");
                 }
@@ -67,7 +72,6 @@ public class MenuDialogService {
                 this.leaderboardDialogService.startLeaderboardDialog();
                 break;
             case 3:
-                this.logoutService = new LogoutService();
                 this.logoutService.logout();
                 break;
             default:

@@ -3,14 +3,17 @@ package de.dhbw.karlsruhe.services;
 public class LogoutService {
 
     private static boolean signedIn;
+    private static boolean logoutDesired;
 
     public LogoutService() {
         this.signedIn = false;
+        this.logoutDesired = false;
     }
 
     public void logout() {
         System.out.println("You have successfully logged out!");
         this.signedIn = false;
+        this.logoutDesired = false;
     }
 
     public boolean getSignedIn() {
@@ -34,4 +37,7 @@ public class LogoutService {
         return false;
     }
 
+    public boolean getLogoutDesiredStatus() {
+        return this.logoutDesired;
+    }
 }
