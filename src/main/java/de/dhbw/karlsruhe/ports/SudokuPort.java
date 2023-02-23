@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.ports;
 
-import de.dhbw.karlsruhe.model.Sudoku;
+import de.dhbw.karlsruhe.models.Sudoku;
 
 import java.util.List;
 

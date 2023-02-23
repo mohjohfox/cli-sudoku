@@ -1,7 +1,7 @@
-package de.dhbw.karlsruhe.adapter;
+package de.dhbw.karlsruhe.adapters;
 
-import de.dhbw.karlsruhe.model.Difficulty;
-import de.dhbw.karlsruhe.model.Sudoku;
+import de.dhbw.karlsruhe.models.Difficulty;
+import de.dhbw.karlsruhe.models.Sudoku;
 import de.dhbw.karlsruhe.ports.SudokuPort;
 
 import java.io.*;

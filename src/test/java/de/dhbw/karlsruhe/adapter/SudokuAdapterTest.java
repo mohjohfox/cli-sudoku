@@ -1,7 +1,8 @@
 package de.dhbw.karlsruhe.adapter;
 
-import de.dhbw.karlsruhe.model.Difficulty;
-import de.dhbw.karlsruhe.model.Sudoku;
+import de.dhbw.karlsruhe.adapters.SudokuAdapter;
+import de.dhbw.karlsruhe.models.Difficulty;
+import de.dhbw.karlsruhe.models.Sudoku;
 import de.dhbw.karlsruhe.ports.SudokuPort;
 import org.junit.jupiter.api.Test;
 
