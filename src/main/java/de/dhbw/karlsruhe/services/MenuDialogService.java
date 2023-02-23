@@ -1,10 +1,12 @@
 package de.dhbw.karlsruhe.services;
 
+import de.dhbw.karlsruhe.models.Difficulty;
+import de.dhbw.karlsruhe.models.Sudoku;
+
 import java.util.InputMismatchException;
 
 public class MenuDialogService {
     private int userInput;
-    private PlayDialogService playDialogService;
     private LeaderboardDialogService leaderboardDialogService;
     private LogoutService logoutService;
 
@@ -63,9 +65,15 @@ public class MenuDialogService {
     private void checkUserInput(int pUserInput) {
         switch(pUserInput) {
             case 1:
-                // Replace with forwarding to Alisas implementation of Play Dialog
-                this.playDialogService = new PlayDialogService();
-                this.playDialogService.startPlayDialog();
+                DifficultySelectionDialogService difficultySelectionDialogService = new DifficultySelectionDialogService();
+
+                // Returned Difficulty can be inserted into a createSudoku methode
+                Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
+                System.out.println(selectedDifficulty.toString() + " was selected!");
+
+                // Print Sudoku to test functionality
+                Sudoku sudoku = new Sudoku();
+                sudoku.print();
                 break;
             case 2:
                 this.leaderboardDialogService = new LeaderboardDialogService();
