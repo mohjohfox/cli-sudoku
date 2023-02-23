@@ -6,10 +6,8 @@ import de.dhbw.karlsruhe.models.User;
 public class StartUpDialogService {
 
 	private UserService userService;
-	private ScannerService scannerService;
 
 	public StartUpDialogService() {
-		this.scannerService = new ScannerService();
 		userService = new UserService();
 	}
 
@@ -18,7 +16,7 @@ public class StartUpDialogService {
 
 		while (!successfulSignedIn) {
 			System.out.println("Do you already have an account? y/n");
-			String input = this.scannerService.getLine();
+			String input = ScannerService.getScanner().nextLine();
 			successfulSignedIn = signInProcess(input);
 		}
 		return true;
@@ -85,20 +83,20 @@ public class StartUpDialogService {
 
 	private User loginDialog() {
 		System.out.print("Please enter your username: ");
-		String userName = this.scannerService.getLine();
+		String userName = ScannerService.getScanner().nextLine();
 
 		System.out.print("Please enter your password: ");
-		String password = this.scannerService.getLine();
+		String password = ScannerService.getScanner().nextLine();
 
 		return new User(userName, password);
 	}
 
 	private User registerDialog() {
 		System.out.print("Please enter a username: ");
-		String userName = this.scannerService.getLine();
+		String userName = ScannerService.getScanner().nextLine();
 
 		System.out.print("Please enter a password: ");
-		String password = this.scannerService.getLine();
+		String password = ScannerService.getScanner().nextLine();
 
 		return new User(userName, password);
 	}
