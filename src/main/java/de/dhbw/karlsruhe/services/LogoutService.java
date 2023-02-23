@@ -11,13 +11,17 @@ public class LogoutService {
     }
 
     public void logout() {
-        System.out.println("You have successfully logged out!");
         this.signedIn = false;
-        this.logoutDesired = false;
+        this.logoutDesired = true;
+        System.out.println("You have successfully logged out!");
     }
 
     public boolean getSignedIn() {
         return this.signedIn;
+    }
+
+    public boolean getLogoutDesiredStatus() {
+        return this.logoutDesired;
     }
 
     public void setSignedIn(boolean pSignedIn) {
@@ -35,9 +39,5 @@ public class LogoutService {
         }
 
         return false;
-    }
-
-    public boolean getLogoutDesiredStatus() {
-        return this.logoutDesired;
     }
 }

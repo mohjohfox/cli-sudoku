@@ -11,7 +11,7 @@ public class StartUpDialogService {
 		userService = new UserService();
 	}
 
-	public void signIn() {
+	public boolean signIn() {
 		boolean successfulSignedIn = false;
 
 		while (!successfulSignedIn) {
@@ -19,6 +19,8 @@ public class StartUpDialogService {
 			String input = ScannerService.getScanner().nextLine();
 			successfulSignedIn = signInProcess(input);
 		}
+
+		return successfulSignedIn;
 	}
 
 	private boolean signInProcess(String userInput) {
