@@ -81,7 +81,15 @@ public class StartUpDialogService {
 	}
 
 	private boolean hasUserAccount(String userInput) {
-		return userInput.equals("y") || userInput.equals("yes");
+		do {
+			if (userInput.equals("y") || userInput.equals("yes")) {
+				return true;
+			} else if (userInput.equals("n") || userInput.equals("no")) {
+				return false;
+			}
+			System.out.println("Please type \"y\" if you want to login or \"n\" if you want to register a new account.");
+			userInput = ScannerService.getScanner().nextLine();
+		} while (true);
 	}
 
 	private User loginDialog() {
