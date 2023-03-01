@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.models;
+package de.dhbw.karlsruhe.domain.models;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -37,8 +37,12 @@ public class Sudoku {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Sudoku sudoku = (Sudoku) o;
     return id.equals(sudoku.id) && Arrays.deepEquals(gameField, sudoku.gameField) && difficulty == sudoku.difficulty;
   }

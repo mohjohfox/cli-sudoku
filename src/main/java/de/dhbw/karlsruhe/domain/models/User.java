@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.models;
+package de.dhbw.karlsruhe.domain.models;
 
 public class User {
 
