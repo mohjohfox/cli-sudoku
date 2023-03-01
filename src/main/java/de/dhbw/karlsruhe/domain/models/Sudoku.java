@@ -16,6 +16,12 @@ public class Sudoku {
     difficulty = Difficulty.EASY;
   }
 
+  public Sudoku(Difficulty difficulty) {
+    id = UUID.randomUUID().toString();
+    gameField = new String[9][9];
+    this.difficulty = difficulty;
+  }
+
   public Sudoku(String id, String[][] gameField, Difficulty difficulty) {
     this.id = id;
     this.gameField = gameField;
