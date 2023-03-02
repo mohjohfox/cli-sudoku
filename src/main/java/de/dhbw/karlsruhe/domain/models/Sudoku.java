@@ -63,7 +63,11 @@ public class Sudoku {
   public void print() {
     for (int rowIndex = 0; rowIndex < gameField.length; rowIndex++) {
       for (int columnIndex = 0; columnIndex < gameField[rowIndex].length; columnIndex++) {
-        System.out.print(gameField[rowIndex][columnIndex]);
+        if (gameField[rowIndex][columnIndex] == 0) {
+          System.out.print(" ");
+        } else {
+          System.out.print(gameField[rowIndex][columnIndex]);
+        }
         System.out.print(" ");
         printVerticalLine(columnIndex);
       }
