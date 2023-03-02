@@ -16,14 +16,14 @@ public class Sudoku {
     difficulty = Difficulty.EASY;
   }
 
-  public void setField(int row, int col, int val) {
-    this.gameField[row][col] = val;
-  }
-
   public Sudoku(String id, int[][] gameField, Difficulty difficulty) {
     this.id = id;
     this.gameField = gameField;
     this.difficulty = difficulty;
+  }
+
+  public void setField(int row, int col, int val) {
+    this.gameField[row][col] = val;
   }
 
   public Difficulty getDifficulty() {
