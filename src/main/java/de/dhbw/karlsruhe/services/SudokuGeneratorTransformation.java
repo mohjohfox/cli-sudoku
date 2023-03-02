@@ -6,6 +6,7 @@ import de.dhbw.karlsruhe.models.Sudoku;
 import java.util.*;
 
 public class SudokuGeneratorTransformation {
+    private int[][] finishedSudoku;
     private Sudoku sudoku;
     private Random rand = new Random();
 
@@ -33,12 +34,13 @@ public class SudokuGeneratorTransformation {
 
     public Sudoku generateSudoku(Difficulty dif){
         transform();
-        //removeFields(dif);
+        finishedSudoku = getGameFields();
+        removeFields(dif);
         return sudoku;
     }
 
-    public Sudoku getFinishedSudoku(){
-        return sudoku;
+    public int[][] getFinishedSudoku(){
+        return finishedSudoku;
     }
 
     private void transform(){
@@ -80,6 +82,109 @@ public class SudokuGeneratorTransformation {
                     break;
             }
         }
+    }
+
+    private void removeFields(Difficulty dif){
+        Random random = new Random();
+        int amountOfCellsToRemove = switch (dif) {
+            case EASY:
+                yield 40;
+            case MEDIUM:
+                yield 50;
+            case HARD:
+                yield 60;
+        };
+        for (int i = 0; i < amountOfCellsToRemove; i++) {
+            int row = random.nextInt(9);
+            int col = random.nextInt(9);
+
+            if (this.sudoku.getGameField()[row][col] == 0) {
+                i--;
+                continue;
+            }
+
+            int temp = this.sudoku.getGameField()[row][col];
+            this.sudoku.setField(row,col,0);
+            int numSolutions = countPossibleSolutions(this.sudoku.getGameField());
+            if (numSolutions != 1) {
+                this.sudoku.setField(row,col,temp);
+                i--;
+            }
+        }
+    }
+
+    //TODO: copied from Marcos implementation -> extract on merge
+    private boolean isSudokuSolvable(int[][] sudokuField, int row, int col) {
+        if (row == 9) {
+            return true;
+        }
+
+        int nextRow;
+        int nextCol;
+
+        if (col == 8) {
+            nextRow = row + 1;
+            nextCol = 0;
+        } else {
+            nextRow = row;
+            nextCol = col + 1;
+        }
+
+        if (sudokuField[row][col] != 0) {
+            return isSudokuSolvable(sudokuField, nextRow, nextCol);
+        }
+
+        for (int value = 1; value <= 9; value++) {
+            if (isSudokuFieldValid(sudokuField, row, col, value)) {
+                sudokuField[row][col] = value;
+                if (isSudokuSolvable(sudokuField, nextRow, nextCol)) {
+                    return true;
+                }
+            }
+        }
+        sudokuField[row][col] = 0;
+        return false;
+    }
+
+    //TODO: copied from Marcos implementation -> extract on merge
+    private boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value) {
+        for (int i = 0; i < 9; i++) {
+            if (sudoku[row][i] == value) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < 9; i++) {
+            if (sudoku[i][col] == value) {
+                return false;
+            }
+        }
+
+        int subgridRow = (row / 3) * 3;
+        int subgridCol = (col / 3) * 3;
+        for (int i = subgridRow; i < subgridRow + 3; i++) {
+            for (int j = subgridCol; j < subgridCol + 3; j++) {
+                if (sudoku[i][j] == value) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    //TODO: copied from Marcos implementation -> extract on merge
+    private int countPossibleSolutions(int[][] sudokuGameField) {
+        int[][] copyOfGameField = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            System.arraycopy(sudokuGameField[i], 0, copyOfGameField[i], 0, 9);
+        }
+
+        int numberOfSolutions = 0;
+        isSudokuSolvable(copyOfGameField, 0, 0);
+        numberOfSolutions++;
+
+        return numberOfSolutions;
     }
 
     private void mirrorVertical(){
@@ -307,9 +412,7 @@ public class SudokuGeneratorTransformation {
     private int[][] getGameFields() {
         int[][] tmpGameField = new int[9][9];
         for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                tmpGameField[i][j] = this.sudoku.getGameField()[i][j];
-            }
+            System.arraycopy(this.sudoku.getGameField()[i], 0, tmpGameField[i], 0, 9);
         }
         return tmpGameField;
     }

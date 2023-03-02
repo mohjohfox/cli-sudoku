@@ -18,19 +18,17 @@ public class SudokuGeneratorTest {
         for (int i =0; i<50; i++) {
             SudokuGeneratorTransformation sg = new SudokuGeneratorTransformation();
 
-            sg.generateSudoku(Difficulty.EASY);
-            Sudoku tmpSudoku = sg.getFinishedSudoku();
+            sg.generateSudoku(Difficulty.HARD);
+            int[][] tmpSudoku = sg.getFinishedSudoku();
 
             gameFieldList.add(new int[9][9]);
             for (int k = 0; k < 9; k++) {
                 for (int j = 0; j < 9; j++) {
-                   gameFieldList.get(gameFieldList.size()-1)[k][j] = tmpSudoku.getGameField()[k][j];
+                   gameFieldList.get(gameFieldList.size()-1)[k][j] = tmpSudoku[k][j];
                 }
             }
         }
         gameFieldList = gameFieldList.stream().distinct().toList();
-
         assertEquals(50, gameFieldList.size());
-
     }
 }
