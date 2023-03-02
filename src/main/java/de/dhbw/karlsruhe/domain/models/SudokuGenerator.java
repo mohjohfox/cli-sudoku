@@ -9,7 +9,7 @@ public class SudokuGenerator {
 
     for (int i = 0; i < 9; i++) {
       for (int k = 0; k < 9; k++) {
-        sudoku.getGameField()[i][k] = "0";
+        sudoku.getGameField()[i][k] = 0;
       }
     }
 
@@ -25,11 +25,11 @@ public class SudokuGenerator {
     };
 
     removeCells(sudoku.getGameField(), amountOfCellsToRemove);
-    exchangeNullToSpaceString(sudoku.getGameField());
+
     return sudoku;
   }
 
-  private boolean fillSudokuField(String[][] sudokuGameField, int row, int col) {
+  private boolean fillSudokuField(int[][] sudokuGameField, int row, int col) {
     if (row == 9) {
       return true;
     }
@@ -49,33 +49,33 @@ public class SudokuGenerator {
     shuffleArray(allowedValues);
     for (int allowedValue : allowedValues) {
       if (isSudokuFieldValid(sudokuGameField, row, col, allowedValue)) {
-        sudokuGameField[row][col] = String.valueOf(allowedValue);
+        sudokuGameField[row][col] = allowedValue;
         if (fillSudokuField(sudokuGameField, nextRow, nextCol)) {
           return true;
         }
       }
     }
 
-    sudokuGameField[row][col] = "0";
+    sudokuGameField[row][col] = 0;
     return false;
   }
 
-  private void removeCells(String[][] sudokuField, int numberOfCellsToRemove) {
+  private void removeCells(int[][] sudokuField, int numberOfCellsToRemove) {
     Random random = new Random();
     for (int i = 0; i < numberOfCellsToRemove; i++) {
       int row = random.nextInt(9);
       int col = random.nextInt(9);
 
-      if (sudokuField[row][col].equalsIgnoreCase("0")) {
+      if (sudokuField[row][col] == 0) {
         i--;
         continue;
       }
 
-      int temp = Integer.parseInt(sudokuField[row][col]);
-      sudokuField[row][col] = String.valueOf(0);
+      int temp = sudokuField[row][col];
+      sudokuField[row][col] = 0;
       int numSolutions = countPossibleSolutions(sudokuField);
       if (numSolutions != 1) {
-        sudokuField[row][col] = String.valueOf(temp);
+        sudokuField[row][col] = temp;
         i--;
       }
     }
@@ -91,15 +91,15 @@ public class SudokuGenerator {
     }
   }
 
-  private boolean isSudokuFieldValid(String[][] sudoku, int row, int col, int value) {
+  private boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value) {
     for (int i = 0; i < 9; i++) {
-      if (sudoku[row][i].equalsIgnoreCase(String.valueOf(value))) {
+      if (sudoku[row][i] == value) {
         return false;
       }
     }
 
     for (int i = 0; i < 9; i++) {
-      if (sudoku[i][col].equalsIgnoreCase(String.valueOf(value))) {
+      if (sudoku[i][col] == value) {
         return false;
       }
     }
@@ -108,7 +108,7 @@ public class SudokuGenerator {
     int subgridCol = (col / 3) * 3;
     for (int i = subgridRow; i < subgridRow + 3; i++) {
       for (int j = subgridCol; j < subgridCol + 3; j++) {
-        if (sudoku[i][j].equalsIgnoreCase(String.valueOf(value))) {
+        if (sudoku[i][j] == value) {
           return false;
         }
       }
@@ -117,8 +117,8 @@ public class SudokuGenerator {
     return true;
   }
 
-  private int countPossibleSolutions(String[][] sudokuGameField) {
-    String[][] copyOfGameField = new String[9][9];
+  private int countPossibleSolutions(int[][] sudokuGameField) {
+    int[][] copyOfGameField = new int[9][9];
     for (int i = 0; i < 9; i++) {
       for (int k = 0; k < 9; k++) {
         copyOfGameField[i][k] = sudokuGameField[i][k];
@@ -132,7 +132,7 @@ public class SudokuGenerator {
     return numberOfSolutions;
   }
 
-  private boolean isSudokuSolvable(String[][] sudokuField, int row, int col) {
+  private boolean isSudokuSolvable(int[][] sudokuField, int row, int col) {
     if (row == 9) {
       return true;
     }
@@ -148,30 +148,21 @@ public class SudokuGenerator {
       nextCol = col + 1;
     }
 
-    if (!sudokuField[row][col].equals("0")) {
+    if (sudokuField[row][col] != 0) {
       return isSudokuSolvable(sudokuField, nextRow, nextCol);
     }
 
     for (int value = 1; value <= 9; value++) {
       if (isSudokuFieldValid(sudokuField, row, col, value)) {
-        sudokuField[row][col] = String.valueOf(value);
+        sudokuField[row][col] = value;
         if (isSudokuSolvable(sudokuField, nextRow, nextCol)) {
           return true;
         }
       }
     }
 
-    sudokuField[row][col] = "0";
+    sudokuField[row][col] = 0;
     return false;
   }
 
-  private void exchangeNullToSpaceString(String[][] sudokuGameField) {
-    for (int i = 0; i < 9; i++) {
-      for (int k = 0; k < 9; k++) {
-        if (sudokuGameField[i][k].equalsIgnoreCase("0")) {
-          sudokuGameField[i][k] = " ";
-        }
-      }
-    }
-  }
 }

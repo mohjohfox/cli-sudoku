@@ -7,22 +7,22 @@ import java.util.UUID;
 public class Sudoku {
 
   private String id;
-  private String[][] gameField;
+  private int[][] gameField;
   private Difficulty difficulty;
 
   public Sudoku() {
     id = UUID.randomUUID().toString();
-    gameField = new String[9][9];
+    gameField = new int[9][9];
     difficulty = Difficulty.EASY;
   }
 
   public Sudoku(Difficulty difficulty) {
     id = UUID.randomUUID().toString();
-    gameField = new String[9][9];
+    gameField = new int[9][9];
     this.difficulty = difficulty;
   }
 
-  public Sudoku(String id, String[][] gameField, Difficulty difficulty) {
+  public Sudoku(String id, int[][] gameField, Difficulty difficulty) {
     this.id = id;
     this.gameField = gameField;
     this.difficulty = difficulty;
@@ -36,7 +36,7 @@ public class Sudoku {
     return id;
   }
 
-  public String[][] getGameField() {
+  public int[][] getGameField() {
     return gameField;
   }
 
