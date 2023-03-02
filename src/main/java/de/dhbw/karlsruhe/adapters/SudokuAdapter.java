@@ -145,17 +145,17 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
 
     }
 
-    private String[][] readGameField(BufferedReader br) throws IOException {
+    private int[][] readGameField(BufferedReader br) throws IOException {
         String line = br.readLine();
 
         String[] array = line.split("=");
         String[] fieldArray = array[1].split(",");
-        String[][] tmpGameField = new String[9][9];
+        int[][] tmpGameField = new int[9][9];
 
         int fieldCount = 0;
         for (int i = 0; i<9; i++){
             for (int j = 0; j<9; j++){
-                tmpGameField[i][j] = fieldArray[fieldCount];
+                tmpGameField[i][j] = Integer.parseInt(fieldArray[fieldCount]);
                 fieldCount++;
             }
         }
