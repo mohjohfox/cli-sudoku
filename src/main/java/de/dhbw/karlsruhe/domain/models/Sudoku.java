@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.models;
+package de.dhbw.karlsruhe.domain.models;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -7,16 +7,22 @@ import java.util.UUID;
 public class Sudoku {
 
   private String id;
-  private String[][] gameField;
+  private int[][] gameField;
   private Difficulty difficulty;
 
   public Sudoku() {
     id = UUID.randomUUID().toString();
-    gameField = new String[9][9];
+    gameField = new int[9][9];
     difficulty = Difficulty.EASY;
   }
 
-  public Sudoku(String id, String[][] gameField, Difficulty difficulty) {
+  public Sudoku(Difficulty difficulty) {
+    id = UUID.randomUUID().toString();
+    gameField = new int[9][9];
+    this.difficulty = difficulty;
+  }
+
+  public Sudoku(String id, int[][] gameField, Difficulty difficulty) {
     this.id = id;
     this.gameField = gameField;
     this.difficulty = difficulty;
@@ -30,15 +36,19 @@ public class Sudoku {
     return id;
   }
 
-  public String[][] getGameField() {
+  public int[][] getGameField() {
     return gameField;
   }
 
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Sudoku sudoku = (Sudoku) o;
     return id.equals(sudoku.id) && Arrays.deepEquals(gameField, sudoku.gameField) && difficulty == sudoku.difficulty;
   }
@@ -53,7 +63,11 @@ public class Sudoku {
   public void print() {
     for (int rowIndex = 0; rowIndex < gameField.length; rowIndex++) {
       for (int columnIndex = 0; columnIndex < gameField[rowIndex].length; columnIndex++) {
-        System.out.print(gameField[rowIndex][columnIndex]);
+        if (gameField[rowIndex][columnIndex] == 0) {
+          System.out.print(" ");
+        } else {
+          System.out.print(gameField[rowIndex][columnIndex]);
+        }
         System.out.print(" ");
         printVerticalLine(columnIndex);
       }
