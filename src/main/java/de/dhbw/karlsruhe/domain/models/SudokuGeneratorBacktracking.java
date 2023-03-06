@@ -2,7 +2,7 @@ package de.dhbw.karlsruhe.domain.models;
 
 import java.util.Random;
 
-public class SudokuGeneratorRemovingElements {
+public class SudokuGeneratorBacktracking {
 
   public Sudoku generateSudoku(Difficulty difficulty) {
     Sudoku sudoku = new Sudoku(difficulty);

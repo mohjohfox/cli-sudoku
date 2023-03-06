@@ -2,7 +2,7 @@ package de.dhbw.karlsruhe;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.SudokuGeneratorRemovingElements;
+import de.dhbw.karlsruhe.domain.models.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
 import de.dhbw.karlsruhe.domain.services.MenuDialogService;
 import de.dhbw.karlsruhe.domain.services.StartUpDialogService;
@@ -11,15 +11,9 @@ public class Main {
 
   public static void main(String[] args) {
 
-    SudokuGeneratorRemovingElements sudokuGeneratorRemovingElements = new SudokuGeneratorRemovingElements();
-    Sudoku easyGeneratedSudoku = sudokuGeneratorRemovingElements.generateSudoku(Difficulty.EASY);
-//    Sudoku mediumGeneratedSudoku = sudokuGenerator.generateSudoku(Difficulty.MEDIUM);
-//    Sudoku hardGeneratedSudoku = sudokuGenerator.generateSudoku(Difficulty.HARD);
+    SudokuGeneratorBacktracking sudokuGeneratorBacktracking = new SudokuGeneratorBacktracking();
+    Sudoku easyGeneratedSudoku = sudokuGeneratorBacktracking.generateSudoku(Difficulty.EASY);
     easyGeneratedSudoku.print();
-//    System.out.println();
-//    mediumGeneratedSudoku.print();
-//    System.out.println();
-//    hardGeneratedSudoku.print();
 
     boolean desireToRun;
     LogoutService logoutService = new LogoutService();
