@@ -1,7 +1,6 @@
-package de.dhbw.karlsruhe.services;
+package de.dhbw.karlsruhe.domain.models;
 
-import de.dhbw.karlsruhe.models.Difficulty;
-import de.dhbw.karlsruhe.models.Sudoku;
+import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
 import java.util.*;
 
@@ -114,23 +113,6 @@ public class SudokuGeneratorTransformation {
         }
     }
 
-
-
-    //TODO: copied from Marcos implementation -> extract on merge
-    private int countPossibleSolutions(int[][] sudokuGameField) {
-        int[][] copyOfGameField = new int[9][9];
-        for (int i = 0; i < 9; i++) {
-            System.arraycopy(sudokuGameField[i], 0, copyOfGameField[i], 0, 9);
-        }
-
-        int numberOfSolutions = 0;
-        isSudokuSolvable(copyOfGameField, 0, 0);
-        numberOfSolutions++;
-
-        return numberOfSolutions;
-    }
-
-    //TODO: copied from Marcos implementation -> extract on merge
     private boolean isSudokuSolvable(int[][] sudokuField, int row, int col) {
         if (row == 9) {
             return true;
@@ -162,6 +144,19 @@ public class SudokuGeneratorTransformation {
         }
         sudokuField[row][col] = 0;
         return false;
+    }
+
+    private int countPossibleSolutions(int[][] sudokuGameField) {
+        int[][] copyOfGameField = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            System.arraycopy(sudokuGameField[i], 0, copyOfGameField[i], 0, 9);
+        }
+
+        int numberOfSolutions = 0;
+        isSudokuSolvable(copyOfGameField, 0, 0);
+        numberOfSolutions++;
+
+        return numberOfSolutions;
     }
 
     private void mirrorVertical(){

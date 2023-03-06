@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.services;
+package de.dhbw.karlsruhe.domain.services;
 
 import java.util.Arrays;
 

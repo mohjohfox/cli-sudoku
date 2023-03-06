@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.models;
+package de.dhbw.karlsruhe.domain.models;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -18,12 +18,10 @@ public class Sudoku {
     difficulty = Difficulty.EASY;
   }
 
-  public int[][] getInitialGameField() {
-    return initialGameField;
-  }
-
-  public void setInitialGameField(int[][] initialGameField) {
-    this.initialGameField = initialGameField;
+  public Sudoku(Difficulty difficulty) {
+    id = UUID.randomUUID().toString();
+    gameField = new int[9][9];
+    this.difficulty = difficulty;
   }
 
   public Sudoku(String id, int[][] gameField, Difficulty difficulty) {
@@ -31,6 +29,14 @@ public class Sudoku {
     this.gameField = gameField;
     this.initialGameField = gameField;
     this.difficulty = difficulty;
+  }
+
+  public int[][] getInitialGameField() {
+    return initialGameField;
+  }
+
+  public void setInitialGameField(int[][] initialGameField) {
+    this.initialGameField = initialGameField;
   }
 
   public boolean setField(int row, int col, int val) {
@@ -56,8 +62,12 @@ public class Sudoku {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Sudoku sudoku = (Sudoku) o;
     return id.equals(sudoku.id) && Arrays.deepEquals(gameField, sudoku.gameField) && difficulty == sudoku.difficulty;
   }

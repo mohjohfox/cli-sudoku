@@ -1,21 +1,31 @@
-package de.dhbw.karlsruhe.services;
+package de.dhbw.karlsruhe.domain.services;
 
-import de.dhbw.karlsruhe.models.Difficulty;
-import de.dhbw.karlsruhe.models.Sudoku;
-
+import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.SudokuGeneratorBacktracking;
+import de.dhbw.karlsruhe.domain.models.SudokuGeneratorTransformation;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Random;
 
 public class PlayDialogService {
     Sudoku sudoku;
-    SudokuGeneratorTransformation sg = new SudokuGeneratorTransformation();
+    SudokuGeneratorTransformation sgTransformation = new SudokuGeneratorTransformation();
+    SudokuGeneratorBacktracking sgBacktracking = new SudokuGeneratorBacktracking();
     SudokuValidatorService sudokuValidator = new SudokuValidatorService();
+    Random rand = new Random();
 
     public PlayDialogService(){
     }
 
     public void startGame(Difficulty dif) {
-        sudoku = sg.generateSudoku(dif);
+        if (rand.nextInt()<0.5){
+            System.out.println("Transformed sudoku generated:");
+            sudoku = sgTransformation.generateSudoku(dif);
+        } else {
+            System.out.println("Backtracking sudoku generated:");
+            sudoku = sgBacktracking.generateSudoku(dif);
+        }
         System.out.println("Enter numbers by writing: W:[Row],[Column],[Value]");
         System.out.println("Example: W:3,4,9");
         System.out.println("To remove a number write: R:[Row],[Column]");

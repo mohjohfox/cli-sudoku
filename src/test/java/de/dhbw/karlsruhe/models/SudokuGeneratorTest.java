@@ -1,8 +1,7 @@
-package de.dhbw.karlsruhe.adapter;
+package de.dhbw.karlsruhe.models;
 
-import de.dhbw.karlsruhe.models.Difficulty;
-import de.dhbw.karlsruhe.models.Sudoku;
-import de.dhbw.karlsruhe.services.SudokuGeneratorTransformation;
+import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.SudokuGeneratorTransformation;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
