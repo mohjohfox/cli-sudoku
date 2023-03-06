@@ -36,6 +36,7 @@ public class SudokuGeneratorTransformation {
         transform();
         finishedSudoku = getGameFields();
         removeFields(dif);
+        sudoku.setInitialGameField(getGameFields());
         return sudoku;
     }
 
@@ -113,6 +114,22 @@ public class SudokuGeneratorTransformation {
         }
     }
 
+
+
+    //TODO: copied from Marcos implementation -> extract on merge
+    private int countPossibleSolutions(int[][] sudokuGameField) {
+        int[][] copyOfGameField = new int[9][9];
+        for (int i = 0; i < 9; i++) {
+            System.arraycopy(sudokuGameField[i], 0, copyOfGameField[i], 0, 9);
+        }
+
+        int numberOfSolutions = 0;
+        isSudokuSolvable(copyOfGameField, 0, 0);
+        numberOfSolutions++;
+
+        return numberOfSolutions;
+    }
+
     //TODO: copied from Marcos implementation -> extract on merge
     private boolean isSudokuSolvable(int[][] sudokuField, int row, int col) {
         if (row == 9) {
@@ -134,8 +151,9 @@ public class SudokuGeneratorTransformation {
             return isSudokuSolvable(sudokuField, nextRow, nextCol);
         }
 
+        SudokuValidatorService sudokuValidator = new SudokuValidatorService();
         for (int value = 1; value <= 9; value++) {
-            if (isSudokuFieldValid(sudokuField, row, col, value)) {
+            if (sudokuValidator.isSudokuFieldValid(sudokuField, row, col, value)) {
                 sudokuField[row][col] = value;
                 if (isSudokuSolvable(sudokuField, nextRow, nextCol)) {
                     return true;
@@ -144,47 +162,6 @@ public class SudokuGeneratorTransformation {
         }
         sudokuField[row][col] = 0;
         return false;
-    }
-
-    //TODO: copied from Marcos implementation -> extract on merge
-    private boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value) {
-        for (int i = 0; i < 9; i++) {
-            if (sudoku[row][i] == value) {
-                return false;
-            }
-        }
-
-        for (int i = 0; i < 9; i++) {
-            if (sudoku[i][col] == value) {
-                return false;
-            }
-        }
-
-        int subgridRow = (row / 3) * 3;
-        int subgridCol = (col / 3) * 3;
-        for (int i = subgridRow; i < subgridRow + 3; i++) {
-            for (int j = subgridCol; j < subgridCol + 3; j++) {
-                if (sudoku[i][j] == value) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-
-    //TODO: copied from Marcos implementation -> extract on merge
-    private int countPossibleSolutions(int[][] sudokuGameField) {
-        int[][] copyOfGameField = new int[9][9];
-        for (int i = 0; i < 9; i++) {
-            System.arraycopy(sudokuGameField[i], 0, copyOfGameField[i], 0, 9);
-        }
-
-        int numberOfSolutions = 0;
-        isSudokuSolvable(copyOfGameField, 0, 0);
-        numberOfSolutions++;
-
-        return numberOfSolutions;
     }
 
     private void mirrorVertical(){

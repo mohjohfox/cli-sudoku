@@ -67,13 +67,11 @@ public class MenuDialogService {
             case 1:
                 DifficultySelectionDialogService difficultySelectionDialogService = new DifficultySelectionDialogService();
 
-                // Returned Difficulty can be inserted into a createSudoku methode
                 Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
                 System.out.println(selectedDifficulty.toString() + " was selected!");
 
-                // Print Sudoku to test functionality
-                Sudoku sudoku = new Sudoku();
-                sudoku.print();
+                PlayDialogService playDialogService = new PlayDialogService();
+                playDialogService.startGame(selectedDifficulty);
                 break;
             case 2:
                 this.leaderboardDialogService = new LeaderboardDialogService();
