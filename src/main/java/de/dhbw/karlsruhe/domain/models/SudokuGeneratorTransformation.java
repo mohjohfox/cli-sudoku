@@ -1,7 +1,7 @@
-package de.dhbw.karlsruhe.services;
+package de.dhbw.karlsruhe.domain.models;
 
-import de.dhbw.karlsruhe.models.Difficulty;
-import de.dhbw.karlsruhe.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
 
 import java.util.*;
 
