@@ -1,8 +1,5 @@
 package de.dhbw.karlsruhe.domain.models;
 
-import de.dhbw.karlsruhe.domain.models.Difficulty;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
-
 import java.util.*;
 
 public class SudokuGeneratorTransformation {
@@ -113,7 +110,6 @@ public class SudokuGeneratorTransformation {
         }
     }
 
-    //TODO: copied from Marcos implementation -> extract on merge
     private boolean isSudokuSolvable(int[][] sudokuField, int row, int col) {
         if (row == 9) {
             return true;
@@ -146,7 +142,6 @@ public class SudokuGeneratorTransformation {
         return false;
     }
 
-    //TODO: copied from Marcos implementation -> extract on merge
     private boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value) {
         for (int i = 0; i < 9; i++) {
             if (sudoku[row][i] == value) {
@@ -173,7 +168,6 @@ public class SudokuGeneratorTransformation {
     }
 
 
-    //TODO: copied from Marcos implementation -> extract on merge
     private int countPossibleSolutions(int[][] sudokuGameField) {
         int[][] copyOfGameField = new int[9][9];
         for (int i = 0; i < 9; i++) {
