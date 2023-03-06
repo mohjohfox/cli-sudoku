@@ -10,11 +10,6 @@ import de.dhbw.karlsruhe.domain.services.StartUpDialogService;
 public class Main {
 
   public static void main(String[] args) {
-
-    SudokuGeneratorBacktracking sudokuGeneratorBacktracking = new SudokuGeneratorBacktracking();
-    Sudoku easyGeneratedSudoku = sudokuGeneratorBacktracking.generateSudoku(Difficulty.EASY);
-    easyGeneratedSudoku.print();
-
     boolean desireToRun;
     LogoutService logoutService = new LogoutService();
     StartUpDialogService startUpDialogService = new StartUpDialogService();
