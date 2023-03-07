@@ -26,6 +26,14 @@ public class SudokuGeneratorBacktracking {
 
     removeCells(sudoku.getGameField(), amountOfCellsToRemove);
 
+    int[][] tmpGameField = new int[9][9];
+    for (int i = 0; i < 9; i++) {
+      for (int k = 0; k < 9; k++) {
+        tmpGameField[i][k] = sudoku.getGameField()[i][k];
+      }
+    }
+    sudoku.setInitialGameField(tmpGameField);
+
     return sudoku;
   }
 
