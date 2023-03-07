@@ -72,7 +72,7 @@ public class MenuDialogService {
         System.out.println(selectedDifficulty.toString() + " was selected!");
 
         PlayDialogService playDialogService = new PlayDialogService();
-        playDialogService.startGame(selectedDifficulty);
+        playDialogService.startNewGame(selectedDifficulty);
         break;
       case 2:
         this.leaderboardDialogService = new LeaderboardDialogService();

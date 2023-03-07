@@ -18,7 +18,7 @@ public class PlayDialogService {
     public PlayDialogService(){
     }
 
-    public void startGame(Difficulty dif) {
+    public void startNewGame(Difficulty dif) {
         if (rand.nextInt()<0.5){
             System.out.println("Transformed sudoku generated:");
             sudoku = sgTransformation.generateSudoku(dif);
