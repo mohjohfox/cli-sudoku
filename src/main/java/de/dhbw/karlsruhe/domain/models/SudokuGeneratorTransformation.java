@@ -3,18 +3,19 @@ package de.dhbw.karlsruhe.domain.models;
 import java.util.*;
 
 public class SudokuGeneratorTransformation {
-    private int[][] finishedSudoku;
     private Sudoku sudoku;
     private Random rand = new Random();
 
     public SudokuGeneratorTransformation(){
-        sudoku = new Sudoku();
-        List<Integer> unusedDigit= new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            unusedDigit.add(i);
-        }
-        Collections.shuffle(unusedDigit);
 
+        List<Integer> unusedDigit;
+        unusedDigit = addShuffledDigits();
+
+        this.sudoku = fillSudokuWithDigits(unusedDigit);
+    }
+
+    private Sudoku fillSudokuWithDigits(List<Integer> unusedDigit) {
+        Sudoku sudoku = new Sudoku();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 int tmp = (unusedDigit.get((i*3+j)%9)) ;
@@ -27,17 +28,22 @@ public class SudokuGeneratorTransformation {
                 sudoku.setField(i,j,tmp);
             }
         }
+        return sudoku;
+    }
+
+    private static List<Integer> addShuffledDigits() {
+        List<Integer> digits= new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            digits.add(i);
+        }
+        Collections.shuffle(digits);
+        return digits;
     }
 
     public Sudoku generateSudoku(Difficulty dif){
         transform();
-        finishedSudoku = getGameFields();
         removeFields(dif);
         return sudoku;
-    }
-
-    public int[][] getFinishedSudoku(){
-        return finishedSudoku;
     }
 
     private void transform(){
@@ -83,6 +89,11 @@ public class SudokuGeneratorTransformation {
 
     private void removeFields(Difficulty dif){
         Random random = new Random();
+        int amountOfCellsToRemove = amountOfCellsToRemove(dif);
+        removeNumberOfCells(random, amountOfCellsToRemove);
+    }
+
+    private static int amountOfCellsToRemove(Difficulty dif) {
         int amountOfCellsToRemove = switch (dif) {
             case EASY:
                 yield 40;
@@ -91,6 +102,10 @@ public class SudokuGeneratorTransformation {
             case HARD:
                 yield 60;
         };
+        return amountOfCellsToRemove;
+    }
+
+    private void removeNumberOfCells(Random random, int amountOfCellsToRemove) {
         for (int i = 0; i < amountOfCellsToRemove; i++) {
             int row = random.nextInt(9);
             int col = random.nextInt(9);
@@ -109,6 +124,7 @@ public class SudokuGeneratorTransformation {
             }
         }
     }
+
 
     private boolean isSudokuSolvable(int[][] sudokuField, int row, int col) {
         if (row == 9) {
