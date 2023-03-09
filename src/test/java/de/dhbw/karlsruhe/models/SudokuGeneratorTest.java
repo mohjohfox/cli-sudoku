@@ -2,11 +2,8 @@ package de.dhbw.karlsruhe.models;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.SudokuGeneratorTransformation;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

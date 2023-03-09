@@ -2,8 +2,8 @@ package de.dhbw.karlsruhe.domain.services;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.SudokuGeneratorBacktracking;
-import de.dhbw.karlsruhe.domain.models.SudokuGeneratorTransformation;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
 
 import java.util.InputMismatchException;
 
