@@ -41,7 +41,7 @@ public class SudokuGeneratorTransformation {
     }
 
     private void transform(){
-        for (int i=0; i<10000; i++){
+        for (int i=0; i<1000; i++){
             int selectedTransformation = rand.nextInt(0,11);
             switch (selectedTransformation){
                 case 0:

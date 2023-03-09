@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.models;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.SudokuGeneratorTransformation;
 import org.junit.jupiter.api.Test;
 
@@ -12,22 +13,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SudokuGeneratorTest {
 
     @Test
-    void sudokusAllDifferentGameFieldTest(){
-        List<int[][]> gameFieldList = new ArrayList<>();
-        for (int i =0; i<50; i++) {
-            SudokuGeneratorTransformation sg = new SudokuGeneratorTransformation();
-
-            sg.generateSudoku(Difficulty.HARD);
-            int[][] tmpSudoku = sg.getFinishedSudoku();
-
-            gameFieldList.add(new int[9][9]);
-            for (int k = 0; k < 9; k++) {
-                for (int j = 0; j < 9; j++) {
-                   gameFieldList.get(gameFieldList.size()-1)[k][j] = tmpSudoku[k][j];
-                }
+    void sudokuEasyRemovedFieldCountCorrect(){
+        SudokuGeneratorTransformation sudokuGeneratorTransformation = new SudokuGeneratorTransformation();
+        Sudoku sudoku = sudokuGeneratorTransformation.generateSudoku(Difficulty.EASY);
+        int[][] tmpGameField = sudoku.getGameField();
+        int count = 0;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (tmpGameField[i][j] == 0)
+                    count++;
             }
         }
-        gameFieldList = gameFieldList.stream().distinct().toList();
-        assertEquals(50, gameFieldList.size());
+        assertTrue(count == 40);
     }
 }
