@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 public class SudokuTransformator {
-    Random rand = new Random();
-    Sudoku sudoku;
+    private Random rand = new Random();
+    private Sudoku sudoku;
 
     public Sudoku transform(Sudoku sudoku){
         this.sudoku = sudoku;

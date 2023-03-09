@@ -6,8 +6,8 @@ import de.dhbw.karlsruhe.domain.models.Sudoku;
 import java.util.Random;
 
 public class SudokuFieldsRemover {
-    Sudoku sudoku;
-    Random random = new Random();
+    private Sudoku sudoku;
+    private Random random = new Random();
 
     public Sudoku removeFields(Sudoku sudoku, Difficulty dif){
         this.sudoku = sudoku;
@@ -16,7 +16,7 @@ public class SudokuFieldsRemover {
         return this.sudoku;
     }
 
-    private static int amountOfCellsToRemove(Difficulty dif) {
+    private int amountOfCellsToRemove(Difficulty dif) {
         int amountOfCellsToRemove = switch (dif) {
             case EASY:
                 yield 40;

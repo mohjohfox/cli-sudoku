@@ -9,11 +9,20 @@ public class SudokuGeneratorTransformation {
     private Sudoku sudoku;
 
     public SudokuGeneratorTransformation(){
-
         List<Integer> unusedDigit;
         unusedDigit = addShuffledDigits();
 
         this.sudoku = fillSudokuWithDigits(unusedDigit);
+    }
+
+    public Sudoku generateSudoku(Difficulty dif){
+        SudokuTransformator sudokuTransformator = new SudokuTransformator();
+        this.sudoku = sudokuTransformator.transform(this.sudoku);
+
+        SudokuFieldsRemover sudokuFieldsRemover = new SudokuFieldsRemover();
+        this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku,dif);
+
+        return sudoku;
     }
 
     private Sudoku fillSudokuWithDigits(List<Integer> unusedDigit) {
@@ -33,23 +42,13 @@ public class SudokuGeneratorTransformation {
         return tmpSudoku;
     }
 
-    private static List<Integer> addShuffledDigits() {
+    private List<Integer> addShuffledDigits() {
         List<Integer> digits= new ArrayList<>();
         for (int i = 1; i < 10; i++) {
             digits.add(i);
         }
         Collections.shuffle(digits);
         return digits;
-    }
-
-    public Sudoku generateSudoku(Difficulty dif){
-        SudokuTransformator sudokuTransformator = new SudokuTransformator();
-        this.sudoku = sudokuTransformator.transform(this.sudoku);
-
-        SudokuFieldsRemover sudokuFieldsRemover = new SudokuFieldsRemover();
-        this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku,dif);
-
-        return sudoku;
     }
 
 }
