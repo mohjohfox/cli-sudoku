@@ -21,6 +21,6 @@ public class SudokuGeneratorTest {
                     count++;
             }
         }
-        assertTrue(count == 40);
+        assertEquals(40, count);
     }
 }

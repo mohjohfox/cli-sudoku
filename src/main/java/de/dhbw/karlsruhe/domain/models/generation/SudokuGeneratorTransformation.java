@@ -33,7 +33,7 @@ public class SudokuGeneratorTransformation {
                 if (i/3 == 1){
                     tmp = unusedDigit.get((i*3+j+1)%9);
                 }
-                if (i/3 == 2){
+                else if (i/3 == 2){
                     tmp = unusedDigit.get((i*3+j+2)%9);
                 }
                 tmpSudoku.setField(i,j,tmp);
