@@ -1,8 +1,5 @@
 package de.dhbw.karlsruhe;
 
-import de.dhbw.karlsruhe.domain.models.Difficulty;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
 import de.dhbw.karlsruhe.domain.services.MenuDialogService;
 import de.dhbw.karlsruhe.domain.services.StartUpDialogService;

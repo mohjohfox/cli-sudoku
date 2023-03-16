@@ -1,10 +1,9 @@
-package de.dhbw.karlsruhe.adapter;
+package de.dhbw.karlsruhe.adapters;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import de.dhbw.karlsruhe.adapters.SudokuAdapter;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.ports.SudokuPort;

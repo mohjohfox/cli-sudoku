@@ -1,4 +1,7 @@
-package de.dhbw.karlsruhe.domain.models;
+package de.dhbw.karlsruhe.domain.models.generation;
+
+import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
 
 import java.util.Random;
 

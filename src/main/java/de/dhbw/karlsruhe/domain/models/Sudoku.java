@@ -28,6 +28,10 @@ public class Sudoku {
     this.difficulty = difficulty;
   }
 
+  public void setField(int row, int col, int val) {
+    this.gameField[row][col] = val;
+  }
+
   public Difficulty getDifficulty() {
     return difficulty;
   }
@@ -56,7 +60,7 @@ public class Sudoku {
   @Override
   public int hashCode() {
     int result = Objects.hash(id, difficulty);
-    result = 31 * result + Arrays.hashCode(gameField);
+    result = 31 * result + Arrays.deepHashCode(gameField);
     return result;
   }
 

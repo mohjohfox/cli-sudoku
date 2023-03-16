@@ -2,7 +2,8 @@ package de.dhbw.karlsruhe.domain.services;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.SudokuGeneratorBacktracking;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
 
 import java.util.InputMismatchException;
 
@@ -70,14 +71,17 @@ public class MenuDialogService {
       case 1:
         DifficultySelectionDialogService difficultySelectionDialogService = new DifficultySelectionDialogService();
 
-        // Returned Difficulty can be inserted into a createSudoku methode
         Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
         System.out.println(selectedDifficulty.toString() + " was selected!");
 
-        // Print Sudoku to test functionality
+        // Generate two test sudokus
         SudokuGeneratorBacktracking sudokuGeneratorBacktracking = new SudokuGeneratorBacktracking();
         Sudoku generatedSudoku = sudokuGeneratorBacktracking.generateSudoku(selectedDifficulty);
         generatedSudoku.print();
+
+        SudokuGeneratorTransformation sudokuGeneratorTransformation = new SudokuGeneratorTransformation();
+        Sudoku generateSudoku = sudokuGeneratorTransformation.generateSudoku(selectedDifficulty);
+        generateSudoku.print();
         break;
       case 2:
         this.leaderboardDialogService = new LeaderboardDialogService();
