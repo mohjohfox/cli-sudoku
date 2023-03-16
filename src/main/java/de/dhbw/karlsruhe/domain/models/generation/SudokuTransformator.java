@@ -1,50 +1,20 @@
-package de.dhbw.karlsruhe.domain.models;
+package de.dhbw.karlsruhe.domain.models.generation;
 
+import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-public class SudokuGeneratorTransformation {
-    private int[][] finishedSudoku;
-    private Sudoku sudoku;
+public class SudokuTransformator {
     private Random rand = new Random();
+    private Sudoku sudoku;
 
-    public SudokuGeneratorTransformation(){
-        sudoku = new Sudoku();
-        List<Integer> unusedDigit= new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            unusedDigit.add(i);
-        }
-        Collections.shuffle(unusedDigit);
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                int tmp = (unusedDigit.get((i*3+j)%9)) ;
-                if (i/3 == 1){
-                    tmp = unusedDigit.get((i*3+j+1)%9);
-                }
-                if (i/3 == 2){
-                    tmp = unusedDigit.get((i*3+j+2)%9);
-                }
-                sudoku.setField(i,j,tmp);
-            }
-        }
-    }
-
-    public Sudoku generateSudoku(Difficulty dif){
-        transform();
-        finishedSudoku = getGameFields();
-        removeFields(dif);
-        sudoku.setInitialGameField(getGameFields());
-        return sudoku;
-    }
-
-    public int[][] getFinishedSudoku(){
-        return finishedSudoku;
-    }
-
-    private void transform(){
-        for (int i=0; i<10000; i++){
+    public Sudoku transform(Sudoku sudoku){
+        this.sudoku = sudoku;
+        for (int i=0; i<1000; i++){
             int selectedTransformation = rand.nextInt(0,11);
             switch (selectedTransformation){
                 case 0:
@@ -82,6 +52,7 @@ public class SudokuGeneratorTransformation {
                     break;
             }
         }
+        return this.sudoku;
     }
 
     private void removeFields(Difficulty dif){
@@ -221,10 +192,10 @@ public class SudokuGeneratorTransformation {
         int rowsOfBlock = rand.nextInt(0, 3);
         int actualRow1 = firstRow + (rowsOfBlock * 3);
         int actualRow2 = secondRow + (rowsOfBlock * 3);
-            for (int j = 0; j < 9; j++) {
-                this.sudoku.setField(actualRow1, j, tmpGameField[actualRow2][j]);
-                this.sudoku.setField(actualRow2, j, tmpGameField[actualRow1][j]);
-            }
+        for (int j = 0; j < 9; j++) {
+            this.sudoku.setField(actualRow1, j, tmpGameField[actualRow2][j]);
+            this.sudoku.setField(actualRow2, j, tmpGameField[actualRow1][j]);
+        }
     }
 
     private void exchangeCols() {
