@@ -29,12 +29,7 @@ public class SudokuGeneratorBacktracking {
 
     removeCells(sudoku.getGameField(), amountOfCellsToRemove);
 
-    int[][] tmpGameField = new int[9][9];
-    for (int i = 0; i < 9; i++) {
-      for (int k = 0; k < 9; k++) {
-        tmpGameField[i][k] = sudoku.getGameField()[i][k];
-      }
-    }
+    int[][] tmpGameField = getGameFields(sudoku);
     sudoku.setInitialGameField(tmpGameField);
 
     return sudoku;
@@ -174,6 +169,14 @@ public class SudokuGeneratorBacktracking {
 
     sudokuField[row][col] = 0;
     return false;
+  }
+
+  private int[][] getGameFields(Sudoku sudoku) {
+    int[][] tmpGameField = new int[9][9];
+    for (int i = 0; i < 9; i++) {
+      System.arraycopy(sudoku.getGameField()[i], 0, tmpGameField[i], 0, 9);
+    }
+    return tmpGameField;
   }
 
 }

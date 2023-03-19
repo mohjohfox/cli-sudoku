@@ -9,13 +9,14 @@ import java.util.Objects;
 import java.util.Random;
 
 public class PlayDialogService {
-    Sudoku sudoku;
-    SudokuGeneratorTransformation sgTransformation = new SudokuGeneratorTransformation();
-    SudokuGeneratorBacktracking sgBacktracking = new SudokuGeneratorBacktracking();
-    SudokuValidatorService sudokuValidator = new SudokuValidatorService();
-    Random rand = new Random();
+    private Sudoku sudoku;
+    private SudokuGeneratorTransformation sgTransformation = new SudokuGeneratorTransformation();
+    private SudokuGeneratorBacktracking sgBacktracking = new SudokuGeneratorBacktracking();
+    private SudokuValidatorService sudokuValidator = new SudokuValidatorService();
+    private Random rand = new Random();
 
     public PlayDialogService(){
+        // Empty constructor for JSON parser
     }
 
     public void startNewGame(Difficulty dif) {
@@ -50,10 +51,10 @@ public class PlayDialogService {
         int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
 
         boolean actionSuccessful = false;
-        if (Objects.equals(getAction[0], "W")) {
+        if (isWriteAction(getAction[0])) {
             actionSuccessful = sudoku.setField(splitInput[0]-1, splitInput[1]-1, splitInput[2]);
         }
-        if (Objects.equals(getAction[0], "R")) {
+        if (isRemoveAction(getAction[0])) {
             actionSuccessful = sudoku.setField(splitInput[0]-1, splitInput[1]-1, 0);
         }
         if (!actionSuccessful){
@@ -62,9 +63,12 @@ public class PlayDialogService {
     }
 
     private boolean inputCorrect(String input) {
+        if (! input.contains(":")){
+            return false;
+        }
         String[] getAction = input.split(":");
 
-        if (! (getAction[0].equals("W") || getAction[0].equals("R")))
+        if (!isValidAction(getAction[0]))
             return false;
 
         int[] splitInput;
@@ -74,7 +78,7 @@ public class PlayDialogService {
             return false;
         }
 
-        if (splitInput.length<2 || splitInput.length>3){
+        if (! isValidAmountOfDigits(splitInput)){
             return false;
         }
 
@@ -84,6 +88,22 @@ public class PlayDialogService {
             }
         }
         return true;
+    }
+
+    private static boolean isWriteAction(String action) {
+        return Objects.equals(action, "W");
+    }
+
+    private static boolean isRemoveAction(String action) {
+        return Objects.equals(action, "R");
+    }
+
+    private static boolean isValidAmountOfDigits(int[] splitInput) {
+        return splitInput.length == 3;
+    }
+
+    private static boolean isValidAction(String action) {
+        return action.equals("W") || action.equals("R");
     }
 
 }
