@@ -2,6 +2,7 @@ package de.dhbw.karlsruhe.adapters;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.ports.SudokuPort;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,7 +40,7 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
       tmpGameField.append("GameField=");
       for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
-          tmpGameField.append(sudoku.getGameField()[i][j]);
+          tmpGameField.append(sudoku.getGameField().sudokuArray()[i][j]);
           tmpGameField.append(",");
         }
       }
@@ -151,17 +152,17 @@ public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
 
   }
 
-  private int[][] readGameField(BufferedReader br) throws IOException {
+  private SudokuArray readGameField(BufferedReader br) throws IOException {
     String line = br.readLine();
 
     String[] array = line.split("=");
     String[] fieldArray = array[1].split(",");
-    int[][] tmpGameField = new int[9][9];
+    SudokuArray tmpGameField = new SudokuArray(new int[9][9]);
 
     int fieldCount = 0;
     for (int i = 0; i < 9; i++) {
       for (int j = 0; j < 9; j++) {
-        tmpGameField[i][j] = Integer.parseInt(fieldArray[fieldCount]);
+        tmpGameField.sudokuArray()[i][j] = Integer.parseInt(fieldArray[fieldCount]);
         fieldCount++;
       }
     }
