@@ -2,6 +2,7 @@ package de.dhbw.karlsruhe.domain.models;
 
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -66,7 +67,7 @@ public class Sudoku {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Sudoku sudoku = (Sudoku) o;
-    return id.equals(sudoku.id) && gameField.equals(sudoku.gameField) && initialGameField.equals(sudoku.initialGameField) && difficulty == sudoku.difficulty;
+    return id.equals(sudoku.id) && Arrays.deepEquals(gameField.sudokuArray(), sudoku.gameField.sudokuArray()) && Arrays.deepEquals(initialGameField.sudokuArray(), sudoku.initialGameField.sudokuArray()) && difficulty == sudoku.difficulty;
   }
 
   @Override
