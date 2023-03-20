@@ -32,8 +32,8 @@ public class PlayDialogService {
         System.out.println("To remove a number write: R:[Row],[Column]");
         System.out.println("Example: R:3,4");
         System.out.println("Initially filled fields can't be removed.");
-        while (sudokuValidator.isSudokuFinished(sudoku.getGameField())) {
-            sudoku.print();
+        while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
+            sudoku.getGameField().print();
             userInputDialog();
         }
     }

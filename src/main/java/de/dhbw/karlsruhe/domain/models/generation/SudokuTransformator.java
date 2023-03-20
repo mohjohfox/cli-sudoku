@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.domain.models.generation;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 
@@ -69,12 +70,12 @@ public class SudokuTransformator {
             int row = random.nextInt(9);
             int col = random.nextInt(9);
 
-            if (this.sudoku.getGameField()[row][col] == 0) {
+            if (this.sudoku.getGameField().sudokuArray()[row][col] == 0) {
                 i--;
                 continue;
             }
 
-            int temp = this.sudoku.getGameField()[row][col];
+            int temp = this.sudoku.getGameField().sudokuArray()[row][col];
             this.sudoku.setField(row,col,0);
             int numSolutions = countPossibleSolutions(this.sudoku.getGameField());
             if (numSolutions != 1) {
@@ -117,12 +118,8 @@ public class SudokuTransformator {
         return false;
     }
 
-    private int countPossibleSolutions(int[][] sudokuGameField) {
-        int[][] copyOfGameField = new int[9][9];
-        for (int i = 0; i < 9; i++) {
-            System.arraycopy(sudokuGameField[i], 0, copyOfGameField[i], 0, 9);
-        }
-
+    private int countPossibleSolutions(SudokuArray sudokuGameField) {
+        int[][] copyOfGameField = sudokuGameField.getCopyOfSudokuArray();
         int numberOfSolutions = 0;
         isSudokuSolvable(copyOfGameField, 0, 0);
         numberOfSolutions++;
@@ -353,10 +350,7 @@ public class SudokuTransformator {
     }
 
     private int[][] getGameFields() {
-        int[][] tmpGameField = new int[9][9];
-        for (int i = 0; i < 9; i++) {
-            System.arraycopy(this.sudoku.getGameField()[i], 0, tmpGameField[i], 0, 9);
-        }
+        int[][] tmpGameField = this.sudoku.getGameField().getCopyOfSudokuArray();
         return tmpGameField;
     }
 }
