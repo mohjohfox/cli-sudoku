@@ -13,7 +13,7 @@ public class SudokuGeneratorTest {
     void sudokuEasyRemovedFieldCountCorrect(){
         SudokuGeneratorTransformation sudokuGeneratorTransformation = new SudokuGeneratorTransformation();
         Sudoku sudoku = sudokuGeneratorTransformation.generateSudoku(Difficulty.EASY);
-        int[][] tmpGameField = sudoku.getGameField();
+        int[][] tmpGameField = sudoku.getGameField().sudokuArray();
         int count = 0;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

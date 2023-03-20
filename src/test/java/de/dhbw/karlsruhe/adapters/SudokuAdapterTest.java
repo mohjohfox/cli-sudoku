@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.ports.SudokuPort;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -74,7 +75,7 @@ class SudokuAdapterTest {
     gameField[8][7] = 1;
     gameField[8][8] = 6;
 
-    Sudoku sudoku = new Sudoku(id, gameField, Difficulty.EASY);
+    Sudoku sudoku = new Sudoku(id, new SudokuArray(gameField), Difficulty.EASY);
 
     SudokuPort sudokuPort = new SudokuAdapter();
 
