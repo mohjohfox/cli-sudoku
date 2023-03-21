@@ -2,6 +2,7 @@ package de.dhbw.karlsruhe.domain.models.generation;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 
 import java.util.Random;
 
@@ -12,11 +13,11 @@ public class SudokuGeneratorBacktracking {
 
     for (int i = 0; i < 9; i++) {
       for (int k = 0; k < 9; k++) {
-        sudoku.getGameField()[i][k] = 0;
+        sudoku.getGameField().sudokuArray()[i][k] = 0;
       }
     }
 
-    fillSudokuField(sudoku.getGameField(), 0, 0);
+    fillSudokuField(sudoku.getGameField().sudokuArray(), 0, 0);
 
     int amountOfCellsToRemove = switch (difficulty) {
       case EASY:
@@ -28,6 +29,9 @@ public class SudokuGeneratorBacktracking {
     };
 
     removeCells(sudoku.getGameField(), amountOfCellsToRemove);
+
+    SudokuArray tmpGameField = getGameFields(sudoku);
+    sudoku.setInitialGameField(tmpGameField);
 
     return sudoku;
   }
@@ -63,22 +67,22 @@ public class SudokuGeneratorBacktracking {
     return false;
   }
 
-  private void removeCells(int[][] sudokuField, int numberOfCellsToRemove) {
+  private void removeCells(SudokuArray sudokuField, int numberOfCellsToRemove) {
     Random random = new Random();
     for (int i = 0; i < numberOfCellsToRemove; i++) {
       int row = random.nextInt(9);
       int col = random.nextInt(9);
 
-      if (sudokuField[row][col] == 0) {
+      if (sudokuField.sudokuArray()[row][col] == 0) {
         i--;
         continue;
       }
 
-      int temp = sudokuField[row][col];
-      sudokuField[row][col] = 0;
+      int temp = sudokuField.sudokuArray()[row][col];
+      sudokuField.sudokuArray()[row][col] = 0;
       int numSolutions = countPossibleSolutions(sudokuField);
       if (numSolutions != 1) {
-        sudokuField[row][col] = temp;
+        sudokuField.sudokuArray()[row][col] = temp;
         i--;
       }
     }
@@ -120,13 +124,8 @@ public class SudokuGeneratorBacktracking {
     return true;
   }
 
-  private int countPossibleSolutions(int[][] sudokuGameField) {
-    int[][] copyOfGameField = new int[9][9];
-    for (int i = 0; i < 9; i++) {
-      for (int k = 0; k < 9; k++) {
-        copyOfGameField[i][k] = sudokuGameField[i][k];
-      }
-    }
+  private int countPossibleSolutions(SudokuArray sudokuGameField) {
+    int[][] copyOfGameField = sudokuGameField.getCopyOfSudokuArray();
 
     int numberOfSolutions = 0;
     isSudokuSolvable(copyOfGameField, 0, 0);
@@ -166,6 +165,11 @@ public class SudokuGeneratorBacktracking {
 
     sudokuField[row][col] = 0;
     return false;
+  }
+
+  private SudokuArray getGameFields(Sudoku sudoku) {
+    SudokuArray tmpGameField = new SudokuArray(sudoku.getGameField().sudokuArray());
+    return tmpGameField;
   }
 
 }

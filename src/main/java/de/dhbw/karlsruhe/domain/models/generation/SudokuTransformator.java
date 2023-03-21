@@ -1,5 +1,8 @@
 package de.dhbw.karlsruhe.domain.models.generation;
 
+import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
+import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 
 import java.util.ArrayList;
@@ -51,6 +54,77 @@ public class SudokuTransformator {
             }
         }
         return this.sudoku;
+    }
+
+    private void removeFields(Difficulty dif){
+        Random random = new Random();
+        int amountOfCellsToRemove = switch (dif) {
+            case EASY:
+                yield 40;
+            case MEDIUM:
+                yield 50;
+            case HARD:
+                yield 60;
+        };
+        for (int i = 0; i < amountOfCellsToRemove; i++) {
+            int row = random.nextInt(9);
+            int col = random.nextInt(9);
+
+            if (this.sudoku.getGameField().sudokuArray()[row][col] == 0) {
+                i--;
+                continue;
+            }
+
+            int temp = this.sudoku.getGameField().sudokuArray()[row][col];
+            this.sudoku.setField(row,col,0);
+            int numSolutions = countPossibleSolutions(this.sudoku.getGameField());
+            if (numSolutions != 1) {
+                this.sudoku.setField(row,col,temp);
+                i--;
+            }
+        }
+    }
+
+    private boolean isSudokuSolvable(int[][] sudokuField, int row, int col) {
+        if (row == 9) {
+            return true;
+        }
+
+        int nextRow;
+        int nextCol;
+
+        if (col == 8) {
+            nextRow = row + 1;
+            nextCol = 0;
+        } else {
+            nextRow = row;
+            nextCol = col + 1;
+        }
+
+        if (sudokuField[row][col] != 0) {
+            return isSudokuSolvable(sudokuField, nextRow, nextCol);
+        }
+
+        SudokuValidatorService sudokuValidator = new SudokuValidatorService();
+        for (int value = 1; value <= 9; value++) {
+            if (sudokuValidator.isSudokuFieldValid(sudokuField, row, col, value)) {
+                sudokuField[row][col] = value;
+                if (isSudokuSolvable(sudokuField, nextRow, nextCol)) {
+                    return true;
+                }
+            }
+        }
+        sudokuField[row][col] = 0;
+        return false;
+    }
+
+    private int countPossibleSolutions(SudokuArray sudokuGameField) {
+        int[][] copyOfGameField = sudokuGameField.getCopyOfSudokuArray();
+        int numberOfSolutions = 0;
+        isSudokuSolvable(copyOfGameField, 0, 0);
+        numberOfSolutions++;
+
+        return numberOfSolutions;
     }
 
     private void mirrorVertical(){
@@ -276,10 +350,7 @@ public class SudokuTransformator {
     }
 
     private int[][] getGameFields() {
-        int[][] tmpGameField = new int[9][9];
-        for (int i = 0; i < 9; i++) {
-            System.arraycopy(this.sudoku.getGameField()[i], 0, tmpGameField[i], 0, 9);
-        }
+        int[][] tmpGameField = this.sudoku.getGameField().getCopyOfSudokuArray();
         return tmpGameField;
     }
 }
