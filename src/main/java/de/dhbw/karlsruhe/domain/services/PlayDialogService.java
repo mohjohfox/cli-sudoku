@@ -35,11 +35,13 @@ public class PlayDialogService {
         System.out.println("For aboard and save the status of a game press: A");
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
             sudoku.getGameField().print();
-            userInputDialog();
+            if (!userInputDialog()) {
+                break;
+            }
         }
     }
 
-    private void userInputDialog() {
+    private boolean userInputDialog() {
         String input = ScannerService.getScanner().nextLine();
 
         while (!inputCorrect(input)) {
@@ -52,7 +54,7 @@ public class PlayDialogService {
         if (isAbortAction(input)) {
             // TODO: Save sudoku and return to menu
             System.out.println("Game saved.");
-            return;
+            return false;
         }
 
         String[] getAction = input.split(":");
@@ -69,6 +71,7 @@ public class PlayDialogService {
         if (!actionSuccessful){
             System.out.println("The field "+ getAction[1]+" could not be set, because it is a default field.");
         }
+        return true;
     }
 
     private boolean inputCorrect(String input) {
