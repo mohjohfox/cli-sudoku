@@ -32,6 +32,7 @@ public class PlayDialogService {
         System.out.println("To remove a number write: R:[Row],[Column]");
         System.out.println("Example: R:3,4");
         System.out.println("Initially filled fields can't be removed.");
+        System.out.println("For aboard and save the status of a game press: A");
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
             sudoku.getGameField().print();
             userInputDialog();
@@ -40,12 +41,20 @@ public class PlayDialogService {
 
     private void userInputDialog() {
         String input = ScannerService.getScanner().nextLine();
+
         while (!inputCorrect(input)) {
             System.out.println("The input did not match the input format.");
             System.out.println("Enter numbers by writing: W:[Row],[Column],[Value]");
             System.out.println("To remove a number write: R:[Row],[Column]");
             input = ScannerService.getScanner().nextLine();
         }
+
+        if (isAbortAction(input)) {
+            // TODO: Save sudoku and return to menu
+            System.out.println("Game saved.");
+            return;
+        }
+
         String[] getAction = input.split(":");
 
         int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
@@ -63,7 +72,9 @@ public class PlayDialogService {
     }
 
     private boolean inputCorrect(String input) {
-        if (! input.contains(":")){
+        if (isAbortAction(input)) {
+            return true;
+        } else if (!input.contains(":")){
             return false;
         }
         String[] getAction = input.split(":");
@@ -90,19 +101,23 @@ public class PlayDialogService {
         return true;
     }
 
-    private static boolean isWriteAction(String action) {
+    private boolean isAbortAction(String action) {
+        return action.equalsIgnoreCase("A");
+    }
+
+    private boolean isWriteAction(String action) {
         return Objects.equals(action, "W");
     }
 
-    private static boolean isRemoveAction(String action) {
+    private boolean isRemoveAction(String action) {
         return Objects.equals(action, "R");
     }
 
-    private static boolean isValidAmountOfDigits(int[] splitInput) {
+    private boolean isValidAmountOfDigits(int[] splitInput) {
         return splitInput.length == 3;
     }
 
-    private static boolean isValidAction(String action) {
+    private boolean isValidAction(String action) {
         return action.equals("W") || action.equals("R");
     }
 
