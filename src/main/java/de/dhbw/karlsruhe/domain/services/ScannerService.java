@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class ScannerService {
 
+  //TODO: Not init ScannerService object
   private static Scanner scanner;
 
   public static Scanner getScanner() {

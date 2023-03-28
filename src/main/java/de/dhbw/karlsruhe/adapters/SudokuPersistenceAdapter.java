@@ -3,7 +3,7 @@ package de.dhbw.karlsruhe.adapters;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
-import de.dhbw.karlsruhe.domain.ports.SudokuPort;
+import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SudokuAdapter extends AbstractStoreAdapter implements SudokuPort {
+public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements SudokuPersistencePort {
 
   private static final String SUDOKUFILENAME = "SudokuStoreFile";
 

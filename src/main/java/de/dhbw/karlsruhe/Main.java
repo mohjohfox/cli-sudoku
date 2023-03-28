@@ -1,8 +1,8 @@
 package de.dhbw.karlsruhe;
 
 import de.dhbw.karlsruhe.domain.services.LogoutService;
-import de.dhbw.karlsruhe.domain.services.MenuDialogService;
-import de.dhbw.karlsruhe.domain.services.StartUpDialogService;
+import de.dhbw.karlsruhe.domain.services.dialogs.MenuDialogService;
+import de.dhbw.karlsruhe.domain.services.dialogs.StartUpDialogService;
 
 public class Main {
 

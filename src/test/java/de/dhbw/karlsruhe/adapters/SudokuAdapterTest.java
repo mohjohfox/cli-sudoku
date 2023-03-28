@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
-import de.dhbw.karlsruhe.domain.ports.SudokuPort;
+import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -77,11 +77,11 @@ class SudokuAdapterTest {
 
     Sudoku sudoku = new Sudoku(id, new SudokuArray(gameField), Difficulty.EASY);
 
-    SudokuPort sudokuPort = new SudokuAdapter();
+    SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter();
 
-    sudokuPort.saveSudoku(sudoku);
+    sudokuPersistencePort.saveSudoku(sudoku);
 
-    Sudoku readSudoku = sudokuPort.getSudoku(id);
+    Sudoku readSudoku = sudokuPersistencePort.getSudoku(id);
 
     assertEquals(sudoku, readSudoku);
 
@@ -89,8 +89,8 @@ class SudokuAdapterTest {
 
   @Test
   void deleteSudokuTest() {
-    SudokuPort sudokuPort = new SudokuAdapter();
-    sudokuPort.deleteSudoku("123");
+    SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter();
+    sudokuPersistencePort.deleteSudoku("123");
 
     try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/fileStore/SudokuStoreFile"))) {
       String line = br.readLine();

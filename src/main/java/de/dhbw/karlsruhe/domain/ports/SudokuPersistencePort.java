@@ -3,7 +3,7 @@ package de.dhbw.karlsruhe.domain.ports;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import java.util.List;
 
-public interface SudokuPort {
+public interface SudokuPersistencePort {
 
   void saveSudoku(Sudoku sudoku);
 

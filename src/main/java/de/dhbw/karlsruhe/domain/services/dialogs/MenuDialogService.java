@@ -1,17 +1,24 @@
-package de.dhbw.karlsruhe.domain.services;
+package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.services.LogoutService;
+import de.dhbw.karlsruhe.domain.services.ScannerService;
 
 import java.util.InputMismatchException;
+import java.util.Optional;
 
 public class MenuDialogService {
 
   private int userInput;
   private LeaderboardDialogService leaderboardDialogService;
+  private SudokuSelectionDialog sudokuSelectionDialog;
+  private PlayDialogService playDialogService;
   private LogoutService logoutService;
 
   public enum MenuOptions {
     PLAY("Play"),
+    SAVED_SUDOKUS("Show saved Sudokus"),
     LEADERBOARD("Leaderboard"),
     LOGOUT("Logout");
 
@@ -27,6 +34,8 @@ public class MenuDialogService {
   }
 
   public MenuDialogService() {
+    this.sudokuSelectionDialog = new SudokuSelectionDialog();
+    this.playDialogService = new PlayDialogService();
     this.logoutService = new LogoutService();
   }
 
@@ -70,15 +79,17 @@ public class MenuDialogService {
 
         Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
         System.out.println(selectedDifficulty.toString() + " was selected!");
-
-        PlayDialogService playDialogService = new PlayDialogService();
         playDialogService.startNewGame(selectedDifficulty);
         break;
       case 2:
+        Optional<Sudoku> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
+        selectedSudoku.ifPresent(sudoku -> playDialogService.startSavedGame(sudoku));
+        break;
+      case 3:
         this.leaderboardDialogService = new LeaderboardDialogService();
         this.leaderboardDialogService.startLeaderboardDialog();
         break;
-      case 3:
+      case 4:
         this.logoutService.logout();
         break;
       default:
