@@ -96,7 +96,7 @@ public class PlayDialogService {
     }
 
     private boolean inputCorrect(String input) {
-        if (isAbortAction(input)) {
+        if (isAbortAction(input) || isExitAction(input)) {
             return true;
         } else if (!input.contains(":")){
             return false;

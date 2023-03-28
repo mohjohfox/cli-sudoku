@@ -15,6 +15,10 @@ public class SudokuSelectionDialog {
     public Optional<Sudoku> selectSudokuDialog() {
         List<Sudoku> sudokus = sudokuPersistencePort.getAllSudokus();
         printAll(sudokus);
+        if (sudokus.isEmpty()) {
+            System.out.println("No sudokus found!");
+            return Optional.empty();
+        }
         System.out.println("Please select a sudoku:");
         int entry = ScannerService.getScanner().nextInt();
         return selectSudoku(entry, sudokus);
