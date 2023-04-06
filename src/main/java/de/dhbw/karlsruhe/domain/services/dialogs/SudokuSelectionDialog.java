@@ -20,14 +20,18 @@ public class SudokuSelectionDialog {
             return Optional.empty();
         }
         System.out.println("Please select a sudoku:");
-        int entry = ScannerService.getScanner().nextInt();
-        return selectSudoku(entry, sudokus);
+        String entry = ScannerService.getScanner().nextLine();
+        if (isInteger(entry)) {
+            return selectSudoku(Integer.parseInt(entry), sudokus);
+        }
+        return Optional.empty();
     }
 
     private void printAll(List<Sudoku> sudokus) {
         int i = 1;
         for (Sudoku sudoku : sudokuPersistencePort.getAllSudokus()) {
             System.out.println(i + ": " + sudoku.getId());
+            i++;
         }
     }
 
@@ -36,6 +40,15 @@ public class SudokuSelectionDialog {
             return Optional.of(sudokus.get(value-1));
         }
         return Optional.empty();
+    }
+
+    private boolean isInteger(String entry) {
+        try {
+            Integer.parseInt(entry);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 }

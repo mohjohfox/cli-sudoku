@@ -47,7 +47,7 @@ public class PlayDialogService {
         System.out.println("To remove a number write: R:[Row],[Column]");
         System.out.println("Example: R:3,4");
         System.out.println("Initially filled fields can't be removed.");
-        System.out.println("For aboard and save the status of a game press: A");
+        System.out.println("To abort and save the status of a game press: A");
         System.out.println("To exit the game press: E");
 
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
