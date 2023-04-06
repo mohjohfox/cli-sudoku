@@ -1,7 +1,10 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
+import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
 import de.dhbw.karlsruhe.domain.services.ScannerService;
 
@@ -15,6 +18,7 @@ public class MenuDialogService {
   private SudokuSelectionDialog sudokuSelectionDialog;
   private PlayDialogService playDialogService;
   private LogoutService logoutService;
+  private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter();
 
   public enum MenuOptions {
     PLAY("Play"),
@@ -83,7 +87,11 @@ public class MenuDialogService {
         break;
       case 2:
         Optional<Sudoku> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
-        selectedSudoku.ifPresent(sudoku -> playDialogService.startSavedGame(sudoku));
+        if (selectedSudoku.isEmpty()) {
+          System.out.println("No Sudoku selected!");
+          break;
+        }
+        selectedSudoku.ifPresent(this::playOrDeleteDialog);
         break;
       case 3:
         this.leaderboardDialogService = new LeaderboardDialogService();
@@ -96,4 +104,25 @@ public class MenuDialogService {
         System.out.println("Invalid Option - Please choose an offered one!");
     }
   }
+
+  private void playOrDeleteDialog(Sudoku sudoku) {
+    System.out.println("Do you want to play or delete the sudoku?");
+    System.out.println("[1] Play");
+    System.out.println("[2] Delete");
+    System.out.println("[3] Cancel");
+    String entry = ScannerService.getScanner().nextLine();
+    if (IntegerWrapper.isInteger(entry)) {
+      int value = Integer.parseInt(entry);
+      if (value == 1) {
+        playDialogService.startSavedGame(sudoku);
+      } else if (value == 2) {
+        sudokuPersistencePort.deleteSudoku(sudoku.getId());
+      } else if (value == 3) {
+        System.out.println("Canceled!");
+      } else {
+        System.out.println("Invalid input!");
+      }
+    }
+  }
+
 }

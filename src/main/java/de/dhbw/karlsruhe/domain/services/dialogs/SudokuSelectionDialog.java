@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.domain.models.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.ScannerService;
@@ -21,7 +22,7 @@ public class SudokuSelectionDialog {
         }
         System.out.println("Please select a sudoku:");
         String entry = ScannerService.getScanner().nextLine();
-        if (isInteger(entry)) {
+        if (IntegerWrapper.isInteger(entry)) {
             return selectSudoku(Integer.parseInt(entry), sudokus);
         }
         return Optional.empty();
@@ -40,15 +41,6 @@ public class SudokuSelectionDialog {
             return Optional.of(sudokus.get(value-1));
         }
         return Optional.empty();
-    }
-
-    private boolean isInteger(String entry) {
-        try {
-            Integer.parseInt(entry);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
 }
