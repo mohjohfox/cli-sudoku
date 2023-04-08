@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.adapters;
 
+import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
@@ -15,18 +16,27 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements SudokuPersistencePort {
 
-  private static final String SUDOKUFILENAME = "SudokuStoreFile";
+  private final String SUDOKUFILENAME = "SudokuStoreFile";
+
+  public SudokuPersistenceAdapter(Location filePath) {
+    super(filePath);
+  }
 
   @Override
   public void saveSudoku(Sudoku sudoku) {
     prepareFileStructure(SUDOKUFILENAME);
 
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFullFilePath(SUDOKUFILENAME), true))) {
-      String id = String.format("ID=%s", sudoku.getId());
-      writer.append(id);
+      String saveId = String.format("SAVE_ID=%s", UUID.randomUUID());
+      writer.append(saveId);
+      writer.newLine();
+
+      String sudokuId = String.format("ID=%s", sudoku.getId());
+      writer.append(sudokuId);
       writer.newLine();
 
       String diff = "Difficulty=";
@@ -61,7 +71,7 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
       String line = br.readLine();
 
       while (line != null) {
-        if (!line.contains("ID=")) {
+        if (line.contains("SAVE_ID=") || !line.contains("ID=")) {
           line = br.readLine();
           continue;
         }
@@ -98,7 +108,7 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
       String line = br.readLine();
 
       while (line != null) {
-        if (!line.contains("ID=")) {
+        if (line.contains("SAVE_ID=") || !line.contains("ID=")) {
           line = br.readLine();
           continue;
         }
@@ -126,10 +136,11 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
 
       String line = br.readLine();
       while (line != null) {
-        if (!line.trim().equals("ID=" + id)) {
+        if (!line.trim().equals("SAVE_ID=" + id)) {
           pw.println(line);
           pw.flush();
         } else {
+          line = br.readLine();
           line = br.readLine();
           line = br.readLine();
         }

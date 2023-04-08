@@ -1,7 +1,8 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
-import de.dhbw.karlsruhe.domain.models.IntegerWrapper;
+import de.dhbw.karlsruhe.domain.Location;
+import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.ScannerService;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 public class SudokuSelectionDialog {
 
-    private final SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter();
+    private final SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
 
     public Optional<Sudoku> selectSudokuDialog() {
         List<Sudoku> sudokus = sudokuPersistencePort.getAllSudokus();

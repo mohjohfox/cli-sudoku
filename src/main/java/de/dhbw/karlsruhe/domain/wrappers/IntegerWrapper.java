@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.domain.models;
+package de.dhbw.karlsruhe.domain.wrappers;
 
 public class IntegerWrapper {
 

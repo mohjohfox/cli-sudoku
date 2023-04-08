@@ -1,8 +1,9 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
-import de.dhbw.karlsruhe.domain.models.IntegerWrapper;
+import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
@@ -18,7 +19,7 @@ public class MenuDialogService {
   private SudokuSelectionDialog sudokuSelectionDialog;
   private PlayDialogService playDialogService;
   private LogoutService logoutService;
-  private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter();
+  private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
 
   public enum MenuOptions {
     PLAY("Play"),

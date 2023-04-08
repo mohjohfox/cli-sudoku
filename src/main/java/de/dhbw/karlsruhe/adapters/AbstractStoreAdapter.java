@@ -1,14 +1,20 @@
 package de.dhbw.karlsruhe.adapters;
 
+import de.dhbw.karlsruhe.domain.Location;
+
 import java.io.File;
 import java.io.IOException;
 
 public abstract class AbstractStoreAdapter {
 
-  final String userFilePath = "src/main/resources/fileStore/";
+  final Location userFilePath;
+
+  public AbstractStoreAdapter(Location filePath) {
+    this.userFilePath = filePath;
+  }
 
   public void prepareFileStructure(String fileName) {
-    File userFile = new File(userFilePath + fileName);
+    File userFile = new File(userFilePath.getLocation() + fileName);
 
     try {
       userFile.createNewFile();
@@ -18,7 +24,7 @@ public abstract class AbstractStoreAdapter {
   }
 
   public String getFullFilePath(String fileName) {
-    return userFilePath + fileName;
+    return userFilePath.getLocation() + fileName;
   }
 
 }

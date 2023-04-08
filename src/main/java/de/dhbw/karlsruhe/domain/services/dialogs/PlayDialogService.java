@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
@@ -18,7 +19,7 @@ public class PlayDialogService {
     private SudokuGeneratorTransformation sgTransformation = new SudokuGeneratorTransformation();
     private SudokuGeneratorBacktracking sgBacktracking = new SudokuGeneratorBacktracking();
     private SudokuValidatorService sudokuValidator = new SudokuValidatorService();
-    private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter();
+    private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
     private Random rand = new Random();
 
     public PlayDialogService() {
