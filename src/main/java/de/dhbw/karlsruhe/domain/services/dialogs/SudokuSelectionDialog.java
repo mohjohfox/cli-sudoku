@@ -33,8 +33,8 @@ public class SudokuSelectionDialog {
     private void printAll(List<SudokuSaveEntry> sudokus) {
         int i = 1;
         for (SudokuSaveEntry sudoku : sudokus) {
-            System.out.println("SaveId: " + sudoku.getSaveId());
-            System.out.println(i + ": " + sudoku.getSudoku().getId());
+            System.out.println(i + ": Save with id: " + sudoku.getSaveId());
+            System.out.println("Sudoku: " + sudoku.getSudoku().getId());
             System.out.println();
             i++;
         }
