@@ -2,6 +2,7 @@ package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
+import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
@@ -14,8 +15,8 @@ public class SudokuSelectionDialog {
 
     private final SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
 
-    public Optional<Sudoku> selectSudokuDialog() {
-        List<Sudoku> sudokus = sudokuPersistencePort.getAllSudokus();
+    public Optional<SudokuSaveEntry> selectSudokuDialog() {
+        List<SudokuSaveEntry> sudokus = sudokuPersistencePort.getAllSudokus();
         printAll(sudokus);
         if (sudokus.isEmpty()) {
             System.out.println("No sudokus found!");
@@ -29,15 +30,17 @@ public class SudokuSelectionDialog {
         return Optional.empty();
     }
 
-    private void printAll(List<Sudoku> sudokus) {
+    private void printAll(List<SudokuSaveEntry> sudokus) {
         int i = 1;
-        for (Sudoku sudoku : sudokuPersistencePort.getAllSudokus()) {
-            System.out.println(i + ": " + sudoku.getId());
+        for (SudokuSaveEntry sudoku : sudokus) {
+            System.out.println("SaveId: " + sudoku.getSaveId());
+            System.out.println(i + ": " + sudoku.getSudoku().getId());
+            System.out.println();
             i++;
         }
     }
 
-    private Optional<Sudoku> selectSudoku(int value, List<Sudoku> sudokus) {
+    private Optional<SudokuSaveEntry> selectSudoku(int value, List<SudokuSaveEntry> sudokus) {
         if (value <= sudokus.size() && value >= 1) {
             return Optional.of(sudokus.get(value-1));
         }

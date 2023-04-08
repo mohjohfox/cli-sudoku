@@ -3,6 +3,7 @@ package de.dhbw.karlsruhe.adapters;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
 import java.io.BufferedReader;
@@ -10,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -37,9 +39,12 @@ class SudokuAdapterTest {
 
     sudokuPersistencePort.saveSudoku(sudoku);
 
-    Sudoku readSudoku = sudokuPersistencePort.getSudoku(sudoku.getId());
+    String save_id = getSaveId();
 
-    assertEquals(sudoku, readSudoku);
+    Optional<SudokuSaveEntry> readSudoku = sudokuPersistencePort.getSudoku(save_id);
+
+    assertTrue(readSudoku.isPresent());
+    assertEquals(sudoku, readSudoku.get().getSudoku());
   }
 
   @Test
@@ -47,24 +52,7 @@ class SudokuAdapterTest {
     SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.TEST);
     Sudoku sudoku = generateSudoku();
     sudokuPersistencePort.saveSudoku(sudoku);
-    String save_id = "";
-
-    try (BufferedReader br = new BufferedReader(new FileReader(Location.TEST.getLocation() + "SudokuStoreFile"))) {
-      String line = br.readLine();
-
-      while (line != null) {
-        if (!line.contains("SAVE_ID=")) {
-          line = br.readLine();
-          continue;
-        }
-
-        String[] idArray = line.split("=");
-        save_id = idArray[1];
-        break;
-      }
-    } catch (IOException e) {
-      System.out.println("Error occurred while reading file.");
-    }
+    String save_id = getSaveId();
 
     sudokuPersistencePort.deleteSudoku(save_id);
 
@@ -137,4 +125,26 @@ class SudokuAdapterTest {
     return new Sudoku(id, new SudokuArray(gameField), Difficulty.EASY);
   }
 
+  private String getSaveId() {
+    String save_id = "";
+
+    try (BufferedReader br = new BufferedReader(new FileReader(Location.TEST.getLocation() + "SudokuStoreFile"))) {
+      String line = br.readLine();
+
+      while (line != null) {
+        if (!line.contains("SAVE_ID=")) {
+          line = br.readLine();
+          continue;
+        }
+
+        String[] idArray = line.split("=");
+        save_id = idArray[1];
+        return save_id;
+      }
+    } catch (IOException e) {
+      System.out.println("Error occurred while reading file.");
+    }
+
+    return save_id;
+  }
 }

@@ -3,8 +3,11 @@ package de.dhbw.karlsruhe.adapters;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
+import de.dhbw.karlsruhe.domain.wrappers.DateWrapper;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,10 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements SudokuPersistencePort {
 
@@ -64,22 +64,24 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
   }
 
   @Override
-  public List<Sudoku> getAllSudokus() {
-    List<Sudoku> sudokuList = new ArrayList<>();
+  public List<SudokuSaveEntry> getAllSudokus() {
+    List<SudokuSaveEntry> sudokuList = new ArrayList<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(SUDOKUFILENAME)))) {
       String line = br.readLine();
 
       while (line != null) {
-        if (line.contains("SAVE_ID=") || !line.contains("ID=")) {
+        if (!line.contains("SAVE_ID=")) {
           line = br.readLine();
           continue;
         }
         String[] idArray = line.split("=");
-        String tmpId = idArray[1];
-        line = br.readLine();
+        String foundSaveId = idArray[1];
+        String sudokuIdLine = br.readLine();
+        String difficultyLine = br.readLine();
 
-        sudokuList.add(new Sudoku(tmpId, readGameField(br), extractDifficulty(line)));
+        Sudoku foundSudoku = new Sudoku(readSudokuId(sudokuIdLine), readGameField(br), extractDifficulty(difficultyLine));
+        sudokuList.add(new SudokuSaveEntry(foundSaveId, foundSudoku, new DateWrapper()));
         line = br.readLine();
       }
     } catch (IOException e) {
@@ -102,33 +104,35 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
   }
 
   @Override
-  public Sudoku getSudoku(String id) {
+  public Optional<SudokuSaveEntry> getSudoku(String saveId) {
 
     try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(SUDOKUFILENAME)))) {
       String line = br.readLine();
 
       while (line != null) {
-        if (line.contains("SAVE_ID=") || !line.contains("ID=")) {
+        if (!line.contains("SAVE_ID=")) {
           line = br.readLine();
           continue;
         }
         String[] idArray = line.split("=");
-        String tmpId = idArray[1];
-        line = br.readLine();
-        if (id.equals(tmpId)) {
-          return new Sudoku(tmpId, readGameField(br), extractDifficulty(line));
+        String foundSaveId = idArray[1];
+        String sudokuLineId = br.readLine();
+        String difficultyLine = br.readLine();
+        if (saveId.equals(foundSaveId)) {
+          Sudoku foundSudoku = new Sudoku(readSudokuId(sudokuLineId), readGameField(br), extractDifficulty(difficultyLine));
+          return Optional.of(new SudokuSaveEntry(foundSaveId, foundSudoku, new DateWrapper()));
         }
         line = br.readLine();
       }
       System.out.println("Sudoku not found!");
     } catch (IOException e) {
-      return null;
+      return Optional.empty();
     }
-    return null;
+    return Optional.empty();
   }
 
   @Override
-  public void deleteSudoku(String id) {
+  public void deleteSudoku(String saveId) {
     File inFile = new File(getFullFilePath(SUDOKUFILENAME));
     File tmpFile = new File(inFile.getAbsolutePath() + ".tmp");
     try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(SUDOKUFILENAME)));
@@ -136,7 +140,7 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
 
       String line = br.readLine();
       while (line != null) {
-        if (!line.trim().equals("SAVE_ID=" + id)) {
+        if (!line.trim().equals("SAVE_ID=" + saveId)) {
           pw.println(line);
           pw.flush();
         } else {
@@ -179,4 +183,10 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
     }
     return tmpGameField;
   }
+
+  private String readSudokuId(String line) {
+    String[] idArray = line.split("=");
+    return idArray[1];
+  }
+
 }

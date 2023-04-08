@@ -3,6 +3,7 @@ package de.dhbw.karlsruhe.domain.services.dialogs;
 import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
@@ -87,7 +88,7 @@ public class MenuDialogService {
         playDialogService.startNewGame(selectedDifficulty);
         break;
       case 2:
-        Optional<Sudoku> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
+        Optional<SudokuSaveEntry> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
         if (selectedSudoku.isEmpty()) {
           System.out.println("No Sudoku selected!");
           break;
@@ -106,7 +107,7 @@ public class MenuDialogService {
     }
   }
 
-  private void playOrDeleteDialog(Sudoku sudoku) {
+  private void playOrDeleteDialog(SudokuSaveEntry sudoku) {
     System.out.println("Do you want to play or delete the sudoku?");
     System.out.println("[1] Play");
     System.out.println("[2] Delete");
@@ -115,9 +116,9 @@ public class MenuDialogService {
     if (IntegerWrapper.isInteger(entry)) {
       int value = Integer.parseInt(entry);
       if (value == 1) {
-        playDialogService.startSavedGame(sudoku);
+        playDialogService.startSavedGame(sudoku.getSudoku());
       } else if (value == 2) {
-        sudokuPersistencePort.deleteSudoku(sudoku.getId());
+        sudokuPersistencePort.deleteSudoku(sudoku.getSaveId());
       } else if (value == 3) {
         System.out.println("Canceled!");
       } else {
