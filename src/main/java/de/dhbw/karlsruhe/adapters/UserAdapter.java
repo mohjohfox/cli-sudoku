@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.adapters;
 
+import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.ports.UserPort;
 import java.io.BufferedReader;
@@ -13,6 +14,10 @@ import java.util.List;
 public class UserAdapter extends AbstractStoreAdapter implements UserPort {
 
   final String userFileName = "userStoreFile";
+
+  public UserAdapter(Location filePath) {
+    super(filePath);
+  }
 
   @Override
   public void saveUser(User user) {

@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.domain.services;
+package de.dhbw.karlsruhe.domain.services.dialogs;
 
 public class LeaderboardDialogService {
 

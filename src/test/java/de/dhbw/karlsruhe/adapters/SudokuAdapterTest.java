@@ -1,24 +1,71 @@
 package de.dhbw.karlsruhe.adapters;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
+import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
-import de.dhbw.karlsruhe.domain.ports.SudokuPort;
+import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuAdapterTest {
 
+  @AfterEach
+  void deleteFile() {
+    try {
+        Files.deleteIfExists(Path.of(Location.TEST.getLocation() + "SudokuStoreFile"));
+        } catch (IOException e) {
+        e.printStackTrace();
+    }
+  }
+
   @Test
   void saveSudokuTest() {
-    // Same Id for deleting Test
-    String id = "123";
+
+    Sudoku sudoku = generateSudoku();
+
+    SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.TEST);
+
+    sudokuPersistencePort.saveSudoku(sudoku);
+
+    String save_id = getSaveId();
+
+    Optional<SudokuSaveEntry> readSudoku = sudokuPersistencePort.getSudoku(save_id);
+
+    assertTrue(readSudoku.isPresent());
+    assertEquals(sudoku, readSudoku.get().getSudoku());
+  }
+
+  @Test
+  void deleteSudokuTest() {
+    SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.TEST);
+    Sudoku sudoku = generateSudoku();
+    sudokuPersistencePort.saveSudoku(sudoku);
+    String save_id = getSaveId();
+
+    sudokuPersistencePort.deleteSudoku(save_id);
+
+    try (BufferedReader br = new BufferedReader(new FileReader(Location.TEST.getLocation() + "SudokuStoreFile"))) {
+      assertNull(br.readLine());
+    } catch (IOException e) {
+      System.out.println("Error occurred while reading file.");
+    }
+
+  }
+
+  private Sudoku generateSudoku() {
+    String id = UUID.randomUUID().toString();
     int[][] gameField = new int[9][9];
 
     for (int i = 0; i < 9; i++) {
@@ -75,46 +122,29 @@ class SudokuAdapterTest {
     gameField[8][7] = 1;
     gameField[8][8] = 6;
 
-    Sudoku sudoku = new Sudoku(id, new SudokuArray(gameField), Difficulty.EASY);
-
-    SudokuPort sudokuPort = new SudokuAdapter();
-
-    sudokuPort.saveSudoku(sudoku);
-
-    Sudoku readSudoku = sudokuPort.getSudoku(id);
-
-    assertEquals(sudoku, readSudoku);
-
+    return new Sudoku(id, new SudokuArray(gameField), Difficulty.EASY);
   }
 
-  @Test
-  void deleteSudokuTest() {
-    SudokuPort sudokuPort = new SudokuAdapter();
-    sudokuPort.deleteSudoku("123");
+  private String getSaveId() {
+    String save_id = "";
 
-    try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/fileStore/SudokuStoreFile"))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(Location.TEST.getLocation() + "SudokuStoreFile"))) {
       String line = br.readLine();
 
       while (line != null) {
-        if (!line.contains("ID=")) {
+        if (!line.contains("SAVE_ID=")) {
           line = br.readLine();
           continue;
         }
 
         String[] idArray = line.split("=");
-        String tmpId = idArray[1];
-
-        if (tmpId.equals("123")) {
-          fail();
-        }
-
-        line = br.readLine();
+        save_id = idArray[1];
+        return save_id;
       }
-      assertTrue(true);
     } catch (IOException e) {
       System.out.println("Error occurred while reading file.");
     }
 
+    return save_id;
   }
-
 }

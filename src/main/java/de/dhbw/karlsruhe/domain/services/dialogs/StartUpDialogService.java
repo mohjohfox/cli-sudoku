@@ -1,12 +1,16 @@
-package de.dhbw.karlsruhe.domain.services;
+package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.User;
+import de.dhbw.karlsruhe.domain.services.LogoutService;
+import de.dhbw.karlsruhe.domain.services.ScannerService;
+import de.dhbw.karlsruhe.domain.services.UserService;
+
 import java.security.NoSuchAlgorithmException;
 
 public class StartUpDialogService {
 
-  private UserService userService;
-  private LogoutService logoutService;
+  private final UserService userService;
+  private final LogoutService logoutService;
 
   public StartUpDialogService() {
     userService = new UserService();

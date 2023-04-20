@@ -1,9 +1,15 @@
-package de.dhbw.karlsruhe.domain.services;
+package de.dhbw.karlsruhe.domain.services.dialogs;
 
+import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
+import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
+import de.dhbw.karlsruhe.domain.services.ScannerService;
+import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
+
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
@@ -13,9 +19,10 @@ public class PlayDialogService {
     private SudokuGeneratorTransformation sgTransformation = new SudokuGeneratorTransformation();
     private SudokuGeneratorBacktracking sgBacktracking = new SudokuGeneratorBacktracking();
     private SudokuValidatorService sudokuValidator = new SudokuValidatorService();
+    private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
     private Random rand = new Random();
 
-    public PlayDialogService(){
+    public PlayDialogService() {
         // Empty constructor for JSON parser
     }
 
@@ -27,25 +34,51 @@ public class PlayDialogService {
             System.out.println("Backtracking sudoku generated:");
             sudoku = sgBacktracking.generateSudoku(dif);
         }
+        startGame();
+    }
+
+    public void startSavedGame(Sudoku loadedSudoku) {
+        sudoku = loadedSudoku;
+        startGame();
+    }
+
+    private void startGame() {
         System.out.println("Enter numbers by writing: W:[Row],[Column],[Value]");
         System.out.println("Example: W:3,4,9");
         System.out.println("To remove a number write: R:[Row],[Column]");
         System.out.println("Example: R:3,4");
         System.out.println("Initially filled fields can't be removed.");
+        System.out.println("To abort and save the status of a game press: A");
+        System.out.println("To exit the game press: E");
+
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
             sudoku.getGameField().print();
-            userInputDialog();
+            if (!userInputDialog()) {
+                break;
+            }
         }
     }
 
-    private void userInputDialog() {
+    private boolean userInputDialog() {
         String input = ScannerService.getScanner().nextLine();
+
         while (!inputCorrect(input)) {
             System.out.println("The input did not match the input format.");
             System.out.println("Enter numbers by writing: W:[Row],[Column],[Value]");
             System.out.println("To remove a number write: R:[Row],[Column]");
             input = ScannerService.getScanner().nextLine();
         }
+
+        if (isAbortAction(input)) {
+            sudokuPersistencePort.saveSudoku(sudoku);
+            System.out.println("Game saved.");
+            return false;
+        }
+
+        if (isExitAction(input)) {
+            return false;
+        }
+
         String[] getAction = input.split(":");
 
         int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
@@ -60,10 +93,13 @@ public class PlayDialogService {
         if (!actionSuccessful){
             System.out.println("The field "+ getAction[1]+" could not be set, because it is a default field.");
         }
+        return true;
     }
 
     private boolean inputCorrect(String input) {
-        if (! input.contains(":")){
+        if (isAbortAction(input) || isExitAction(input)) {
+            return true;
+        } else if (!input.contains(":")){
             return false;
         }
         String[] getAction = input.split(":");
@@ -90,19 +126,27 @@ public class PlayDialogService {
         return true;
     }
 
-    private static boolean isWriteAction(String action) {
+    private boolean isAbortAction(String action) {
+        return action.equalsIgnoreCase("A");
+    }
+
+    private boolean isExitAction(String action) {
+        return action.equalsIgnoreCase("E");
+    }
+
+    private boolean isWriteAction(String action) {
         return Objects.equals(action, "W");
     }
 
-    private static boolean isRemoveAction(String action) {
+    private boolean isRemoveAction(String action) {
         return Objects.equals(action, "R");
     }
 
-    private static boolean isValidAmountOfDigits(int[] splitInput) {
+    private boolean isValidAmountOfDigits(int[] splitInput) {
         return splitInput.length == 3;
     }
 
-    private static boolean isValidAction(String action) {
+    private boolean isValidAction(String action) {
         return action.equals("W") || action.equals("R");
     }
 

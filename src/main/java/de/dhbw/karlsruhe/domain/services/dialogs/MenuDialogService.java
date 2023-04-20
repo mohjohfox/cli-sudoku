@@ -1,17 +1,30 @@
-package de.dhbw.karlsruhe.domain.services;
+package de.dhbw.karlsruhe.domain.services.dialogs;
 
+import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
+import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
+import de.dhbw.karlsruhe.domain.services.LogoutService;
+import de.dhbw.karlsruhe.domain.services.ScannerService;
 
 import java.util.InputMismatchException;
+import java.util.Optional;
 
 public class MenuDialogService {
 
   private int userInput;
   private LeaderboardDialogService leaderboardDialogService;
+  private SudokuSelectionDialog sudokuSelectionDialog;
+  private PlayDialogService playDialogService;
   private LogoutService logoutService;
+  private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
 
   public enum MenuOptions {
     PLAY("Play"),
+    SAVED_SUDOKUS("Show saved Sudokus"),
     LEADERBOARD("Leaderboard"),
     LOGOUT("Logout");
 
@@ -27,6 +40,8 @@ public class MenuDialogService {
   }
 
   public MenuDialogService() {
+    this.sudokuSelectionDialog = new SudokuSelectionDialog();
+    this.playDialogService = new PlayDialogService();
     this.logoutService = new LogoutService();
   }
 
@@ -70,19 +85,46 @@ public class MenuDialogService {
 
         Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
         System.out.println(selectedDifficulty.toString() + " was selected!");
-
-        PlayDialogService playDialogService = new PlayDialogService();
         playDialogService.startNewGame(selectedDifficulty);
         break;
       case 2:
+        Optional<SudokuSaveEntry> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
+        if (selectedSudoku.isEmpty()) {
+          System.out.println("No Sudoku selected!");
+          break;
+        }
+        selectedSudoku.ifPresent(this::playOrDeleteDialog);
+        break;
+      case 3:
         this.leaderboardDialogService = new LeaderboardDialogService();
         this.leaderboardDialogService.startLeaderboardDialog();
         break;
-      case 3:
+      case 4:
         this.logoutService.logout();
         break;
       default:
         System.out.println("Invalid Option - Please choose an offered one!");
     }
   }
+
+  private void playOrDeleteDialog(SudokuSaveEntry sudoku) {
+    System.out.println("Do you want to play or delete the sudoku?");
+    System.out.println("[1] Play");
+    System.out.println("[2] Delete");
+    System.out.println("[3] Cancel");
+    String entry = ScannerService.getScanner().nextLine();
+    if (IntegerWrapper.isInteger(entry)) {
+      int value = Integer.parseInt(entry);
+      if (value == 1) {
+        playDialogService.startSavedGame(sudoku.getSudoku());
+      } else if (value == 2) {
+        sudokuPersistencePort.deleteSudoku(sudoku.getSaveId());
+      } else if (value == 3) {
+        System.out.println("Canceled!");
+      } else {
+        System.out.println("Invalid input!");
+      }
+    }
+  }
+
 }

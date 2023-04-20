@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.domain.services;
+package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import java.util.Scanner;

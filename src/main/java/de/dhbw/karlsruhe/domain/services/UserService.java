@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.domain.services;
 
 import de.dhbw.karlsruhe.adapters.UserAdapter;
+import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.ports.UserPort;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +11,7 @@ import java.util.regex.Pattern;
 public class UserService {
 
   private final EncryptionService encryptionService = new EncryptionService();
-  private final UserPort userPort = new UserAdapter();
+  private final UserPort userPort = new UserAdapter(Location.PROD);
 
   public void saveUser(User user) {
     userPort.saveUser(user);
