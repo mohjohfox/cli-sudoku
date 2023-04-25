@@ -17,7 +17,7 @@ public class DependencyFactory {
         return instance;
     }
 
-    public void RegisterDependency(Object o) {
+    public void registerDependency(Object o) {
         dependencies.add(o);
     }
 

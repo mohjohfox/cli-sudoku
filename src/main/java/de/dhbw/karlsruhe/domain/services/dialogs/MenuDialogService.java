@@ -4,6 +4,8 @@ import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
@@ -40,9 +42,9 @@ public class MenuDialogService {
   }
 
   public MenuDialogService() {
-    this.sudokuSelectionDialog = new SudokuSelectionDialog();
-    this.playDialogService = new PlayDialogService();
-    this.logoutService = new LogoutService();
+    this.sudokuSelectionDialog = DependencyFactory.getInstance().getDependency(SudokuSelectionDialog.class);;
+    this.playDialogService = DependencyFactory.getInstance().getDependency(PlayDialogService.class);;
+    this.logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
   }
 
   public void startMenuDialog() {
@@ -81,7 +83,7 @@ public class MenuDialogService {
   private void checkUserInput(int pUserInput) {
     switch (pUserInput) {
       case 1:
-        DifficultySelectionDialogService difficultySelectionDialogService = new DifficultySelectionDialogService();
+        DifficultySelectionDialogService difficultySelectionDialogService = DependencyFactory.getInstance().getDependency(DifficultySelectionDialogService.class);
 
         Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
         System.out.println(selectedDifficulty.toString() + " was selected!");
@@ -96,7 +98,7 @@ public class MenuDialogService {
         selectedSudoku.ifPresent(this::playOrDeleteDialog);
         break;
       case 3:
-        this.leaderboardDialogService = new LeaderboardDialogService();
+        this.leaderboardDialogService = DependencyFactory.getInstance().getDependency(LeaderboardDialogService.class);
         this.leaderboardDialogService.startLeaderboardDialog();
         break;
       case 4:

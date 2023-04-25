@@ -4,9 +4,12 @@ import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuTransformator;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.ScannerService;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
@@ -16,9 +19,9 @@ import java.util.Random;
 
 public class PlayDialogService {
     private Sudoku sudoku;
-    private SudokuGeneratorTransformation sgTransformation = new SudokuGeneratorTransformation();
-    private SudokuGeneratorBacktracking sgBacktracking = new SudokuGeneratorBacktracking();
-    private SudokuValidatorService sudokuValidator = new SudokuValidatorService();
+    private SudokuGeneratorTransformation sgTransformation = DependencyFactory.getInstance().getDependency(SudokuGeneratorTransformation.class);
+    private SudokuGeneratorBacktracking sgBacktracking = DependencyFactory.getInstance().getDependency(SudokuGeneratorBacktracking.class);
+    private SudokuValidatorService sudokuValidator = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
     private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
     private Random rand = new Random();
 

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class UserService {
 
-  private final EncryptionService encryptionService = new EncryptionService();
+  private final EncryptionService encryptionService = DependencyFactory.getInstance().getDependency(EncryptionService.class);;
   private final UserPort userPort = new UserAdapter(Location.PROD);
 
   public void saveUser(User user) {

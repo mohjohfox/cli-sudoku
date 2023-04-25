@@ -20,7 +20,6 @@ public class DifficultySelectionDialogService {
         .forEach(d -> difficultyDialog.append(d.getName()).append(" (")
             .append(d.getShortDifficultyName()).append(") "));
     DependencyFactory.getInstance().getDependency(CliOutputPort.class).write(difficultyDialog.toString());
-    //System.out.println(difficultyDialog);
 
     return successfulSelection();
   }

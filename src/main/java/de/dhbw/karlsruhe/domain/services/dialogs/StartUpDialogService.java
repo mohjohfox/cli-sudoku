@@ -1,6 +1,8 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.User;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
 import de.dhbw.karlsruhe.domain.services.ScannerService;
 import de.dhbw.karlsruhe.domain.services.UserService;
@@ -13,8 +15,8 @@ public class StartUpDialogService {
   private final LogoutService logoutService;
 
   public StartUpDialogService() {
-    userService = new UserService();
-    logoutService = new LogoutService();
+    userService = DependencyFactory.getInstance().getDependency(UserService.class);;
+    logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
   }
 
   public void signIn() {
