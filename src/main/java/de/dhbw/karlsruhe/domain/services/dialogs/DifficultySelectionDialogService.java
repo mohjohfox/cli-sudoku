@@ -1,6 +1,9 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
+
 import java.util.Scanner;
 
 public class DifficultySelectionDialogService {
@@ -16,7 +19,8 @@ public class DifficultySelectionDialogService {
     Difficulty.stream()
         .forEach(d -> difficultyDialog.append(d.getName()).append(" (")
             .append(d.getShortDifficultyName()).append(") "));
-    System.out.println(difficultyDialog);
+    DependencyFactory.getInstance().getDependency(CliOutputPort.class).write(difficultyDialog.toString());
+    //System.out.println(difficultyDialog);
 
     return successfulSelection();
   }
