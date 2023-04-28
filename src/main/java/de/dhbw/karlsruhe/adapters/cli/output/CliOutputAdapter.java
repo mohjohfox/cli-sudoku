@@ -1,8 +1,6 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
-import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
-import de.dhbw.karlsruhe.domain.ports.SudokuPrintPort;
 
 public class CliOutputAdapter implements CliOutputPort {
 
