@@ -8,7 +8,9 @@ import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuTransformator;
+import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
+import de.dhbw.karlsruhe.domain.ports.SudokuPrintPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.ScannerService;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
@@ -24,6 +26,8 @@ public class PlayDialogService {
     private SudokuValidatorService sudokuValidator = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
     private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
     private Random rand = new Random();
+    private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
+    private final SudokuPrintPort sudokuPrintPort = DependencyFactory.getInstance().getDependency(SudokuPrintPort.class);
 
     public PlayDialogService() {
         // Empty constructor for JSON parser
@@ -31,10 +35,10 @@ public class PlayDialogService {
 
     public void startNewGame(Difficulty dif) {
         if (rand.nextInt()<0.5){
-            System.out.println("Transformed sudoku generated:");
+            cliOutputPort.write("Transformed sudoku generated:");
             sudoku = sgTransformation.generateSudoku(dif);
         } else {
-            System.out.println("Backtracking sudoku generated:");
+            cliOutputPort.write("Backtracking sudoku generated:");
             sudoku = sgBacktracking.generateSudoku(dif);
         }
         startGame();
@@ -46,16 +50,16 @@ public class PlayDialogService {
     }
 
     private void startGame() {
-        System.out.println("Enter numbers by writing: W:[Row],[Column],[Value]");
-        System.out.println("Example: W:3,4,9");
-        System.out.println("To remove a number write: R:[Row],[Column]");
-        System.out.println("Example: R:3,4");
-        System.out.println("Initially filled fields can't be removed.");
-        System.out.println("To abort and save the status of a game press: A");
-        System.out.println("To exit the game press: E");
+        cliOutputPort.write("Enter numbers by writing: W:[Row],[Column],[Value]");
+        cliOutputPort.write("Example: W:3,4,9");
+        cliOutputPort.write("To remove a number write: R:[Row],[Column]");
+        cliOutputPort.write("Example: R:3,4");
+        cliOutputPort.write("Initially filled fields can't be removed.");
+        cliOutputPort.write("To abort and save the status of a game press: A");
+        cliOutputPort.write("To exit the game press: E");
 
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
-            sudoku.getGameField().print();
+            sudokuPrintPort.print(sudoku.getGameField());
             if (!userInputDialog()) {
                 break;
             }
@@ -66,15 +70,15 @@ public class PlayDialogService {
         String input = ScannerService.getScanner().nextLine();
 
         while (!inputCorrect(input)) {
-            System.out.println("The input did not match the input format.");
-            System.out.println("Enter numbers by writing: W:[Row],[Column],[Value]");
-            System.out.println("To remove a number write: R:[Row],[Column]");
+            cliOutputPort.write("The input did not match the input format.");
+            cliOutputPort.write("Enter numbers by writing: W:[Row],[Column],[Value]");
+            cliOutputPort.write("To remove a number write: R:[Row],[Column]");
             input = ScannerService.getScanner().nextLine();
         }
 
         if (isAbortAction(input)) {
             sudokuPersistencePort.saveSudoku(sudoku);
-            System.out.println("Game saved.");
+            cliOutputPort.write("Game saved.");
             return false;
         }
 
@@ -94,7 +98,7 @@ public class PlayDialogService {
             actionSuccessful = sudoku.setField(splitInput[0]-1, splitInput[1]-1, 0);
         }
         if (!actionSuccessful){
-            System.out.println("The field "+ getAction[1]+" could not be set, because it is a default field.");
+            cliOutputPort.write("The field "+ getAction[1]+" could not be set, because it is a default field.");
         }
         return true;
     }

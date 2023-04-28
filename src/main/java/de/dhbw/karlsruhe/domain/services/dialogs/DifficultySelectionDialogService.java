@@ -9,9 +9,11 @@ import java.util.Scanner;
 public class DifficultySelectionDialogService {
 
   private final Scanner scanner;
+  private final CliOutputPort cliOutputPort;
 
   public DifficultySelectionDialogService() {
     scanner = new Scanner(System.in);
+    cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
   }
 
   public Difficulty selectDifficulty() {
@@ -35,7 +37,7 @@ public class DifficultySelectionDialogService {
           .findFirst()
           .orElse(null);
       if (selectedDifficulty == null) {
-        System.out.println("The input did not equal a difficulty. Please try again!");
+        cliOutputPort.write("The input did not equal a difficulty. Please try again!");
       }
     }
 

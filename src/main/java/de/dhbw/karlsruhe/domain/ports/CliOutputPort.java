@@ -4,4 +4,6 @@ public interface CliOutputPort {
 
     void write(String message);
 
+    void writeEmptyLine();
+
 }
