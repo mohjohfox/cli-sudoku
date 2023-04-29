@@ -2,6 +2,7 @@ package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.DifficultySelectionCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 import java.util.Scanner;
@@ -9,11 +10,11 @@ import java.util.Scanner;
 public class DifficultySelectionDialogService {
 
   private final Scanner scanner;
-  private final CliOutputPort cliOutputPort;
+  private final DifficultySelectionCliPort cliOutputPort;
 
   public DifficultySelectionDialogService() {
     scanner = new Scanner(System.in);
-    cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
+    cliOutputPort = DependencyFactory.getInstance().getDependency(DifficultySelectionCliPort.class);
   }
 
   public Difficulty selectDifficulty() {
@@ -37,7 +38,7 @@ public class DifficultySelectionDialogService {
           .findFirst()
           .orElse(null);
       if (selectedDifficulty == null) {
-        cliOutputPort.write("The input did not equal a difficulty. Please try again!");
+        cliOutputPort.writeNoEqualDifficulty();
       }
     }
 

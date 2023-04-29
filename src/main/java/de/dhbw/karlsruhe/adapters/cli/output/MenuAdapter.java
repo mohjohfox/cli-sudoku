@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.MenuOptions;
 import de.dhbw.karlsruhe.domain.ports.MenuCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
@@ -24,7 +25,7 @@ public class MenuAdapter implements MenuCliPort {
     }
 
     @Override
-    public void writeDifficultyMessage(Difficulty difficulty) {
+    public void writeSelectionDifficultyMessage(Difficulty difficulty) {
         cliOutputPort.write(difficulty.toString() + " was selected!");
     }
 
@@ -39,8 +40,10 @@ public class MenuAdapter implements MenuCliPort {
     }
 
     @Override
-    public void writePlayOrDeleteMessage() {
-
+    public void writeMenuOptions() {
+        for (int i = 0; i < MenuOptions.values().length; i++) {
+            cliOutputPort.write("[" + (i + 1) + "] " + MenuOptions.values()[i].getRepresentation());
+        }
     }
 
     @Override

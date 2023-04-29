@@ -3,6 +3,7 @@ package de.dhbw.karlsruhe.domain.services.dialogs;
 import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
 import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.StartUpCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
 import de.dhbw.karlsruhe.domain.services.ScannerService;
@@ -14,19 +15,19 @@ public class StartUpDialogService {
 
   private final UserService userService;
   private final LogoutService logoutService;
-  private final CliOutputPort cliOutputPort;
+  private final StartUpCliPort cliOutputPort;
 
   public StartUpDialogService() {
     userService = DependencyFactory.getInstance().getDependency(UserService.class);;
     logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
-    cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
+    cliOutputPort = DependencyFactory.getInstance().getDependency(StartUpCliPort.class);
   }
 
   public void signIn() {
     boolean successfulSignedIn = false;
 
     while (!successfulSignedIn) {
-      cliOutputPort.write("Do you already have an account? y/n");
+      cliOutputPort.writeAskForLogin();
       String input = ScannerService.getScanner().nextLine();
       successfulSignedIn = signInProcess(input);
     }
@@ -44,17 +45,16 @@ public class StartUpDialogService {
       }
       return loginProcess();
     } catch (NoSuchAlgorithmException e) {
-      System.err.println("Oh! It seems that an error has occurred.");
-      System.err.println(e.getMessage());
+      cliOutputPort.writeErrorMessage(e);
       return false;
     }
   }
 
   private void printLoginFeedback(boolean loginSuccessful) {
     if (loginSuccessful) {
-      cliOutputPort.write("Login was successful!");
+      cliOutputPort.writeLoginSuccessMessage();
     } else {
-      cliOutputPort.write("Username or password is wrong!");
+      cliOutputPort.writeErrorDuringLoginMessage();
     }
   }
 
@@ -64,16 +64,16 @@ public class StartUpDialogService {
       printRegistrationFeedback(registrationSuccessful);
       return registrationSuccessful;
     } catch (NoSuchAlgorithmException e) {
-      System.err.println("Registration error occurred.");
+      cliOutputPort.writeErrorDuringRegistrationMessage();
       return false;
     }
   }
 
   private void printRegistrationFeedback(boolean registrationSuccessful) {
     if (registrationSuccessful) {
-      cliOutputPort.write("Registration was successful. Please login now!");
+      cliOutputPort.writeSuccessRegistrationMessage();
     } else {
-      cliOutputPort.write("Registration failed!");
+      cliOutputPort.writeFailedRegistrationMessage();
     }
   }
 
@@ -96,26 +96,26 @@ public class StartUpDialogService {
       } else if (userInput.equals("n") || userInput.equals("no")) {
         return false;
       }
-      cliOutputPort.write("Please type \"y\" if you want to login or \"n\" if you want to register a new account.");
+      cliOutputPort.writeAskForLoginOrRegistration();
       userInput = ScannerService.getScanner().nextLine();
     } while (true);
   }
 
   private User loginDialog() {
-    cliOutputPort.write("Please enter your username: ");
+    cliOutputPort.writePromptUserName();
     String userName = ScannerService.getScanner().nextLine();
 
-    cliOutputPort.write("Please enter your password: ");
+    cliOutputPort.writePromptPassword();
     String password = ScannerService.getScanner().nextLine();
 
     return new User(userName, password);
   }
 
   private User registerDialog() {
-    cliOutputPort.write("Please enter a username: ");
+    cliOutputPort.writePromptUserName();
     String userName = ScannerService.getScanner().nextLine();
 
-    cliOutputPort.write("Please enter a password: ");
+    cliOutputPort.writePromptPassword();
     String password = ScannerService.getScanner().nextLine();
 
     return new User(userName, password);

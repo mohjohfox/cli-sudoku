@@ -4,6 +4,7 @@ import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.SudokuSelectionCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
@@ -16,16 +17,16 @@ import java.util.Optional;
 public class SudokuSelectionDialog {
 
     private final SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
-    private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
+    private final SudokuSelectionCliPort cliOutputPort = DependencyFactory.getInstance().getDependency(SudokuSelectionCliPort.class);
 
     public Optional<SudokuSaveEntry> selectSudokuDialog() {
         List<SudokuSaveEntry> sudokus = sudokuPersistencePort.getAllSudokus();
         printAll(sudokus);
         if (sudokus.isEmpty()) {
-            cliOutputPort.write("No sudokus found!");
+            cliOutputPort.writeNoSudokuFoundMessage();
             return Optional.empty();
         }
-        cliOutputPort.write("Please select a sudoku:");
+        cliOutputPort.writePromptSudoku();
         String entry = ScannerService.getScanner().nextLine();
         if (IntegerWrapper.isInteger(entry)) {
             return selectSudoku(Integer.parseInt(entry), sudokus);
@@ -34,13 +35,7 @@ public class SudokuSelectionDialog {
     }
 
     private void printAll(List<SudokuSaveEntry> sudokus) {
-        int i = 1;
-        for (SudokuSaveEntry sudoku : sudokus) {
-            cliOutputPort.write(i + ": Save with id: " + sudoku.getSaveId());
-            cliOutputPort.write("Sudoku: " + sudoku.getSudoku().getId());
-            cliOutputPort.writeEmptyLine();
-            i++;
-        }
+        cliOutputPort.writeAllSudokus(sudokus);
     }
 
     private Optional<SudokuSaveEntry> selectSudoku(int value, List<SudokuSaveEntry> sudokus) {

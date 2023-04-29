@@ -1,23 +1,24 @@
 package de.dhbw.karlsruhe.domain.services;
 
 import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.LogoutCliPort;
 
 public class LogoutService {
 
   private boolean signedIn;
   private boolean logoutDesired;
-  private CliOutputPort cliOutputPort;
+  private LogoutCliPort cliOutputPort;
 
   public LogoutService() {
     this.signedIn = false;
     this.logoutDesired = false;
-    this.cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
+    this.cliOutputPort = DependencyFactory.getInstance().getDependency(LogoutCliPort.class);
   }
 
   public void logout() {
     this.signedIn = false;
     this.logoutDesired = true;
-    cliOutputPort.write("You have successfully logged out!");
+    cliOutputPort.writeLogoutMessage();
   }
 
   public boolean getSignedIn() {
@@ -37,8 +38,7 @@ public class LogoutService {
   }
 
   public boolean checkDesireToRun() {
-    cliOutputPort.write("----------------------------------------");
-    cliOutputPort.write("Do you want to re login? y/n");
+    cliOutputPort.writeReloginMessage();
 
     String userInput = ScannerService.getScanner().nextLine();
 
@@ -49,7 +49,7 @@ public class LogoutService {
       } else if (userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("no")) {
         return false;
       }
-      cliOutputPort.write("Please type \"y\" if you want to login or \"n\" if you want to end the application");
+      cliOutputPort.writeExitMessage();
       userInput = ScannerService.getScanner().nextLine();
     }
   }

@@ -9,6 +9,7 @@ import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuTransformator;
 import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.PlayCliPort;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.ports.SudokuPrintPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
@@ -26,7 +27,7 @@ public class PlayDialogService {
     private SudokuValidatorService sudokuValidator = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
     private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
     private Random rand = new Random();
-    private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
+    private final PlayCliPort cliOutputPort = DependencyFactory.getInstance().getDependency(PlayCliPort.class);
     private final SudokuPrintPort sudokuPrintPort = DependencyFactory.getInstance().getDependency(SudokuPrintPort.class);
 
     public PlayDialogService() {
@@ -35,10 +36,10 @@ public class PlayDialogService {
 
     public void startNewGame(Difficulty dif) {
         if (rand.nextInt()<0.5){
-            cliOutputPort.write("Transformed sudoku generated:");
+            cliOutputPort.writeTransformedSudoku();
             sudoku = sgTransformation.generateSudoku(dif);
         } else {
-            cliOutputPort.write("Backtracking sudoku generated:");
+            cliOutputPort.writeBacktrackingSudoku();
             sudoku = sgBacktracking.generateSudoku(dif);
         }
         startGame();
@@ -50,13 +51,7 @@ public class PlayDialogService {
     }
 
     private void startGame() {
-        cliOutputPort.write("Enter numbers by writing: W:[Row],[Column],[Value]");
-        cliOutputPort.write("Example: W:3,4,9");
-        cliOutputPort.write("To remove a number write: R:[Row],[Column]");
-        cliOutputPort.write("Example: R:3,4");
-        cliOutputPort.write("Initially filled fields can't be removed.");
-        cliOutputPort.write("To abort and save the status of a game press: A");
-        cliOutputPort.write("To exit the game press: E");
+        cliOutputPort.writeStartGameMessages();
 
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
             sudokuPrintPort.print(sudoku.getGameField());
@@ -70,15 +65,13 @@ public class PlayDialogService {
         String input = ScannerService.getScanner().nextLine();
 
         while (!inputCorrect(input)) {
-            cliOutputPort.write("The input did not match the input format.");
-            cliOutputPort.write("Enter numbers by writing: W:[Row],[Column],[Value]");
-            cliOutputPort.write("To remove a number write: R:[Row],[Column]");
+            cliOutputPort.writeInputErrorMessage();
             input = ScannerService.getScanner().nextLine();
         }
 
         if (isAbortAction(input)) {
             sudokuPersistencePort.saveSudoku(sudoku);
-            cliOutputPort.write("Game saved.");
+            cliOutputPort.writeGameSavedMessage();
             return false;
         }
 
@@ -98,7 +91,7 @@ public class PlayDialogService {
             actionSuccessful = sudoku.setField(splitInput[0]-1, splitInput[1]-1, 0);
         }
         if (!actionSuccessful){
-            cliOutputPort.write("The field "+ getAction[1]+" could not be set, because it is a default field.");
+            cliOutputPort.writeDefaultFieldErrorMessage(getAction[1]);
         }
         return true;
     }

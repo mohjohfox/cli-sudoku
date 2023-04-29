@@ -4,6 +4,7 @@ import de.dhbw.karlsruhe.adapters.UserAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.UserCliPort;
 import de.dhbw.karlsruhe.domain.ports.UserPort;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
 public class UserService {
 
   private final EncryptionService encryptionService = DependencyFactory.getInstance().getDependency(EncryptionService.class);
-  private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
+  private final UserCliPort cliOutputPort = DependencyFactory.getInstance().getDependency(UserCliPort.class);
   private final UserPort userPort = new UserAdapter(Location.PROD);
 
   public void saveUser(User user) {
@@ -26,7 +27,7 @@ public class UserService {
       saveUser(new User(createUser.getUserName(), encryptPassword));
       return true;
     } else {
-      cliOutputPort.write("Username is already assigned or username / password contains forbidden characters!");
+      cliOutputPort.writeErrorMessage();
       return false;
     }
 

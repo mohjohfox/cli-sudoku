@@ -5,7 +5,7 @@ import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.MenuOptions;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
-import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.MenuCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
@@ -23,13 +23,13 @@ public class MenuDialogService {
   private PlayDialogService playDialogService;
   private LogoutService logoutService;
   private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
-  private final CliOutputPort cliOutputPort;
+  private final MenuCliPort cliOutputPort;
 
   public MenuDialogService() {
     this.sudokuSelectionDialog = DependencyFactory.getInstance().getDependency(SudokuSelectionDialog.class);;
     this.playDialogService = DependencyFactory.getInstance().getDependency(PlayDialogService.class);;
     this.logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
-    this.cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
+    this.cliOutputPort = DependencyFactory.getInstance().getDependency(MenuCliPort.class);
   }
 
   public void startMenuDialog() {
@@ -41,24 +41,22 @@ public class MenuDialogService {
   }
 
   private void displayMenuOptions() {
-    cliOutputPort.write("Welcome to your favorite cli Sudoku :)");
-    for (int i = 0; i < MenuOptions.values().length; i++) {
-      cliOutputPort.write("[" + (i + 1) + "] " + MenuOptions.values()[i].getRepresentation());
-    }
+    cliOutputPort.writeWelcomeMessage();
+    cliOutputPort.writeMenuOptions();
   }
 
   private int awaitUserInput() {
-    cliOutputPort.write("Please choose an option by entering a number!");
+    cliOutputPort.writeOptionMessage();
     int input = -1;
     while (input == -1) {
       try {
         input = Integer.parseInt(ScannerService.getScanner().nextLine());
         if (!(input > 0 && input <= MenuOptions.values().length)) {
           input = -1;
-          cliOutputPort.write("Invalid Input - Please enter a valid number!");
+          cliOutputPort.writeOptionErrorMessage();
         }
       } catch (InputMismatchException ie) {
-        cliOutputPort.write("Invalid Input - Please enter a valid number!");
+        cliOutputPort.writeOptionErrorMessage();
         ScannerService.getScanner().next();
       }
     }
@@ -71,13 +69,13 @@ public class MenuDialogService {
         DifficultySelectionDialogService difficultySelectionDialogService = DependencyFactory.getInstance().getDependency(DifficultySelectionDialogService.class);
 
         Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
-        cliOutputPort.write(selectedDifficulty.toString() + " was selected!");
+        cliOutputPort.writeSelectionDifficultyMessage(selectedDifficulty);
         playDialogService.startNewGame(selectedDifficulty);
         break;
       case 2:
         Optional<SudokuSaveEntry> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
         if (selectedSudoku.isEmpty()) {
-          cliOutputPort.write("No Sudoku selected!");
+          cliOutputPort.writeNoSudokuSelected();
           break;
         }
         selectedSudoku.ifPresent(this::playOrDeleteDialog);
@@ -90,15 +88,12 @@ public class MenuDialogService {
         this.logoutService.logout();
         break;
       default:
-        cliOutputPort.write("Invalid Option - Please choose an offered one!");
+        cliOutputPort.writeInvalidOption();
     }
   }
 
   private void playOrDeleteDialog(SudokuSaveEntry sudoku) {
-    cliOutputPort.write("Do you want to play or delete the sudoku?");
-    cliOutputPort.write("[1] Play");
-    cliOutputPort.write("[2] Delete");
-    cliOutputPort.write("[3] Cancel");
+    cliOutputPort.writePlayOrDeleteOptions();
     String entry = ScannerService.getScanner().nextLine();
     if (IntegerWrapper.isInteger(entry)) {
       int value = Integer.parseInt(entry);
@@ -107,9 +102,9 @@ public class MenuDialogService {
       } else if (value == 2) {
         sudokuPersistencePort.deleteSudoku(sudoku.getSaveId());
       } else if (value == 3) {
-        cliOutputPort.write("Canceled!");
+        cliOutputPort.writeCancelMessage();
       } else {
-        cliOutputPort.write("Invalid input!");
+        cliOutputPort.writePlayOrDeleteErrorMessage();
       }
     }
   }

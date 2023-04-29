@@ -10,13 +10,13 @@ public interface MenuCliPort {
 
     void writeOptionErrorMessage();
 
-    void writeDifficultyMessage(Difficulty difficulty);
+    void writeSelectionDifficultyMessage(Difficulty difficulty);
+
+    void writeMenuOptions();
 
     void writeNoSudokuSelected();
 
     void writeInvalidOption();
-
-    void writePlayOrDeleteMessage();
 
     void writePlayOrDeleteOptions();
 
