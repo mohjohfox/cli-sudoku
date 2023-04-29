@@ -2,7 +2,7 @@ package de.dhbw.karlsruhe.domain.ports;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 
-public interface MenugCliPort {
+public interface MenuCliPort {
 
     void writeWelcomeMessage();
 
