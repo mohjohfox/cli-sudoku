@@ -1,9 +1,9 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
-import de.dhbw.karlsruhe.domain.ports.PlayCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.PlayCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-public class PlayAdapter implements PlayCliPort {
+public class PlayCliAdapter implements PlayCliPort {
 
     private final CliOutputAdapter cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputAdapter.class);
 

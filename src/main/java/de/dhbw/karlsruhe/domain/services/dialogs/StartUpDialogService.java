@@ -1,9 +1,7 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.User;
-import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
-import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
-import de.dhbw.karlsruhe.domain.ports.StartUpCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.StartUpCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
 import de.dhbw.karlsruhe.domain.services.ScannerService;

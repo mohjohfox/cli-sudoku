@@ -1,7 +1,6 @@
-package de.dhbw.karlsruhe;
+package de.dhbw.karlsruhe.adapters;
 
-import de.dhbw.karlsruhe.adapters.cli.output.CliOutputAdapter;
-import de.dhbw.karlsruhe.adapters.cli.output.SudokuOutputAdapter;
+import de.dhbw.karlsruhe.adapters.cli.output.*;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
@@ -32,7 +31,15 @@ public class Main {
     DependencyFactory dependencyFactory = DependencyFactory.getInstance();
     dependencyFactory.registerDependency(new EncryptionService());
     dependencyFactory.registerDependency(new CliOutputAdapter());
-    dependencyFactory.registerDependency(new SudokuOutputAdapter());
+    dependencyFactory.registerDependency(new DifficultySelectionCliAdapter());
+    dependencyFactory.registerDependency(new LeaderboardCliAdapter());
+    dependencyFactory.registerDependency(new LogoutCliAdapter());
+    dependencyFactory.registerDependency(new MenuCliAdapter());
+    dependencyFactory.registerDependency(new PlayCliAdapter());
+    dependencyFactory.registerDependency(new StartUpCliAdapter());
+    dependencyFactory.registerDependency(new SudokuSelectionCliAdapter());
+    dependencyFactory.registerDependency(new UserCliAdapter());
+    dependencyFactory.registerDependency(new SudokuOutputCliAdapter());
     dependencyFactory.registerDependency(new SudokuSelectionDialog());
     dependencyFactory.registerDependency(new UserService());
     dependencyFactory.registerDependency(new SudokuGeneratorBacktracking());

@@ -1,9 +1,9 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
-import de.dhbw.karlsruhe.domain.ports.DifficultySelectionCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.DifficultySelectionCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-public class DifficultySelectionAdapter implements DifficultySelectionCliPort {
+public class DifficultySelectionCliAdapter implements DifficultySelectionCliPort {
 
     private final CliOutputAdapter cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputAdapter.class);
 

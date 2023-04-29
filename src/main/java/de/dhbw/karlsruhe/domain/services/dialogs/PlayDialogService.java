@@ -1,17 +1,14 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
-import de.dhbw.karlsruhe.domain.models.generation.SudokuTransformator;
-import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
-import de.dhbw.karlsruhe.domain.ports.PlayCliPort;
-import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
-import de.dhbw.karlsruhe.domain.ports.SudokuPrintPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.PlayCliPort;
+import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuPrintPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.ScannerService;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;

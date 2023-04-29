@@ -1,8 +1,8 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
-import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
-import de.dhbw.karlsruhe.domain.ports.DifficultySelectionCliPort;
+import de.dhbw.karlsruhe.adapters.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.DifficultySelectionCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 import java.util.Scanner;

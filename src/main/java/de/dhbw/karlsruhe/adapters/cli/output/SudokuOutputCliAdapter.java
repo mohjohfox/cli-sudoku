@@ -1,9 +1,9 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
-import de.dhbw.karlsruhe.domain.ports.SudokuPrintPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuPrintPort;
 
-public class SudokuOutputAdapter implements SudokuPrintPort {
+public class SudokuOutputCliAdapter implements SudokuPrintPort {
 
     @Override
     public void print(SudokuArray sudokuArray) {

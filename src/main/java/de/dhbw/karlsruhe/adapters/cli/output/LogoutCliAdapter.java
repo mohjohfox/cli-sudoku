@@ -1,10 +1,10 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
-import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
-import de.dhbw.karlsruhe.domain.ports.LogoutCliPort;
+import de.dhbw.karlsruhe.adapters.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.LogoutCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-public class LogoutAdapter implements LogoutCliPort {
+public class LogoutCliAdapter implements LogoutCliPort {
 
     private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
 

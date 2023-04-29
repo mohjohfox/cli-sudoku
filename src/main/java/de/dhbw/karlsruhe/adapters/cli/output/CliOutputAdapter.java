@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
-import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
+import de.dhbw.karlsruhe.adapters.CliOutputPort;
 
 public class CliOutputAdapter implements CliOutputPort {
 

@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.adapters;
+package de.dhbw.karlsruhe.adapters.persistence;
 
 import de.dhbw.karlsruhe.domain.Location;
 

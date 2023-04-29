@@ -1,9 +1,9 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
-import de.dhbw.karlsruhe.domain.ports.StartUpCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.StartUpCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-public class StartUpAdapter implements StartUpCliPort {
+public class StartUpCliAdapter implements StartUpCliPort {
 
     private final CliOutputAdapter cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputAdapter.class);
 

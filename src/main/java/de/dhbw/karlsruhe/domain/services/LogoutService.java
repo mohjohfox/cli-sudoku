@@ -1,7 +1,6 @@
 package de.dhbw.karlsruhe.domain.services;
 
-import de.dhbw.karlsruhe.domain.ports.CliOutputPort;
-import de.dhbw.karlsruhe.domain.ports.LogoutCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.LogoutCliPort;
 
 public class LogoutService {
 

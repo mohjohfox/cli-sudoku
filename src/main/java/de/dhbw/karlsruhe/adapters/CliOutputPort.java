@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.domain.ports;
+package de.dhbw.karlsruhe.adapters;
 
 public interface CliOutputPort {
 

@@ -2,10 +2,10 @@ package de.dhbw.karlsruhe.adapters.cli.output;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.MenuOptions;
-import de.dhbw.karlsruhe.domain.ports.MenuCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.MenuCliPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-public class MenuAdapter implements MenuCliPort {
+public class MenuCliAdapter implements MenuCliPort {
 
     private final CliOutputAdapter cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputAdapter.class);
 
