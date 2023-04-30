@@ -5,7 +5,7 @@ import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.MenuOptions;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
-import de.dhbw.karlsruhe.domain.ports.dialogs.MenuOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.MenuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;

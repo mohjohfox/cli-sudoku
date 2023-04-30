@@ -1,7 +1,7 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
 import de.dhbw.karlsruhe.adapters.CliOutputPort;
-import de.dhbw.karlsruhe.domain.ports.dialogs.StartUpOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.StartUpOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class StartUpCliAdapter implements StartUpOutputPort {

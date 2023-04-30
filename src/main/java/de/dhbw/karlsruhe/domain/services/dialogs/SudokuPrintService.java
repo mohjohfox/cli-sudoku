@@ -1,7 +1,7 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class SudokuPrintService {

@@ -1,7 +1,7 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.User;
-import de.dhbw.karlsruhe.domain.ports.dialogs.StartUpOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.StartUpOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
 import de.dhbw.karlsruhe.domain.services.ScannerService;

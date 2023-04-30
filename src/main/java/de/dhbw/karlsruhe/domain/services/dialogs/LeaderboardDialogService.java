@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.domain.ports.dialogs.LeaderboardOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.LeaderboardOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class LeaderboardDialogService {

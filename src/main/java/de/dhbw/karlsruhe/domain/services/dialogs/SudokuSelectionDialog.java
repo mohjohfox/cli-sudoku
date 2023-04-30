@@ -3,7 +3,7 @@ package de.dhbw.karlsruhe.domain.services.dialogs;
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
-import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuSelectionOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuSelectionOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;

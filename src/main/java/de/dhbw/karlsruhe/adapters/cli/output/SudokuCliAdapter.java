@@ -1,7 +1,7 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
 import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
 
 public class SudokuCliAdapter implements SudokuOutputPort {
 

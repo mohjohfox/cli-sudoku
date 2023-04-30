@@ -3,7 +3,7 @@ package de.dhbw.karlsruhe.adapters.cli.output;
 import de.dhbw.karlsruhe.adapters.CliOutputPort;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.MenuOptions;
-import de.dhbw.karlsruhe.domain.ports.dialogs.MenuOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.MenuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class MenuCliAdapter implements MenuOutputPort {

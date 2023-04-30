@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.domain.ports.dialogs;
+package de.dhbw.karlsruhe.domain.ports.dialogs.output;
 
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 

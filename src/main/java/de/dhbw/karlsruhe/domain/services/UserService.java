@@ -3,7 +3,7 @@ package de.dhbw.karlsruhe.domain.services;
 import de.dhbw.karlsruhe.adapters.persistence.UserAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.User;
-import de.dhbw.karlsruhe.domain.ports.dialogs.UserOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.UserOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.UserPort;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
