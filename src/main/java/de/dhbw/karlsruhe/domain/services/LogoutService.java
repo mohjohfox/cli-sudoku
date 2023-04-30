@@ -1,23 +1,23 @@
 package de.dhbw.karlsruhe.domain.services;
 
-import de.dhbw.karlsruhe.domain.ports.dialogs.LogoutCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.LogoutOutputPort;
 
 public class LogoutService {
 
   private boolean signedIn;
   private boolean logoutDesired;
-  private LogoutCliPort cliOutputPort;
+  private LogoutOutputPort outputPort;
 
   public LogoutService() {
     this.signedIn = false;
     this.logoutDesired = false;
-    this.cliOutputPort = DependencyFactory.getInstance().getDependency(LogoutCliPort.class);
+    this.outputPort = DependencyFactory.getInstance().getDependency(LogoutOutputPort.class);
   }
 
   public void logout() {
     this.signedIn = false;
     this.logoutDesired = true;
-    cliOutputPort.writeLogoutMessage();
+    outputPort.writeLogoutMessage();
   }
 
   public boolean getSignedIn() {
@@ -37,7 +37,7 @@ public class LogoutService {
   }
 
   public boolean checkDesireToRun() {
-    cliOutputPort.writeReloginMessage();
+    outputPort.writeReloginMessage();
 
     String userInput = ScannerService.getScanner().nextLine();
 
@@ -48,7 +48,7 @@ public class LogoutService {
       } else if (userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("no")) {
         return false;
       }
-      cliOutputPort.writeExitMessage();
+      outputPort.writeExitMessage();
       userInput = ScannerService.getScanner().nextLine();
     }
   }

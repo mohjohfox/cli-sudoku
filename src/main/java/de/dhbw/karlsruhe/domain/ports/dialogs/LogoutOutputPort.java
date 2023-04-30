@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.domain.ports.dialogs;
 
-public interface LogoutCliPort {
+public interface LogoutOutputPort {
 
     void writeLogoutMessage();
 

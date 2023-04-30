@@ -1,19 +1,19 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
-import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuPrintPort;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class SudokuPrintService {
 
-    private final SudokuPrintPort sudokuPrintPort;
+    private final SudokuOutputPort outputPort;
 
     public SudokuPrintService() {
-        sudokuPrintPort = DependencyFactory.getInstance().getDependency(SudokuPrintPort.class);
+        outputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
     }
 
-    public void printSudoku(SudokuArray sudokuArray) {
-        sudokuPrintPort.print(sudokuArray);
+    public void printSudoku(Sudoku sudoku) {
+        outputPort.print(sudoku);
     }
 
 }

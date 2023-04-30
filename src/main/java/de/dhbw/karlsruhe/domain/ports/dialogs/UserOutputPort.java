@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.domain.ports.dialogs;
 
-public interface UserCliPort {
+public interface UserOutputPort {
 
     void writeErrorMessage();
 

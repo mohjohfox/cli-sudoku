@@ -39,7 +39,7 @@ public class Main {
     dependencyFactory.registerDependency(new StartUpCliAdapter());
     dependencyFactory.registerDependency(new SudokuSelectionCliAdapter());
     dependencyFactory.registerDependency(new UserCliAdapter());
-    dependencyFactory.registerDependency(new SudokuOutputCliAdapter());
+    dependencyFactory.registerDependency(new SudokuCliAdapter());
     dependencyFactory.registerDependency(new SudokuSelectionDialog());
     dependencyFactory.registerDependency(new UserService());
     dependencyFactory.registerDependency(new SudokuGeneratorBacktracking());

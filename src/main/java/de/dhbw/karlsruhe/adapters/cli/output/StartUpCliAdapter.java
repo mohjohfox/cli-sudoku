@@ -1,11 +1,12 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
-import de.dhbw.karlsruhe.domain.ports.dialogs.StartUpCliPort;
+import de.dhbw.karlsruhe.adapters.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.StartUpOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-public class StartUpCliAdapter implements StartUpCliPort {
+public class StartUpCliAdapter implements StartUpOutputPort {
 
-    private final CliOutputAdapter cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputAdapter.class);
+    private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
 
     @Override
     public void writeAskForLogin() {

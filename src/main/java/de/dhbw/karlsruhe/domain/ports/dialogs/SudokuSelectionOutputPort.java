@@ -4,7 +4,7 @@ import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 
 import java.util.List;
 
-public interface SudokuSelectionCliPort {
+public interface SudokuSelectionOutputPort {
 
     void writeNoSudokuFoundMessage();
 

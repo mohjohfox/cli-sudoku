@@ -1,11 +1,12 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
-import de.dhbw.karlsruhe.domain.ports.dialogs.PlayCliPort;
+import de.dhbw.karlsruhe.adapters.CliOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-public class PlayCliAdapter implements PlayCliPort {
+public class PlayCliAdapter implements PlayOutputPort {
 
-    private final CliOutputAdapter cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputAdapter.class);
+    private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
 
     @Override
     public void writeTransformedSudoku() {

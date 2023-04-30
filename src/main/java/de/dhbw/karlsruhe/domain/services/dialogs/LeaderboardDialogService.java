@@ -1,17 +1,17 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.domain.ports.dialogs.LeaderboardCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.LeaderboardOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class LeaderboardDialogService {
 
-  private final LeaderboardCliPort cliOutputPort;
+  private final LeaderboardOutputPort outputPort;
 
   public LeaderboardDialogService() {
-    cliOutputPort = DependencyFactory.getInstance().getDependency(LeaderboardCliPort.class);
+    outputPort = DependencyFactory.getInstance().getDependency(LeaderboardOutputPort.class);
   }
 
   public void startLeaderboardDialog() {
-    cliOutputPort.writeStartLeaderboard();
+    outputPort.writeStartLeaderboard();
   }
 }

@@ -2,12 +2,12 @@ package de.dhbw.karlsruhe.adapters.cli.output;
 
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 import de.dhbw.karlsruhe.adapters.CliOutputPort;
-import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuSelectionCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuSelectionOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 import java.util.List;
 
-public class SudokuSelectionCliAdapter implements SudokuSelectionCliPort {
+public class SudokuSelectionCliAdapter implements SudokuSelectionOutputPort {
 
     private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
 

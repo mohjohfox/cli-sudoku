@@ -6,9 +6,9 @@ import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
-import de.dhbw.karlsruhe.domain.ports.dialogs.PlayCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
-import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuPrintPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.SudokuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.ScannerService;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
@@ -24,8 +24,8 @@ public class PlayDialogService {
     private SudokuValidatorService sudokuValidator = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
     private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
     private Random rand = new Random();
-    private final PlayCliPort cliOutputPort = DependencyFactory.getInstance().getDependency(PlayCliPort.class);
-    private final SudokuPrintPort sudokuPrintPort = DependencyFactory.getInstance().getDependency(SudokuPrintPort.class);
+    private final PlayOutputPort outputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);
+    private final SudokuOutputPort sudokuOutputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
 
     public PlayDialogService() {
         // Empty constructor for JSON parser
@@ -33,10 +33,10 @@ public class PlayDialogService {
 
     public void startNewGame(Difficulty dif) {
         if (rand.nextInt()<0.5){
-            cliOutputPort.writeTransformedSudoku();
+            outputPort.writeTransformedSudoku();
             sudoku = sgTransformation.generateSudoku(dif);
         } else {
-            cliOutputPort.writeBacktrackingSudoku();
+            outputPort.writeBacktrackingSudoku();
             sudoku = sgBacktracking.generateSudoku(dif);
         }
         startGame();
@@ -48,10 +48,10 @@ public class PlayDialogService {
     }
 
     private void startGame() {
-        cliOutputPort.writeStartGameMessages();
+        outputPort.writeStartGameMessages();
 
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
-            sudokuPrintPort.print(sudoku.getGameField());
+            sudokuOutputPort.print(sudoku);
             if (!userInputDialog()) {
                 break;
             }
@@ -62,13 +62,13 @@ public class PlayDialogService {
         String input = ScannerService.getScanner().nextLine();
 
         while (!inputCorrect(input)) {
-            cliOutputPort.writeInputErrorMessage();
+            outputPort.writeInputErrorMessage();
             input = ScannerService.getScanner().nextLine();
         }
 
         if (isAbortAction(input)) {
             sudokuPersistencePort.saveSudoku(sudoku);
-            cliOutputPort.writeGameSavedMessage();
+            outputPort.writeGameSavedMessage();
             return false;
         }
 
@@ -88,7 +88,7 @@ public class PlayDialogService {
             actionSuccessful = sudoku.setField(splitInput[0]-1, splitInput[1]-1, 0);
         }
         if (!actionSuccessful){
-            cliOutputPort.writeDefaultFieldErrorMessage(getAction[1]);
+            outputPort.writeDefaultFieldErrorMessage(getAction[1]);
         }
         return true;
     }

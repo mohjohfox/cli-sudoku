@@ -5,7 +5,7 @@ import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.MenuOptions;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
-import de.dhbw.karlsruhe.domain.ports.dialogs.MenuCliPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.MenuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
@@ -23,13 +23,13 @@ public class MenuDialogService {
   private PlayDialogService playDialogService;
   private LogoutService logoutService;
   private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
-  private final MenuCliPort cliOutputPort;
+  private final MenuOutputPort outputPort;
 
   public MenuDialogService() {
     this.sudokuSelectionDialog = DependencyFactory.getInstance().getDependency(SudokuSelectionDialog.class);;
     this.playDialogService = DependencyFactory.getInstance().getDependency(PlayDialogService.class);;
     this.logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
-    this.cliOutputPort = DependencyFactory.getInstance().getDependency(MenuCliPort.class);
+    this.outputPort = DependencyFactory.getInstance().getDependency(MenuOutputPort.class);
   }
 
   public void startMenuDialog() {
@@ -41,22 +41,22 @@ public class MenuDialogService {
   }
 
   private void displayMenuOptions() {
-    cliOutputPort.writeWelcomeMessage();
-    cliOutputPort.writeMenuOptions();
+    outputPort.writeWelcomeMessage();
+    outputPort.writeMenuOptions();
   }
 
   private int awaitUserInput() {
-    cliOutputPort.writeOptionMessage();
+    outputPort.writeOptionMessage();
     int input = -1;
     while (input == -1) {
       try {
         input = Integer.parseInt(ScannerService.getScanner().nextLine());
         if (!(input > 0 && input <= MenuOptions.values().length)) {
           input = -1;
-          cliOutputPort.writeOptionErrorMessage();
+          outputPort.writeOptionErrorMessage();
         }
       } catch (InputMismatchException ie) {
-        cliOutputPort.writeOptionErrorMessage();
+        outputPort.writeOptionErrorMessage();
         ScannerService.getScanner().next();
       }
     }
@@ -69,13 +69,13 @@ public class MenuDialogService {
         DifficultySelectionDialogService difficultySelectionDialogService = DependencyFactory.getInstance().getDependency(DifficultySelectionDialogService.class);
 
         Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
-        cliOutputPort.writeSelectionDifficultyMessage(selectedDifficulty);
+        outputPort.writeSelectionDifficultyMessage(selectedDifficulty);
         playDialogService.startNewGame(selectedDifficulty);
         break;
       case 2:
         Optional<SudokuSaveEntry> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
         if (selectedSudoku.isEmpty()) {
-          cliOutputPort.writeNoSudokuSelected();
+          outputPort.writeNoSudokuSelected();
           break;
         }
         selectedSudoku.ifPresent(this::playOrDeleteDialog);
@@ -88,12 +88,12 @@ public class MenuDialogService {
         this.logoutService.logout();
         break;
       default:
-        cliOutputPort.writeInvalidOption();
+        outputPort.writeInvalidOption();
     }
   }
 
   private void playOrDeleteDialog(SudokuSaveEntry sudoku) {
-    cliOutputPort.writePlayOrDeleteOptions();
+    outputPort.writePlayOrDeleteOptions();
     String entry = ScannerService.getScanner().nextLine();
     if (IntegerWrapper.isInteger(entry)) {
       int value = Integer.parseInt(entry);
@@ -102,9 +102,9 @@ public class MenuDialogService {
       } else if (value == 2) {
         sudokuPersistencePort.deleteSudoku(sudoku.getSaveId());
       } else if (value == 3) {
-        cliOutputPort.writeCancelMessage();
+        outputPort.writeCancelMessage();
       } else {
-        cliOutputPort.writePlayOrDeleteErrorMessage();
+        outputPort.writePlayOrDeleteErrorMessage();
       }
     }
   }
