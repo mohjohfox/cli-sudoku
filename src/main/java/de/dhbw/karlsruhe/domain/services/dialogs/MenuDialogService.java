@@ -11,7 +11,6 @@ import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
-import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 
 import java.util.InputMismatchException;
 import java.util.Optional;

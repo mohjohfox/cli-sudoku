@@ -1,6 +1,5 @@
 package de.dhbw.karlsruhe.domain.services;
 
-import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.LogoutOutputPort;
 

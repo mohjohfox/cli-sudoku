@@ -1,18 +1,17 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.DifficultySelectionOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-import java.util.Scanner;
-
 public class DifficultySelectionDialogService {
 
-  private final Scanner scanner;
   private final DifficultySelectionOutputPort outputPort;
+  private final InputPort inputPort;
 
   public DifficultySelectionDialogService() {
-    scanner = new Scanner(System.in);
+    inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     outputPort = DependencyFactory.getInstance().getDependency(DifficultySelectionOutputPort.class);
   }
 
@@ -25,7 +24,7 @@ public class DifficultySelectionDialogService {
 
     Difficulty selectedDifficulty = null;
     while (selectedDifficulty == null) {
-      String input = scanner.nextLine();
+      String input = inputPort.getInput();
 
       selectedDifficulty = Difficulty.stream()
           .filter(d -> d.match(input))

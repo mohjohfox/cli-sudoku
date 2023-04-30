@@ -8,7 +8,6 @@ import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuSelectionOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
-import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 
 import java.util.List;
 import java.util.Optional;

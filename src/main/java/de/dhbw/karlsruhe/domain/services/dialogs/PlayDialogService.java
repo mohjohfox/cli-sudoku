@@ -11,7 +11,6 @@ import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
-import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
 import java.util.Arrays;

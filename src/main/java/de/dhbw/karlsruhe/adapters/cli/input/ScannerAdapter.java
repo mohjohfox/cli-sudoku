@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class ScannerAdapter implements ScannerPort{
 
-  //TODO: Not init ScannerService object
   private final Scanner scanner;
 
   public ScannerAdapter() {

@@ -5,7 +5,6 @@ import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.StartUpOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
-import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 import de.dhbw.karlsruhe.domain.services.UserService;
 
 import java.security.NoSuchAlgorithmException;
