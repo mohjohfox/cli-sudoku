@@ -2,10 +2,10 @@ package de.dhbw.karlsruhe.domain.ports.dialogs;
 
 public interface LogoutOutputPort {
 
-    void writeLogoutMessage();
+    void logout();
 
-    void writeReloginMessage();
+    void relogin();
 
-    void writeExitMessage();
+    void exit();
 
 }

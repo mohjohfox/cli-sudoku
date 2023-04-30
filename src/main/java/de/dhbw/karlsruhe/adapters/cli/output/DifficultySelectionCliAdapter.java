@@ -10,12 +10,12 @@ public class DifficultySelectionCliAdapter implements DifficultySelectionOutputP
     private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
 
     @Override
-    public void writeNoEqualDifficulty() {
+    public void noEqualDifficulty() {
         cliOutputPort.write("The input did not equal a difficulty. Please try again!");
     }
 
     @Override
-    public void writeDifficultOptions() {
+    public void difficultOptions() {
         StringBuilder difficultyDialog = new StringBuilder("Select a difficulty: ");
         Difficulty.stream()
                 .forEach(d -> difficultyDialog.append(d.getName()).append(" (")

@@ -25,7 +25,7 @@ public class StartUpDialogService {
     boolean successfulSignedIn = false;
 
     while (!successfulSignedIn) {
-      outputPort.writeAskForLogin();
+      outputPort.askForLogin();
       String input = ScannerService.getScanner().nextLine();
       successfulSignedIn = signInProcess(input);
     }
@@ -43,16 +43,16 @@ public class StartUpDialogService {
       }
       return loginProcess();
     } catch (NoSuchAlgorithmException e) {
-      outputPort.writeErrorMessage(e);
+      outputPort.error(e);
       return false;
     }
   }
 
   private void printLoginFeedback(boolean loginSuccessful) {
     if (loginSuccessful) {
-      outputPort.writeLoginSuccessMessage();
+      outputPort.loginSuccess();
     } else {
-      outputPort.writeErrorDuringLoginMessage();
+      outputPort.errorDuringLogin();
     }
   }
 
@@ -62,16 +62,16 @@ public class StartUpDialogService {
       printRegistrationFeedback(registrationSuccessful);
       return registrationSuccessful;
     } catch (NoSuchAlgorithmException e) {
-      outputPort.writeErrorDuringRegistrationMessage();
+      outputPort.errorDuringRegistration();
       return false;
     }
   }
 
   private void printRegistrationFeedback(boolean registrationSuccessful) {
     if (registrationSuccessful) {
-      outputPort.writeSuccessRegistrationMessage();
+      outputPort.successRegistration();
     } else {
-      outputPort.writeFailedRegistrationMessage();
+      outputPort.failedRegistration();
     }
   }
 
@@ -94,26 +94,26 @@ public class StartUpDialogService {
       } else if (userInput.equals("n") || userInput.equals("no")) {
         return false;
       }
-      outputPort.writeAskForLoginOrRegistration();
+      outputPort.askForLoginOrRegistration();
       userInput = ScannerService.getScanner().nextLine();
     } while (true);
   }
 
   private User loginDialog() {
-    outputPort.writePromptUserName();
+    outputPort.promptUserName();
     String userName = ScannerService.getScanner().nextLine();
 
-    outputPort.writePromptPassword();
+    outputPort.promptPassword();
     String password = ScannerService.getScanner().nextLine();
 
     return new User(userName, password);
   }
 
   private User registerDialog() {
-    outputPort.writePromptUserName();
+    outputPort.promptUserName();
     String userName = ScannerService.getScanner().nextLine();
 
-    outputPort.writePromptPassword();
+    outputPort.promptPassword();
     String password = ScannerService.getScanner().nextLine();
 
     return new User(userName, password);

@@ -9,17 +9,17 @@ public class PlayCliAdapter implements PlayOutputPort {
     private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
 
     @Override
-    public void writeTransformedSudoku() {
+    public void transformedSudoku() {
         cliOutputPort.write("Transformed sudoku generated:");
     }
 
     @Override
-    public void writeBacktrackingSudoku() {
+    public void backtrackingSudoku() {
         cliOutputPort.write("Backtracking sudoku generated:");
     }
 
     @Override
-    public void writeStartGameMessages() {
+    public void startGame() {
         cliOutputPort.write("Enter numbers by writing: W:[Row],[Column],[Value]");
         cliOutputPort.write("Example: W:3,4,9");
         cliOutputPort.write("To remove a number write: R:[Row],[Column]");
@@ -30,19 +30,19 @@ public class PlayCliAdapter implements PlayOutputPort {
     }
 
     @Override
-    public void writeInputErrorMessage() {
+    public void inputError() {
         cliOutputPort.write("The input did not match the input format.");
         cliOutputPort.write("Enter numbers by writing: W:[Row],[Column],[Value]");
         cliOutputPort.write("To remove a number write: R:[Row],[Column]");
     }
 
     @Override
-    public void writeGameSavedMessage() {
+    public void gameSaved() {
         cliOutputPort.write("Game saved.");
     }
 
     @Override
-    public void writeDefaultFieldErrorMessage(String value) {
+    public void defaultFieldError(String value) {
         cliOutputPort.write("The field "+ value +" could not be set, because it is a default field.");
     }
 }

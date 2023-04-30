@@ -12,6 +12,6 @@ public class LeaderboardDialogService {
   }
 
   public void startLeaderboardDialog() {
-    outputPort.writeStartLeaderboard();
+    outputPort.startLeaderboard();
   }
 }

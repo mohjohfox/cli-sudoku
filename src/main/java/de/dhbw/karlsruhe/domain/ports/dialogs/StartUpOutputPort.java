@@ -2,24 +2,24 @@ package de.dhbw.karlsruhe.domain.ports.dialogs;
 
 public interface StartUpOutputPort {
 
-    void writeAskForLogin();
+    void askForLogin();
 
-    void writeErrorMessage(Exception e);
+    void error(Exception e);
 
-    void writeLoginSuccessMessage();
+    void loginSuccess();
 
-    void writeErrorDuringLoginMessage();
+    void errorDuringLogin();
 
-    void writeErrorDuringRegistrationMessage();
+    void errorDuringRegistration();
 
-    void writeSuccessRegistrationMessage();
+    void successRegistration();
 
-    void writeFailedRegistrationMessage();
+    void failedRegistration();
 
-    void writeAskForLoginOrRegistration();
+    void askForLoginOrRegistration();
 
-    void writePromptUserName();
+    void promptUserName();
 
-    void writePromptPassword();
+    void promptPassword();
 
 }

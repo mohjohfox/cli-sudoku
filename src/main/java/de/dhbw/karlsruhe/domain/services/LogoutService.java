@@ -17,7 +17,7 @@ public class LogoutService {
   public void logout() {
     this.signedIn = false;
     this.logoutDesired = true;
-    outputPort.writeLogoutMessage();
+    outputPort.logout();
   }
 
   public boolean getSignedIn() {
@@ -37,7 +37,7 @@ public class LogoutService {
   }
 
   public boolean checkDesireToRun() {
-    outputPort.writeReloginMessage();
+    outputPort.relogin();
 
     String userInput = ScannerService.getScanner().nextLine();
 
@@ -48,7 +48,7 @@ public class LogoutService {
       } else if (userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("no")) {
         return false;
       }
-      outputPort.writeExitMessage();
+      outputPort.exit();
       userInput = ScannerService.getScanner().nextLine();
     }
   }

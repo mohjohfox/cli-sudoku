@@ -2,16 +2,16 @@ package de.dhbw.karlsruhe.domain.ports.dialogs;
 
 public interface PlayOutputPort {
 
-    void writeTransformedSudoku();
+    void transformedSudoku();
 
-    void writeBacktrackingSudoku();
+    void backtrackingSudoku();
 
-    void writeStartGameMessages();
+    void startGame();
 
-    void writeInputErrorMessage();
+    void inputError();
 
-    void writeGameSavedMessage();
+    void gameSaved();
 
-    void writeDefaultFieldErrorMessage(String value);
+    void defaultFieldError(String value);
 
 }

@@ -33,10 +33,10 @@ public class PlayDialogService {
 
     public void startNewGame(Difficulty dif) {
         if (rand.nextInt()<0.5){
-            outputPort.writeTransformedSudoku();
+            outputPort.transformedSudoku();
             sudoku = sgTransformation.generateSudoku(dif);
         } else {
-            outputPort.writeBacktrackingSudoku();
+            outputPort.backtrackingSudoku();
             sudoku = sgBacktracking.generateSudoku(dif);
         }
         startGame();
@@ -48,7 +48,7 @@ public class PlayDialogService {
     }
 
     private void startGame() {
-        outputPort.writeStartGameMessages();
+        outputPort.startGame();
 
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
             sudokuOutputPort.print(sudoku);
@@ -62,13 +62,13 @@ public class PlayDialogService {
         String input = ScannerService.getScanner().nextLine();
 
         while (!inputCorrect(input)) {
-            outputPort.writeInputErrorMessage();
+            outputPort.inputError();
             input = ScannerService.getScanner().nextLine();
         }
 
         if (isAbortAction(input)) {
             sudokuPersistencePort.saveSudoku(sudoku);
-            outputPort.writeGameSavedMessage();
+            outputPort.gameSaved();
             return false;
         }
 
@@ -88,7 +88,7 @@ public class PlayDialogService {
             actionSuccessful = sudoku.setField(splitInput[0]-1, splitInput[1]-1, 0);
         }
         if (!actionSuccessful){
-            outputPort.writeDefaultFieldErrorMessage(getAction[1]);
+            outputPort.defaultFieldError(getAction[1]);
         }
         return true;
     }

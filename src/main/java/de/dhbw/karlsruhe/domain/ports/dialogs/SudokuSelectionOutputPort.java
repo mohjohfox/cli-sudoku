@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface SudokuSelectionOutputPort {
 
-    void writeNoSudokuFoundMessage();
+    void noSudokuFound();
 
-    void writePromptSudoku();
+    void promptSudoku();
 
-    void writeAllSudokus(List<SudokuSaveEntry> sudokuSaveEntryList);
+    void allSudokus(List<SudokuSaveEntry> sudokuSaveEntryList);
 
 
 

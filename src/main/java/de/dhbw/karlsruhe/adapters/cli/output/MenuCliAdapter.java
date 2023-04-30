@@ -11,44 +11,44 @@ public class MenuCliAdapter implements MenuOutputPort {
     private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
 
     @Override
-    public void writeWelcomeMessage() {
+    public void welcome() {
         cliOutputPort.write("Welcome to your favorite cli Sudoku :)");
     }
 
     @Override
-    public void writeOptionMessage() {
+    public void startOfOptions() {
         cliOutputPort.write("Please choose an option by entering a number!");
     }
 
     @Override
-    public void writeOptionErrorMessage() {
+    public void optionError() {
         cliOutputPort.write("Invalid Input - Please enter a valid number!");
     }
 
     @Override
-    public void writeSelectionDifficultyMessage(Difficulty difficulty) {
+    public void selectionDifficultyOf(Difficulty difficulty) {
         cliOutputPort.write(difficulty.toString() + " was selected!");
     }
 
     @Override
-    public void writeNoSudokuSelected() {
+    public void noSudokuSelected() {
         cliOutputPort.write("No Sudoku selected!");
     }
 
     @Override
-    public void writeInvalidOption() {
+    public void invalidOption() {
         cliOutputPort.write("Invalid Option - Please choose an offered one!");
     }
 
     @Override
-    public void writeMenuOptions() {
+    public void menuOptions() {
         for (int i = 0; i < MenuOptions.values().length; i++) {
             cliOutputPort.write("[" + (i + 1) + "] " + MenuOptions.values()[i].getRepresentation());
         }
     }
 
     @Override
-    public void writePlayOrDeleteOptions() {
+    public void playOrDeleteOptions() {
         cliOutputPort.write("Do you want to play or delete the sudoku?");
         cliOutputPort.write("[1] Play");
         cliOutputPort.write("[2] Delete");
@@ -56,12 +56,12 @@ public class MenuCliAdapter implements MenuOutputPort {
     }
 
     @Override
-    public void writeCancelMessage() {
+    public void cancel() {
         cliOutputPort.write("Canceled!");
     }
 
     @Override
-    public void writePlayOrDeleteErrorMessage() {
+    public void playOrDeleteError() {
         cliOutputPort.write("Invalid input!");
     }
 }

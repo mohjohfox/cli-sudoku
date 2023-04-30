@@ -4,24 +4,24 @@ import de.dhbw.karlsruhe.domain.models.Difficulty;
 
 public interface MenuOutputPort {
 
-    void writeWelcomeMessage();
+    void welcome();
 
-    void writeOptionMessage();
+    void startOfOptions();
 
-    void writeOptionErrorMessage();
+    void optionError();
 
-    void writeSelectionDifficultyMessage(Difficulty difficulty);
+    void selectionDifficultyOf(Difficulty difficulty);
 
-    void writeMenuOptions();
+    void menuOptions();
 
-    void writeNoSudokuSelected();
+    void noSudokuSelected();
 
-    void writeInvalidOption();
+    void invalidOption();
 
-    void writePlayOrDeleteOptions();
+    void playOrDeleteOptions();
 
-    void writeCancelMessage();
+    void cancel();
 
-    void writePlayOrDeleteErrorMessage();
+    void playOrDeleteError();
 
 }

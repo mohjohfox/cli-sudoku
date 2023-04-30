@@ -9,7 +9,7 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
     private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
 
     @Override
-    public void writeStartLeaderboard() {
+    public void startLeaderboard() {
         cliOutputPort.write("Leaderboard Dialog");
     }
 }

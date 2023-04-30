@@ -21,10 +21,10 @@ public class SudokuSelectionDialog {
         List<SudokuSaveEntry> sudokus = sudokuPersistencePort.getAllSudokus();
         printAll(sudokus);
         if (sudokus.isEmpty()) {
-            outputPort.writeNoSudokuFoundMessage();
+            outputPort.noSudokuFound();
             return Optional.empty();
         }
-        outputPort.writePromptSudoku();
+        outputPort.promptSudoku();
         String entry = ScannerService.getScanner().nextLine();
         if (IntegerWrapper.isInteger(entry)) {
             return selectSudoku(Integer.parseInt(entry), sudokus);
@@ -33,7 +33,7 @@ public class SudokuSelectionDialog {
     }
 
     private void printAll(List<SudokuSaveEntry> sudokus) {
-        outputPort.writeAllSudokus(sudokus);
+        outputPort.allSudokus(sudokus);
     }
 
     private Optional<SudokuSaveEntry> selectSudoku(int value, List<SudokuSaveEntry> sudokus) {

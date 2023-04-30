@@ -26,7 +26,7 @@ public class UserService {
       saveUser(new User(createUser.getUserName(), encryptPassword));
       return true;
     } else {
-      outputPort.writeErrorMessage();
+      outputPort.error();
       return false;
     }
 

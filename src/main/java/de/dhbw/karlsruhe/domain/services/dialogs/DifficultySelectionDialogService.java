@@ -17,7 +17,7 @@ public class DifficultySelectionDialogService {
   }
 
   public Difficulty selectDifficulty() {
-    outputPort.writeDifficultOptions();
+    outputPort.difficultOptions();
     return successfulSelection();
   }
 
@@ -32,7 +32,7 @@ public class DifficultySelectionDialogService {
           .findFirst()
           .orElse(null);
       if (selectedDifficulty == null) {
-        outputPort.writeNoEqualDifficulty();
+        outputPort.noEqualDifficulty();
       }
     }
 

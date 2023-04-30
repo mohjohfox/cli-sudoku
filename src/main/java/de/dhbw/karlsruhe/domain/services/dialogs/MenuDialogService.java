@@ -41,22 +41,22 @@ public class MenuDialogService {
   }
 
   private void displayMenuOptions() {
-    outputPort.writeWelcomeMessage();
-    outputPort.writeMenuOptions();
+    outputPort.welcome();
+    outputPort.menuOptions();
   }
 
   private int awaitUserInput() {
-    outputPort.writeOptionMessage();
+    outputPort.startOfOptions();
     int input = -1;
     while (input == -1) {
       try {
         input = Integer.parseInt(ScannerService.getScanner().nextLine());
         if (!(input > 0 && input <= MenuOptions.values().length)) {
           input = -1;
-          outputPort.writeOptionErrorMessage();
+          outputPort.optionError();
         }
       } catch (InputMismatchException ie) {
-        outputPort.writeOptionErrorMessage();
+        outputPort.optionError();
         ScannerService.getScanner().next();
       }
     }
@@ -69,13 +69,13 @@ public class MenuDialogService {
         DifficultySelectionDialogService difficultySelectionDialogService = DependencyFactory.getInstance().getDependency(DifficultySelectionDialogService.class);
 
         Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
-        outputPort.writeSelectionDifficultyMessage(selectedDifficulty);
+        outputPort.selectionDifficultyOf(selectedDifficulty);
         playDialogService.startNewGame(selectedDifficulty);
         break;
       case 2:
         Optional<SudokuSaveEntry> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
         if (selectedSudoku.isEmpty()) {
-          outputPort.writeNoSudokuSelected();
+          outputPort.noSudokuSelected();
           break;
         }
         selectedSudoku.ifPresent(this::playOrDeleteDialog);
@@ -88,12 +88,12 @@ public class MenuDialogService {
         this.logoutService.logout();
         break;
       default:
-        outputPort.writeInvalidOption();
+        outputPort.invalidOption();
     }
   }
 
   private void playOrDeleteDialog(SudokuSaveEntry sudoku) {
-    outputPort.writePlayOrDeleteOptions();
+    outputPort.playOrDeleteOptions();
     String entry = ScannerService.getScanner().nextLine();
     if (IntegerWrapper.isInteger(entry)) {
       int value = Integer.parseInt(entry);
@@ -102,9 +102,9 @@ public class MenuDialogService {
       } else if (value == 2) {
         sudokuPersistencePort.deleteSudoku(sudoku.getSaveId());
       } else if (value == 3) {
-        outputPort.writeCancelMessage();
+        outputPort.cancel();
       } else {
-        outputPort.writePlayOrDeleteErrorMessage();
+        outputPort.playOrDeleteError();
       }
     }
   }
