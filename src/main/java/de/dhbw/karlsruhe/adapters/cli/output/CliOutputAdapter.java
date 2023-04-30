@@ -1,7 +1,5 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
-import de.dhbw.karlsruhe.adapters.CliOutputPort;
-
 public class CliOutputAdapter implements CliOutputPort {
 
     @Override

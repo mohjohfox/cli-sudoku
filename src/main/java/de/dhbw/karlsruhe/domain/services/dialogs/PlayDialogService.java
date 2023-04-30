@@ -6,11 +6,12 @@ import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
-import de.dhbw.karlsruhe.domain.services.ScannerService;
+import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
 import java.util.Arrays;
@@ -24,6 +25,7 @@ public class PlayDialogService {
     private SudokuValidatorService sudokuValidator = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
     private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
     private Random rand = new Random();
+    private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     private final PlayOutputPort outputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);
     private final SudokuOutputPort sudokuOutputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
 
@@ -59,11 +61,11 @@ public class PlayDialogService {
     }
 
     private boolean userInputDialog() {
-        String input = ScannerService.getScanner().nextLine();
+        String input = inputPort.getInput();
 
         while (!inputCorrect(input)) {
             outputPort.inputError();
-            input = ScannerService.getScanner().nextLine();
+            input = inputPort.getInput();
         }
 
         if (isAbortAction(input)) {

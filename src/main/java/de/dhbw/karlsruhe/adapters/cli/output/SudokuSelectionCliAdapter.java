@@ -1,7 +1,6 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
-import de.dhbw.karlsruhe.adapters.CliOutputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuSelectionOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 

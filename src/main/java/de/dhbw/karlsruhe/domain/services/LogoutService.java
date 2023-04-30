@@ -1,5 +1,7 @@
 package de.dhbw.karlsruhe.domain.services;
 
+import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.LogoutOutputPort;
 
 public class LogoutService {
@@ -7,10 +9,12 @@ public class LogoutService {
   private boolean signedIn;
   private boolean logoutDesired;
   private LogoutOutputPort outputPort;
+  private InputPort inputPort;
 
   public LogoutService() {
     this.signedIn = false;
     this.logoutDesired = false;
+    this.inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     this.outputPort = DependencyFactory.getInstance().getDependency(LogoutOutputPort.class);
   }
 
@@ -39,7 +43,7 @@ public class LogoutService {
   public boolean checkDesireToRun() {
     outputPort.relogin();
 
-    String userInput = ScannerService.getScanner().nextLine();
+    String userInput = inputPort.getInput();
 
     while (true) {
       if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("yes")) {
@@ -49,7 +53,7 @@ public class LogoutService {
         return false;
       }
       outputPort.exit();
-      userInput = ScannerService.getScanner().nextLine();
+      userInput = inputPort.getInput();
     }
   }
 }

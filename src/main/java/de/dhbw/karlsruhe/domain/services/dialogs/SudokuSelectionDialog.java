@@ -3,11 +3,12 @@ package de.dhbw.karlsruhe.domain.services.dialogs;
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuSelectionOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
-import de.dhbw.karlsruhe.domain.services.ScannerService;
+import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class SudokuSelectionDialog {
 
     private final SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
+    private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     private final SudokuSelectionOutputPort outputPort = DependencyFactory.getInstance().getDependency(SudokuSelectionOutputPort.class);
 
     public Optional<SudokuSaveEntry> selectSudokuDialog() {
@@ -25,7 +27,7 @@ public class SudokuSelectionDialog {
             return Optional.empty();
         }
         outputPort.promptSudoku();
-        String entry = ScannerService.getScanner().nextLine();
+        String entry = inputPort.getInput();
         if (IntegerWrapper.isInteger(entry)) {
             return selectSudoku(Integer.parseInt(entry), sudokus);
         }

@@ -1,5 +1,7 @@
 package de.dhbw.karlsruhe.adapters;
 
+import de.dhbw.karlsruhe.adapters.cli.input.InputCliAdapter;
+import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 import de.dhbw.karlsruhe.adapters.cli.output.*;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
@@ -30,6 +32,8 @@ public class Main {
   private static void injectDependencies() {
     DependencyFactory dependencyFactory = DependencyFactory.getInstance();
     dependencyFactory.registerDependency(new EncryptionService());
+    dependencyFactory.registerDependency(new ScannerAdapter());
+    dependencyFactory.registerDependency(new InputCliAdapter());
     dependencyFactory.registerDependency(new CliOutputAdapter());
     dependencyFactory.registerDependency(new DifficultySelectionCliAdapter());
     dependencyFactory.registerDependency(new LeaderboardCliAdapter());
@@ -52,7 +56,6 @@ public class Main {
     dependencyFactory.registerDependency(new StartUpDialogService());
     dependencyFactory.registerDependency(new Sudoku());
     dependencyFactory.registerDependency(new SudokuArray(new int[9][9]));
-    dependencyFactory.registerDependency(new ScannerService());
     dependencyFactory.registerDependency(new SudokuFieldsRemover());
     dependencyFactory.registerDependency(new DifficultySelectionDialogService());
   }
