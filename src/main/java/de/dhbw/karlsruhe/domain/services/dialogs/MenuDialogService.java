@@ -1,14 +1,16 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.MenuOptions;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.MenuOutputPort;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
+import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
-import de.dhbw.karlsruhe.domain.services.ScannerService;
 
 import java.util.InputMismatchException;
 import java.util.Optional;
@@ -21,28 +23,15 @@ public class MenuDialogService {
   private PlayDialogService playDialogService;
   private LogoutService logoutService;
   private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
-
-  public enum MenuOptions {
-    PLAY("Play"),
-    SAVED_SUDOKUS("Show saved Sudokus"),
-    LEADERBOARD("Leaderboard"),
-    LOGOUT("Logout");
-
-    String representation;
-
-    MenuOptions(String representation) {
-      this.representation = representation;
-    }
-
-    public String getRepresentation() {
-      return representation;
-    }
-  }
+  private final MenuOutputPort outputPort;
+  private final InputPort inputPort;
 
   public MenuDialogService() {
-    this.sudokuSelectionDialog = new SudokuSelectionDialog();
-    this.playDialogService = new PlayDialogService();
-    this.logoutService = new LogoutService();
+    this.sudokuSelectionDialog = DependencyFactory.getInstance().getDependency(SudokuSelectionDialog.class);;
+    this.playDialogService = DependencyFactory.getInstance().getDependency(PlayDialogService.class);;
+    this.logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
+    this.outputPort = DependencyFactory.getInstance().getDependency(MenuOutputPort.class);
+    this.inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
   }
 
   public void startMenuDialog() {
@@ -54,25 +43,23 @@ public class MenuDialogService {
   }
 
   private void displayMenuOptions() {
-    System.out.println("Welcome to your favorite cli Sudoku :)");
-    for (int i = 0; i < MenuOptions.values().length; i++) {
-      System.out.println("[" + (i + 1) + "] " + MenuOptions.values()[i].getRepresentation());
-    }
+    outputPort.welcome();
+    outputPort.menuOptions();
   }
 
   private int awaitUserInput() {
-    System.out.println("Please choose an option by entering a number!");
+    outputPort.startOfOptions();
     int input = -1;
     while (input == -1) {
       try {
-        input = Integer.parseInt(ScannerService.getScanner().nextLine());
+        input = inputPort.getInputAsInt();
         if (!(input > 0 && input <= MenuOptions.values().length)) {
           input = -1;
-          System.out.println("Invalid Input - Please enter a valid number!");
+          outputPort.optionError();
         }
       } catch (InputMismatchException ie) {
-        System.out.println("Invalid Input - Please enter a valid number!");
-        ScannerService.getScanner().next();
+        outputPort.optionError();
+        inputPort.cleanInput();
       }
     }
     return input;
@@ -81,38 +68,35 @@ public class MenuDialogService {
   private void checkUserInput(int pUserInput) {
     switch (pUserInput) {
       case 1:
-        DifficultySelectionDialogService difficultySelectionDialogService = new DifficultySelectionDialogService();
+        DifficultySelectionDialogService difficultySelectionDialogService = DependencyFactory.getInstance().getDependency(DifficultySelectionDialogService.class);
 
         Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
-        System.out.println(selectedDifficulty.toString() + " was selected!");
+        outputPort.selectionDifficultyOf(selectedDifficulty);
         playDialogService.startNewGame(selectedDifficulty);
         break;
       case 2:
         Optional<SudokuSaveEntry> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
         if (selectedSudoku.isEmpty()) {
-          System.out.println("No Sudoku selected!");
+          outputPort.noSudokuSelected();
           break;
         }
         selectedSudoku.ifPresent(this::playOrDeleteDialog);
         break;
       case 3:
-        this.leaderboardDialogService = new LeaderboardDialogService();
+        this.leaderboardDialogService = DependencyFactory.getInstance().getDependency(LeaderboardDialogService.class);
         this.leaderboardDialogService.startLeaderboardDialog();
         break;
       case 4:
         this.logoutService.logout();
         break;
       default:
-        System.out.println("Invalid Option - Please choose an offered one!");
+        outputPort.invalidOption();
     }
   }
 
   private void playOrDeleteDialog(SudokuSaveEntry sudoku) {
-    System.out.println("Do you want to play or delete the sudoku?");
-    System.out.println("[1] Play");
-    System.out.println("[2] Delete");
-    System.out.println("[3] Cancel");
-    String entry = ScannerService.getScanner().nextLine();
+    outputPort.playOrDeleteOptions();
+    String entry = inputPort.getInput();
     if (IntegerWrapper.isInteger(entry)) {
       int value = Integer.parseInt(entry);
       if (value == 1) {
@@ -120,11 +104,10 @@ public class MenuDialogService {
       } else if (value == 2) {
         sudokuPersistencePort.deleteSudoku(sudoku.getSaveId());
       } else if (value == 3) {
-        System.out.println("Canceled!");
+        outputPort.cancel();
       } else {
-        System.out.println("Invalid input!");
+        outputPort.playOrDeleteError();
       }
     }
   }
-
 }

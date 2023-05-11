@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.domain.ports;
+package de.dhbw.karlsruhe.domain.ports.persistence;
 
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;

@@ -1,23 +1,22 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
-import java.util.Scanner;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.DifficultySelectionOutputPort;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class DifficultySelectionDialogService {
 
-  private final Scanner scanner;
+  private final DifficultySelectionOutputPort outputPort;
+  private final InputPort inputPort;
 
   public DifficultySelectionDialogService() {
-    scanner = new Scanner(System.in);
+    inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
+    outputPort = DependencyFactory.getInstance().getDependency(DifficultySelectionOutputPort.class);
   }
 
   public Difficulty selectDifficulty() {
-    StringBuilder difficultyDialog = new StringBuilder("Select a difficulty: ");
-    Difficulty.stream()
-        .forEach(d -> difficultyDialog.append(d.getName()).append(" (")
-            .append(d.getShortDifficultyName()).append(") "));
-    System.out.println(difficultyDialog);
-
+    outputPort.difficultOptions();
     return successfulSelection();
   }
 
@@ -25,14 +24,14 @@ public class DifficultySelectionDialogService {
 
     Difficulty selectedDifficulty = null;
     while (selectedDifficulty == null) {
-      String input = scanner.nextLine();
+      String input = inputPort.getInput();
 
       selectedDifficulty = Difficulty.stream()
           .filter(d -> d.match(input))
           .findFirst()
           .orElse(null);
       if (selectedDifficulty == null) {
-        System.out.println("The input did not equal a difficulty. Please try again!");
+        outputPort.noEqualDifficulty();
       }
     }
 

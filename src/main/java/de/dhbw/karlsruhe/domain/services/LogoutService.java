@@ -1,19 +1,26 @@
 package de.dhbw.karlsruhe.domain.services;
 
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.LogoutOutputPort;
+
 public class LogoutService {
 
-  private static boolean signedIn;
-  private static boolean logoutDesired;
+  private boolean signedIn;
+  private boolean logoutDesired;
+  private LogoutOutputPort outputPort;
+  private InputPort inputPort;
 
   public LogoutService() {
     this.signedIn = false;
     this.logoutDesired = false;
+    this.inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
+    this.outputPort = DependencyFactory.getInstance().getDependency(LogoutOutputPort.class);
   }
 
   public void logout() {
     this.signedIn = false;
     this.logoutDesired = true;
-    System.out.println("You have successfully logged out!");
+    outputPort.logout();
   }
 
   public boolean getSignedIn() {
@@ -33,10 +40,9 @@ public class LogoutService {
   }
 
   public boolean checkDesireToRun() {
-    System.out.println("----------------------------------------");
-    System.out.println("Do you want to re login? y/n");
+    outputPort.relogin();
 
-    String userInput = ScannerService.getScanner().nextLine();
+    String userInput = inputPort.getInput();
 
     while (true) {
       if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("yes")) {
@@ -45,8 +51,8 @@ public class LogoutService {
       } else if (userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("no")) {
         return false;
       }
-      System.out.println("Please type \"y\" if you want to login or \"n\" if you want to end the application");
-      userInput = ScannerService.getScanner().nextLine();
+      outputPort.exit();
+      userInput = inputPort.getInput();
     }
   }
 }

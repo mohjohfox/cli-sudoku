@@ -1,12 +1,13 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.adapters.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuSelectionOutputPort;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.wrappers.IntegerWrapper;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.ports.SudokuPersistencePort;
-import de.dhbw.karlsruhe.domain.services.ScannerService;
+import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,16 +15,18 @@ import java.util.Optional;
 public class SudokuSelectionDialog {
 
     private final SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
+    private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
+    private final SudokuSelectionOutputPort outputPort = DependencyFactory.getInstance().getDependency(SudokuSelectionOutputPort.class);
 
     public Optional<SudokuSaveEntry> selectSudokuDialog() {
         List<SudokuSaveEntry> sudokus = sudokuPersistencePort.getAllSudokus();
         printAll(sudokus);
         if (sudokus.isEmpty()) {
-            System.out.println("No sudokus found!");
+            outputPort.noSudokuFound();
             return Optional.empty();
         }
-        System.out.println("Please select a sudoku:");
-        String entry = ScannerService.getScanner().nextLine();
+        outputPort.promptSudoku();
+        String entry = inputPort.getInput();
         if (IntegerWrapper.isInteger(entry)) {
             return selectSudoku(Integer.parseInt(entry), sudokus);
         }
@@ -31,13 +34,7 @@ public class SudokuSelectionDialog {
     }
 
     private void printAll(List<SudokuSaveEntry> sudokus) {
-        int i = 1;
-        for (SudokuSaveEntry sudoku : sudokus) {
-            System.out.println(i + ": Save with id: " + sudoku.getSaveId());
-            System.out.println("Sudoku: " + sudoku.getSudoku().getId());
-            System.out.println();
-            i++;
-        }
+        outputPort.allSudokus(sudokus);
     }
 
     private Optional<SudokuSaveEntry> selectSudoku(int value, List<SudokuSaveEntry> sudokus) {

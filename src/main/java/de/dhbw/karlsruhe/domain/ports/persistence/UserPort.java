@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.domain.ports;
+package de.dhbw.karlsruhe.domain.ports.persistence;
 
 import de.dhbw.karlsruhe.domain.models.User;
 import java.util.List;

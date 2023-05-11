@@ -1,8 +1,8 @@
-package de.dhbw.karlsruhe.adapters;
+package de.dhbw.karlsruhe.adapters.persistence;
 
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.User;
-import de.dhbw.karlsruhe.domain.ports.UserPort;
+import de.dhbw.karlsruhe.domain.ports.persistence.UserPort;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;

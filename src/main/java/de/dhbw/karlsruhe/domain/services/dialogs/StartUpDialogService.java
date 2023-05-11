@@ -1,8 +1,10 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.domain.models.User;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.StartUpOutputPort;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
-import de.dhbw.karlsruhe.domain.services.ScannerService;
 import de.dhbw.karlsruhe.domain.services.UserService;
 
 import java.security.NoSuchAlgorithmException;
@@ -11,18 +13,22 @@ public class StartUpDialogService {
 
   private final UserService userService;
   private final LogoutService logoutService;
+  private final StartUpOutputPort outputPort;
+  private final InputPort inputPort;
 
   public StartUpDialogService() {
-    userService = new UserService();
-    logoutService = new LogoutService();
+    userService = DependencyFactory.getInstance().getDependency(UserService.class);;
+    logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
+    outputPort = DependencyFactory.getInstance().getDependency(StartUpOutputPort.class);
+    inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
   }
 
   public void signIn() {
     boolean successfulSignedIn = false;
 
     while (!successfulSignedIn) {
-      System.out.println("Do you already have an account? y/n");
-      String input = ScannerService.getScanner().nextLine();
+      outputPort.askForLogin();
+      String input = inputPort.getInput();
       successfulSignedIn = signInProcess(input);
     }
 
@@ -39,17 +45,16 @@ public class StartUpDialogService {
       }
       return loginProcess();
     } catch (NoSuchAlgorithmException e) {
-      System.err.println("Oh! It seems that an error has occurred.");
-      System.err.println(e.getMessage());
+      outputPort.error(e);
       return false;
     }
   }
 
   private void printLoginFeedback(boolean loginSuccessful) {
     if (loginSuccessful) {
-      System.out.println("Login was successful!");
+      outputPort.loginSuccess();
     } else {
-      System.out.println("Username or password is wrong!");
+      outputPort.errorDuringLogin();
     }
   }
 
@@ -59,16 +64,16 @@ public class StartUpDialogService {
       printRegistrationFeedback(registrationSuccessful);
       return registrationSuccessful;
     } catch (NoSuchAlgorithmException e) {
-      System.err.println("Registration error occurred.");
+      outputPort.errorDuringRegistration();
       return false;
     }
   }
 
   private void printRegistrationFeedback(boolean registrationSuccessful) {
     if (registrationSuccessful) {
-      System.out.println("Registration was successful. Please login now!");
+      outputPort.successRegistration();
     } else {
-      System.out.println("Registration failed!");
+      outputPort.failedRegistration();
     }
   }
 
@@ -91,27 +96,27 @@ public class StartUpDialogService {
       } else if (userInput.equals("n") || userInput.equals("no")) {
         return false;
       }
-      System.out.println("Please type \"y\" if you want to login or \"n\" if you want to register a new account.");
-      userInput = ScannerService.getScanner().nextLine();
+      outputPort.askForLoginOrRegistration();
+      userInput = inputPort.getInput();
     } while (true);
   }
 
   private User loginDialog() {
-    System.out.print("Please enter your username: ");
-    String userName = ScannerService.getScanner().nextLine();
+    outputPort.promptUserName();
+    String userName = inputPort.getInput();
 
-    System.out.print("Please enter your password: ");
-    String password = ScannerService.getScanner().nextLine();
+    outputPort.promptPassword();
+    String password = inputPort.getInput();
 
     return new User(userName, password);
   }
 
   private User registerDialog() {
-    System.out.print("Please enter a username: ");
-    String userName = ScannerService.getScanner().nextLine();
+    outputPort.promptUserName();
+    String userName = inputPort.getInput();
 
-    System.out.print("Please enter a password: ");
-    String password = ScannerService.getScanner().nextLine();
+    outputPort.promptPassword();
+    String password = inputPort.getInput();
 
     return new User(userName, password);
   }

@@ -2,6 +2,7 @@ package de.dhbw.karlsruhe.domain.models.generation;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 import java.util.*;
 
@@ -16,10 +17,10 @@ public class SudokuGeneratorTransformation {
     }
 
     public Sudoku generateSudoku(Difficulty dif){
-        SudokuTransformator sudokuTransformator = new SudokuTransformator();
+        SudokuTransformator sudokuTransformator = DependencyFactory.getInstance().getDependency(SudokuTransformator.class);
         this.sudoku = sudokuTransformator.transform(this.sudoku);
 
-        SudokuFieldsRemover sudokuFieldsRemover = new SudokuFieldsRemover();
+        SudokuFieldsRemover sudokuFieldsRemover = DependencyFactory.getInstance().getDependency(SudokuFieldsRemover.class);
         this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku,dif);
 
         return sudoku;
