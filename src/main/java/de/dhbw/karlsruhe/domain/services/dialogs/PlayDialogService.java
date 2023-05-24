@@ -94,7 +94,7 @@ public class PlayDialogService {
                 int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
                 int row = splitInput[0] - 1;
                 int col = splitInput[1] - 1;
-                int correctValue = sudoku.getInitialGameField().sudokuArray()[row][col];
+                int correctValue = sudoku.getSolvedGameField().sudokuArray()[row][col];
                 boolean isFieldCorrectlySet = sudoku.setField(row, col, correctValue);
                 if (isFieldCorrectlySet) {
                     outputPort.setCorrectField(row, col);
@@ -102,7 +102,7 @@ public class PlayDialogService {
                     outputPort.defaultFieldError(getAction[1]);
                 }
             } else {
-                List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField());
+                List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
                 outputPort.notCorrectFields(notCorrectFields);
             }
             return true;

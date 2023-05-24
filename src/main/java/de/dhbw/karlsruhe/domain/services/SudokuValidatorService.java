@@ -38,11 +38,13 @@ public class SudokuValidatorService {
         return Arrays.stream(gameField).anyMatch(arr -> Arrays.stream(arr).anyMatch(i -> i == 0));
     }
 
-    public List<String> crossCheck(SudokuArray gameField, SudokuArray initialGameField) {
+    public List<String> crossCheck(SudokuArray gameField, SudokuArray initialGameField, SudokuArray solvedGameField) {
         List<String> notCorrectFields = new ArrayList<>();
         for (int row = 0; row < gameField.sudokuArray().length; row++) {
             for (int col = 0; col < gameField.sudokuArray()[row].length; col++) {
-                if (gameField.sudokuArray()[row][col] != 0 && gameField.sudokuArray()[row][col] != initialGameField.sudokuArray()[row][col]) {
+                if (gameField.sudokuArray()[row][col] != 0 &&
+                        initialGameField.sudokuArray()[row][col] == 0 &&
+                        gameField.sudokuArray()[row][col] != solvedGameField.sudokuArray()[row][col]) {
                     notCorrectFields.add(row + "," + col);
                 }
             }
