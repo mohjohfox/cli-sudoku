@@ -34,7 +34,7 @@ public class SudokuValidatorService {
 
         for(int i=0; i<9;i++){
             HashSet<Integer> row = new HashSet<>();
-            for(int j=0; i<9;i++) {
+            for(int j=0; j<9;j++) {
                 row.add(sudoku[i][j]);
             }
             if(isSectionInvalid(row))
@@ -43,8 +43,8 @@ public class SudokuValidatorService {
 
         for(int i=0; i<9;i++){
             HashSet<Integer> column = new HashSet<>();
-            for(int j=0; i<9;i++) {
-                column.add(sudoku[i][j]);
+            for(int j=0; j<9;j++) {
+                column.add(sudoku[j][i]);
             }
             if(isSectionInvalid(column))
                 return false;
