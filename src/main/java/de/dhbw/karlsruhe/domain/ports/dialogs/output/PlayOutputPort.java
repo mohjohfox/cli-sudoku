@@ -22,4 +22,7 @@ public interface PlayOutputPort {
 
     void notCorrectFields(List<String> notCorrectFields);
 
+    void inputForSolvingField();
+
+    void setCorrectField(int row, int col);
 }

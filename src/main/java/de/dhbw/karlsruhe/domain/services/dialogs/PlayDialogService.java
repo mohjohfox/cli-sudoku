@@ -84,7 +84,18 @@ public class PlayDialogService {
 
         if (isHintAction(input)) {
             if (input.equalsIgnoreCase("H")) {
-                //TODO
+                outputPort.inputForSolvingField();
+                String fieldInput = inputPort.getInput();
+                while (!checkInputForSolvingField(fieldInput)) {
+                    outputPort.inputForSolvingField();
+                    fieldInput = inputPort.getInput();
+                }
+                int[] splitInput = Arrays.stream(fieldInput.split(",")).mapToInt(Integer::parseInt).toArray();
+                int row = splitInput[0] - 1;
+                int col = splitInput[1] - 1;
+                int correctValue = sudoku.getInitialGameField().sudokuArray()[row][col];
+                sudoku.setField(row, col, correctValue);
+                outputPort.setCorrectField(row, col);
             } else {
                 List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField());
                 outputPort.notCorrectFields(notCorrectFields);
@@ -137,6 +148,16 @@ public class PlayDialogService {
             }
         }
         return true;
+    }
+
+    private boolean checkInputForSolvingField(String input) {
+        String[] getAction = input.split(":");
+        try {
+            int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     private boolean isHintAction(String action) {

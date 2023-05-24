@@ -64,4 +64,12 @@ public class PlayCliAdapter implements PlayOutputPort {
             cliOutputPort.write("The following fields are not correct: " + notCorrectFields);
         }
     }
+
+    public void inputForSolvingField() {
+        cliOutputPort.write("Solving gamefield [Row][Column] by writing: S:[Row],[Column]");
+    }
+
+    public void setCorrectField(int row, int col) {
+        cliOutputPort.write("The field " + row + "," + col + " was set.");
+    }
 }
