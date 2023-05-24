@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
+import de.dhbw.karlsruhe.domain.models.Setting;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
@@ -42,6 +43,15 @@ public class PlayCliAdapter implements PlayOutputPort {
 
     @Override
     public void defaultFieldError(String value) {
-        cliOutputPort.write("The field "+ value +" could not be set, because it is a default field.");
+        cliOutputPort.write("The field " + value + " could not be set, because it is a default field.");
+    }
+
+    public void possibleHints(Setting setting) {
+        if (setting.getValueHint()) {
+            cliOutputPort.write("Press H to get a value hint.");
+        }
+        if (setting.getFieldValidation()) {
+            cliOutputPort.write("Press V to validate the sudoku.");
+        }
     }
 }

@@ -28,16 +28,16 @@ public class SettingService {
         userService.updateUser(user);
     }
 
+    public Setting getUserSettings(String username) {
+        return getUser(username).getSetting();
+    }
+
     private void toggleFieldValidation(Setting setting) {
         setting.setFieldValidation(!setting.getFieldValidation());
     }
 
     private void toggleValueHint(Setting setting) {
         setting.setValueHint(!setting.getValueHint());
-    }
-
-    private Setting getUserSettings(String username) {
-        return getUser(username).getSetting();
     }
 
     private User getUser(String username) {
