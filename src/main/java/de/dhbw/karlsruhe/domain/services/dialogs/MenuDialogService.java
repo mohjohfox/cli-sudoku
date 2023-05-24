@@ -21,7 +21,7 @@ public class MenuDialogService {
     private LeaderboardDialogService leaderboardDialogService;
     private final SudokuSelectionDialog sudokuSelectionDialog;
     private final PlayDialogService playDialogService;
-    private final SettingService settingService;
+    private final SettingDialogService settingService;
     private final LogoutService logoutService;
     private final SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
     private final MenuOutputPort outputPort;
@@ -35,7 +35,7 @@ public class MenuDialogService {
         this.logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
         this.outputPort = DependencyFactory.getInstance().getDependency(MenuOutputPort.class);
         this.inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
-        this.settingService = DependencyFactory.getInstance().getDependency(SettingService.class);
+        this.settingService = DependencyFactory.getInstance().getDependency(SettingDialogService.class);
     }
 
     public void startMenuDialog() {

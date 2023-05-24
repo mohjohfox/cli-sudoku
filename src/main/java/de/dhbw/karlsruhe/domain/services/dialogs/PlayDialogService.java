@@ -2,7 +2,6 @@ package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
-import de.dhbw.karlsruhe.domain.models.AppInformation;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
@@ -12,6 +11,7 @@ import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
+import de.dhbw.karlsruhe.domain.services.SettingService;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
 import java.util.Arrays;
@@ -52,7 +52,7 @@ public class PlayDialogService {
 
     private void startGame() {
         outputPort.startGame();
-        outputPort.possibleHints(settingService.getUserSettings(AppInformation.username));
+        outputPort.possibleHints(settingService.getSetting());
 
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
             sudokuOutputPort.print(sudoku);
@@ -67,7 +67,7 @@ public class PlayDialogService {
 
         while (!inputCorrect(input)) {
             outputPort.inputError();
-            outputPort.possibleHints(settingService.getUserSettings(AppInformation.username));
+            outputPort.possibleHints(settingService.getSetting());
             input = inputPort.getInput();
         }
 
