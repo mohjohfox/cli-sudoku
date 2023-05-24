@@ -11,6 +11,7 @@ import de.dhbw.karlsruhe.domain.models.generation.SudokuTransformator;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.*;
 import de.dhbw.karlsruhe.domain.services.dialogs.*;
+import de.dhbw.karlsruhe.domain.services.DurationTrackService;
 
 public class Main {
 
@@ -33,6 +34,7 @@ public class Main {
 
     private static void injectDependencies() {
         DependencyFactory dependencyFactory = DependencyFactory.getInstance();
+        dependencyFactory.registerDependency(new DurationTrackService());
         dependencyFactory.registerDependency(new EncryptionService());
         dependencyFactory.registerDependency(new ScannerAdapter());
         dependencyFactory.registerDependency(new InputCliAdapter());

@@ -1,12 +1,22 @@
 package de.dhbw.karlsruhe.domain.services;
 
-public class TimetrackerService {
+import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
+import de.dhbw.karlsruhe.domain.Location;
+import de.dhbw.karlsruhe.domain.models.DurationTrackSaveEntry;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
+
+public class DurationTrackService {
 
     private long startTimeMillis;
     private long endTimeMillis;
     private long durationMillis;
+    private DurationTrackAdapter durationTrackAdapter;
+    private DurationTrackSaveEntry durationTrackSaveEntry;
+    private static int saveId = 1;
 
-    public TimetrackerService() {
+    public DurationTrackService() {
+        this.durationTrackAdapter = new DurationTrackAdapter(Location.PROD);
+
         this.startTimeMillis = -1;
         this.endTimeMillis = -1;
     }
@@ -18,6 +28,14 @@ public class TimetrackerService {
     public void setEndTime() {
         this.endTimeMillis = System.currentTimeMillis();
         this.calculateDuration();
+    }
+
+    public void saveDuration(Sudoku sudoku) {
+        this.durationTrackSaveEntry = new DurationTrackSaveEntry(String.valueOf(saveId), sudoku, this.durationMillis);
+
+        this.durationTrackAdapter.saveSolvingTime(this.durationTrackSaveEntry);
+
+        saveId++;
     }
 
     private void calculateDuration() {
@@ -32,9 +50,5 @@ public class TimetrackerService {
         }
 
         return this.endTimeMillis > this.startTimeMillis;
-    }
-
-    private void safeDuration() {
-
     }
 }

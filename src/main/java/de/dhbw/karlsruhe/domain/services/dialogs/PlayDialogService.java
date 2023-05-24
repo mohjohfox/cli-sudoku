@@ -12,6 +12,7 @@ import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.SettingService;
+import de.dhbw.karlsruhe.domain.services.DurationTrackService;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
 import java.util.Arrays;
@@ -26,6 +27,7 @@ public class PlayDialogService {
     private SudokuValidatorService sudokuValidator = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
     private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
     private SettingService settingService = DependencyFactory.getInstance().getDependency(SettingService.class);
+    private DurationTrackService durationTrackService = DependencyFactory.getInstance().getDependency(DurationTrackService.class);
     private Random rand = new Random();
     private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     private final PlayOutputPort outputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);
@@ -52,6 +54,7 @@ public class PlayDialogService {
     }
 
     private void startGame() {
+        this.durationTrackService.setStartTime();
         outputPort.startGame();
         outputPort.possibleHints(settingService.getSettingFromCurrentUser());
 
@@ -61,6 +64,9 @@ public class PlayDialogService {
                 break;
             }
         }
+
+        this.durationTrackService.setEndTime();
+        this.durationTrackService.saveDuration(sudoku);
     }
 
     private boolean userInputDialog() {
