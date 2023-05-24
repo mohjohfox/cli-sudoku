@@ -12,6 +12,12 @@ public class User {
         this.setting = new Setting();
     }
 
+    public User(String userName, String password, Setting setting) {
+        this.userName = userName;
+        this.password = password;
+        this.setting = setting;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -22,5 +28,9 @@ public class User {
 
     public Setting getSetting() {
         return setting;
+    }
+
+    public void setSetting(Setting setting) {
+        this.setting = setting;
     }
 }

@@ -10,6 +10,11 @@ public class Setting {
         this.fieldValidation = false;
     }
 
+    public Setting(boolean valueHint, boolean fieldValidation) {
+        this.valueHint = valueHint;
+        this.fieldValidation = fieldValidation;
+    }
+
     public boolean getValueHint() {
         return valueHint;
     }
@@ -20,6 +25,14 @@ public class Setting {
 
     @Override
     public String toString() {
-        return "valueHint=" + valueHint + ", fieldValidation=" + fieldValidation;
+        return "valueHint=" + valueHint + ",fieldValidation=" + fieldValidation;
+    }
+
+    public void setValueHint(boolean valueHint) {
+        this.valueHint = valueHint;
+    }
+
+    public void setFieldValidation(boolean fieldValidation) {
+        this.fieldValidation = fieldValidation;
     }
 }

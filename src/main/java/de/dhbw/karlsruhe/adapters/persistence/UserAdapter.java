@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.adapters.persistence;
 
 import de.dhbw.karlsruhe.domain.Location;
+import de.dhbw.karlsruhe.domain.models.Setting;
 import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.ports.persistence.UserPort;
 
@@ -22,7 +23,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
         prepareFileStructure(userFileName);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getFullFilePath(userFileName), true))) {
-            String formattedEntry = String.format("username=%s&password=%s&settings=%s", user.getUserName(), user.getPassword(), user.getSetting());
+            String formattedEntry = getSaveUserString(user);
             writer.append(formattedEntry);
             writer.newLine();
         } catch (IOException e) {
@@ -69,5 +70,65 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
             return List.of();
         }
         return userNames;
+    }
+
+    @Override
+    public User getUser(String userName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(userFileName)))) {
+            String line = br.readLine();
+
+            while (line != null) {
+                String username = line.split("&")[0].split("=")[1];
+                if (!username.equals(userName)) {
+                    line = br.readLine();
+                    continue;
+                }
+                String password = line.split("&")[1].split("=")[1];
+                String[] settings = line.split("&")[2].split(",");
+                boolean valueHint = Boolean.parseBoolean(settings[0].split("=")[1]);
+                boolean fieldValidation = Boolean.parseBoolean(settings[1].split("=")[1]);
+                Setting setting = new Setting(valueHint, fieldValidation);
+                return new User(username, password, setting);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return null;
+    }
+
+    @Override
+    public void updateUser(User user) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(userFileName)));
+             BufferedWriter wr = new BufferedWriter(new FileWriter(getFullFilePath(userFileName + ".tmp"), false))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String username = line.split("&")[0].split("=")[1];
+                if (username.equals(user.getUserName())) {
+                    String updatedLine = getSaveUserString(user);
+                    wr.write(updatedLine);
+                    wr.newLine();
+                } else {
+                    wr.write(line);
+                    wr.newLine();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Rename the temporary file to replace the original file
+        File originalFile = new File(getFullFilePath(userFileName));
+        File tempFile = new File(getFullFilePath(userFileName + ".tmp"));
+        if (tempFile.renameTo(originalFile)) {
+            System.out.println("User updated successfully.");
+        } else {
+            System.err.println("Failed to update user.");
+        }
+    }
+
+    private String getSaveUserString(User user) {
+        return String.format("username=%s&password=%s&%s", user.getUserName(), user.getPassword(), user.getSetting());
     }
 }
