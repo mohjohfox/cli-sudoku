@@ -56,6 +56,7 @@ public class Main {
         dependencyFactory.registerDependency(new SudokuValidatorService());
         dependencyFactory.registerDependency(new SettingService());
         dependencyFactory.registerDependency(new PlayDialogService());
+        dependencyFactory.registerDependency(new SettingDialogService());
         dependencyFactory.registerDependency(new MenuDialogService());
         dependencyFactory.registerDependency(new StartUpDialogService());
         dependencyFactory.registerDependency(new Sudoku());
