@@ -32,7 +32,8 @@ public class SettingService {
 
     private Setting getUserSettings() {
         // TODO: 2021-05-31 implement
-        return userService.getUser().getSettings();
+        // return userService.getUser().getSettings();
+        return new Setting();
     }
 
 }

@@ -17,4 +17,9 @@ public class Setting {
     public boolean getFieldValidation() {
         return fieldValidation;
     }
+
+    @Override
+    public String toString() {
+        return "valueHint=" + valueHint + ", fieldValidation=" + fieldValidation;
+    }
 }
