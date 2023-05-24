@@ -4,4 +4,6 @@ import de.dhbw.karlsruhe.domain.models.DurationTrackSaveEntry;
 
 public interface DurationTrackPort {
     void saveSolvingTime(DurationTrackSaveEntry durationTrackSaveEntry);
+
+    DurationTrackSaveEntry loadSolvingTime(String sudokuId);
 }

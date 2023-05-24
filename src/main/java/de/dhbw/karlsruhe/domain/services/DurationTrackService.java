@@ -3,7 +3,8 @@ package de.dhbw.karlsruhe.domain.services;
 import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.DurationTrackSaveEntry;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
+
+import java.util.UUID;
 
 public class DurationTrackService {
 
@@ -12,7 +13,7 @@ public class DurationTrackService {
     private long durationMillis;
     private DurationTrackAdapter durationTrackAdapter;
     private DurationTrackSaveEntry durationTrackSaveEntry;
-    private static int saveId = 1;
+    private UUID saveId;
 
     public DurationTrackService() {
         this.durationTrackAdapter = new DurationTrackAdapter(Location.PROD);
@@ -30,12 +31,10 @@ public class DurationTrackService {
         this.calculateDuration();
     }
 
-    public void saveDuration(Sudoku sudoku) {
-        this.durationTrackSaveEntry = new DurationTrackSaveEntry(String.valueOf(saveId), sudoku, this.durationMillis);
-
+    public void saveDuration(String sudokuID) {
+        this.saveId = UUID.randomUUID();
+        this.durationTrackSaveEntry = new DurationTrackSaveEntry(String.valueOf(this.saveId), sudokuID, this.durationMillis);
         this.durationTrackAdapter.saveSolvingTime(this.durationTrackSaveEntry);
-
-        saveId++;
     }
 
     private void calculateDuration() {

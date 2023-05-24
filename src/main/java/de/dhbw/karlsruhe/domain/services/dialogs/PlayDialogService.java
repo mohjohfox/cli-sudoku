@@ -66,7 +66,7 @@ public class PlayDialogService {
         }
 
         this.durationTrackService.setEndTime();
-        this.durationTrackService.saveDuration(sudoku);
+        this.durationTrackService.saveDuration(sudoku.getId());
     }
 
     private boolean userInputDialog() {

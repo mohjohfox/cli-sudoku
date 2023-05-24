@@ -30,4 +30,9 @@ public class DurationTrackAdapter extends AbstractStoreAdapter implements Durati
             e.printStackTrace();
         }
     }
+
+    @Override
+    public DurationTrackSaveEntry loadSolvingTime(String sudokuId) {
+        return null;
+    }
 }
