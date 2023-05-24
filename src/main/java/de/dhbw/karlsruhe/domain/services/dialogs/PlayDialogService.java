@@ -15,6 +15,7 @@ import de.dhbw.karlsruhe.domain.services.SettingService;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -81,6 +82,16 @@ public class PlayDialogService {
             return false;
         }
 
+        if (isHintAction(input)) {
+            if (input.equalsIgnoreCase("H")) {
+                //TODO
+            } else {
+                List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField());
+                outputPort.notCorrectFields(notCorrectFields);
+            }
+            return true;
+        }
+
         String[] getAction = input.split(":");
 
         int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
@@ -99,7 +110,7 @@ public class PlayDialogService {
     }
 
     private boolean inputCorrect(String input) {
-        if (isAbortAction(input) || isExitAction(input)) {
+        if (isAbortAction(input) || isExitAction(input) || isHintAction(input)) {
             return true;
         } else if (!input.contains(":")) {
             return false;
@@ -126,6 +137,10 @@ public class PlayDialogService {
             }
         }
         return true;
+    }
+
+    private boolean isHintAction(String action) {
+        return action.equalsIgnoreCase("H") || action.equalsIgnoreCase("V");
     }
 
     private boolean isAbortAction(String action) {

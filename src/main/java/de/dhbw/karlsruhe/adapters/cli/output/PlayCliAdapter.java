@@ -4,6 +4,8 @@ import de.dhbw.karlsruhe.domain.models.Setting;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
+import java.util.List;
+
 public class PlayCliAdapter implements PlayOutputPort {
 
     private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
@@ -52,6 +54,14 @@ public class PlayCliAdapter implements PlayOutputPort {
         }
         if (setting.getFieldValidation()) {
             cliOutputPort.write("Press V to validate the sudoku.");
+        }
+    }
+
+    public void notCorrectFields(List<String> notCorrectFields) {
+        if (notCorrectFields.isEmpty()) {
+            cliOutputPort.write("All fields are correct - Keep going!");
+        } else {
+            cliOutputPort.write("The following fields are not correct: " + notCorrectFields);
         }
     }
 }

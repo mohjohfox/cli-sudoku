@@ -1,6 +1,10 @@
 package de.dhbw.karlsruhe.domain.services;
 
+import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SudokuValidatorService {
 
@@ -30,8 +34,19 @@ public class SudokuValidatorService {
         return true;
     }
 
-    public boolean isSudokuFinished(int[][] gameField){
+    public boolean isSudokuFinished(int[][] gameField) {
         return Arrays.stream(gameField).anyMatch(arr -> Arrays.stream(arr).anyMatch(i -> i == 0));
     }
 
+    public List<String> crossCheck(SudokuArray gameField, SudokuArray initialGameField) {
+        List<String> notCorrectFields = new ArrayList<>();
+        for (int row = 0; row < gameField.sudokuArray().length; row++) {
+            for (int col = 0; col < gameField.sudokuArray()[row].length; col++) {
+                if (gameField.sudokuArray()[row][col] != 0 && gameField.sudokuArray()[row][col] != initialGameField.sudokuArray()[row][col]) {
+                    notCorrectFields.add(row + "," + col);
+                }
+            }
+        }
+        return notCorrectFields;
+    }
 }
