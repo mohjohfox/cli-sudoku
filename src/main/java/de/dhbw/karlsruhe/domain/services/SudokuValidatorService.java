@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.domain.services;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class SudokuValidatorService {
 
@@ -28,6 +28,48 @@ public class SudokuValidatorService {
             }
         }
         return true;
+    }
+
+    public boolean isSudokuValid(int[][] sudoku){
+
+        for(int i=0; i<9;i++){
+            HashSet<Integer> row = new HashSet<>();
+            for(int j=0; i<9;i++) {
+                row.add(sudoku[i][j]);
+            }
+            if(isSectionInvalid(row))
+                return false;
+        }
+
+        for(int i=0; i<9;i++){
+            HashSet<Integer> column = new HashSet<>();
+            for(int j=0; i<9;i++) {
+                column.add(sudoku[i][j]);
+            }
+            if(isSectionInvalid(column))
+                return false;
+        }
+
+        for (int rowOffset = 0; rowOffset < 3; rowOffset++) {
+            for (int colOffset = 0; colOffset < 3; colOffset++) {
+
+                HashSet<Integer> block = new HashSet<>();
+
+                for (int row=0; row<3;row++) {
+                    for (int col=0; col<3; col++) {
+                        block.add(sudoku[row+rowOffset*3][col+colOffset*3]);
+                    }
+                }
+                if(isSectionInvalid(block))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isSectionInvalid(Set<Integer> section){
+        return section.size() != 10;
     }
 
     public boolean isSudokuFinished(int[][] gameField){
