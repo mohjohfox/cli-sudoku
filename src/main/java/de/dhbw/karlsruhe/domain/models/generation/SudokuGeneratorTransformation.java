@@ -26,7 +26,7 @@ public class SudokuGeneratorTransformation {
         SudokuFieldsRemover sudokuFieldsRemover = DependencyFactory.getInstance().getDependency(SudokuFieldsRemover.class);
         sudoku.setSolvedGameField(getGameFields(sudoku));
         this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku, dif);
-
+        sudoku.setInitialGameField(getGameFields(sudoku));
         return sudoku;
     }
 

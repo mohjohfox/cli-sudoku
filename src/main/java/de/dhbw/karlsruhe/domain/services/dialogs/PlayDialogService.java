@@ -82,8 +82,8 @@ public class PlayDialogService {
             return false;
         }
 
-        if (isHintAction(input)) {
-            if (input.equalsIgnoreCase("H")) {
+        if (isHintAction(input) && (settingService.getSetting().getValueHint() || settingService.getSetting().getFieldValidation())) {
+            if (input.equalsIgnoreCase("H") && settingService.getSetting().getValueHint()) {
                 outputPort.inputForSolvingField();
                 String fieldInput = inputPort.getInput();
                 while (!checkInputForSolvingField(fieldInput)) {
@@ -101,28 +101,35 @@ public class PlayDialogService {
                 } else {
                     outputPort.defaultFieldError(getAction[1]);
                 }
-            } else {
+                return true;
+            } else if (input.equalsIgnoreCase("V") && settingService.getSetting().getFieldValidation()) {
                 List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
                 outputPort.notCorrectFields(notCorrectFields);
+                return true;
             }
             return true;
         }
 
-        String[] getAction = input.split(":");
+        try {
+            String[] getAction = input.split(":");
 
-        int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
+            int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
 
-        boolean actionSuccessful = false;
-        if (isWriteAction(getAction[0])) {
-            actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, splitInput[2]);
+            boolean actionSuccessful = false;
+            if (isWriteAction(getAction[0])) {
+                actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, splitInput[2]);
+            }
+            if (isRemoveAction(getAction[0])) {
+                actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, 0);
+            }
+            if (!actionSuccessful) {
+                outputPort.defaultFieldError(getAction[1]);
+            }
+            return true;
+        } catch (IndexOutOfBoundsException e) {
+            outputPort.inputError();
+            return true;
         }
-        if (isRemoveAction(getAction[0])) {
-            actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, 0);
-        }
-        if (!actionSuccessful) {
-            outputPort.defaultFieldError(getAction[1]);
-        }
-        return true;
     }
 
     private boolean inputCorrect(String input) {

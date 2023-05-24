@@ -28,10 +28,11 @@ public class Sudoku {
         this.difficulty = difficulty;
     }
 
-    public Sudoku(String id, SudokuArray gameField, Difficulty difficulty) {
+    public Sudoku(String id, SudokuArray gameField, SudokuArray initialGameField, SudokuArray solvedGameField, Difficulty difficulty) {
         this.id = id;
         this.gameField = gameField;
-        this.initialGameField = gameField;
+        this.initialGameField = initialGameField;
+        this.solvedGameField = solvedGameField;
         this.difficulty = difficulty;
     }
 
