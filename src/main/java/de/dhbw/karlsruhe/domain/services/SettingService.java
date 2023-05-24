@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.domain.services;
 
-import de.dhbw.karlsruhe.domain.models.AppInformation;
+import de.dhbw.karlsruhe.domain.models.GameInformation;
 import de.dhbw.karlsruhe.domain.models.Setting;
 
 public class SettingService {
@@ -16,7 +16,7 @@ public class SettingService {
     }
 
     public Setting getSetting() {
-        return userService.getUser(AppInformation.username).getSetting();
+        return userService.getUser(GameInformation.username).getSetting();
     }
 
 }

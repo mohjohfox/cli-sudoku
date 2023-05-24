@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.domain.models.AppInformation;
+import de.dhbw.karlsruhe.domain.models.GameInformation;
 import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.StartUpOutputPort;
@@ -81,7 +81,7 @@ public class StartUpDialogService {
 
     private boolean loginProcess() throws NoSuchAlgorithmException {
         User enteredUser = loginDialog();
-        AppInformation.username = enteredUser.getUserName();
+        GameInformation.username = enteredUser.getUserName();
         boolean isLoginSuccessful = userService.isPasswordCorrect(enteredUser);
         printLoginFeedback(isLoginSuccessful);
         return isLoginSuccessful;

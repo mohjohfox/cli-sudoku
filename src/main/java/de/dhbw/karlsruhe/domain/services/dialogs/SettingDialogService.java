@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.domain.models.AppInformation;
+import de.dhbw.karlsruhe.domain.models.GameInformation;
 import de.dhbw.karlsruhe.domain.models.Setting;
 import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
@@ -17,7 +17,7 @@ public class SettingDialogService {
     private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
 
     public void settingDialog() {
-        User user = userService.getUser(AppInformation.username);
+        User user = userService.getUser(GameInformation.username);
         Setting setting = user.getSetting();
         settingsOutputPort.settingsMenu(setting);
         int userInput = inputPort.getInputAsInt();
