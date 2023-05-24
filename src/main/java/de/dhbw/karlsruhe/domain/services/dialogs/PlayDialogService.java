@@ -82,30 +82,22 @@ public class PlayDialogService {
             return false;
         }
 
-        if (isHintAction(input) && (settingService.getSetting().getValueHint() || settingService.getSetting().getFieldValidation())) {
-            if (input.equalsIgnoreCase("H") && settingService.getSetting().getValueHint()) {
+        if (isHintAction(input) && areHintsActivated()) {
+            if (isValueHint(input)) {
                 outputPort.inputForSolvingField();
                 String fieldInput = inputPort.getInput();
                 while (!checkInputForSolvingField(fieldInput)) {
                     outputPort.inputForSolvingField();
                     fieldInput = inputPort.getInput();
                 }
-                String[] getAction = fieldInput.split(":");
-                int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
-                int row = splitInput[0] - 1;
-                int col = splitInput[1] - 1;
-                int correctValue = sudoku.getSolvedGameField().sudokuArray()[row][col];
-                boolean isFieldCorrectlySet = sudoku.setField(row, col, correctValue);
-                if (isFieldCorrectlySet) {
-                    outputPort.setCorrectField(row, col);
-                } else {
-                    outputPort.defaultFieldError(getAction[1]);
-                }
-                return true;
-            } else if (input.equalsIgnoreCase("V") && settingService.getSetting().getFieldValidation()) {
+                int correctValue = getCorrectValue(fieldInput);
+                boolean isFieldCorrectlySet = sudoku.setField(
+                        getRowFromSplitInput(splitControleInputToIntegers(fieldInput)),
+                        getColFromSplitInput(splitControleInputToIntegers(fieldInput)), correctValue);
+                messageIsFieldCorrectlySet(fieldInput, isFieldCorrectlySet);
+            } else if (isValidationHint(input)) {
                 List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
                 outputPort.notCorrectFields(notCorrectFields);
-                return true;
             }
             return true;
         }
@@ -130,6 +122,49 @@ public class PlayDialogService {
             outputPort.inputError();
             return true;
         }
+    }
+
+    private int getCorrectValue(String fieldInput) {
+        int[] splitInput = splitControleInputToIntegers(fieldInput);
+        int row = getRowFromSplitInput(splitInput);
+        int col = getColFromSplitInput(splitInput);
+        return sudoku.getSolvedGameField().sudokuArray()[row][col];
+    }
+
+    private int[] splitControleInputToIntegers(String input) {
+        String[] getAction = input.split(":");
+        return Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
+    }
+
+    private int getRowFromSplitInput(int[] splitInput) {
+        return splitInput[0] - 1;
+    }
+
+    private int getColFromSplitInput(int[] splitInput) {
+        return splitInput[1] - 1;
+    }
+
+    private void messageIsFieldCorrectlySet(String fieldInput, boolean isFieldCorrectlySet) {
+        int[] splitInput = splitControleInputToIntegers(fieldInput);
+        if (isFieldCorrectlySet) {
+            int row = getRowFromSplitInput(splitInput);
+            int col = getColFromSplitInput(splitInput);
+            outputPort.setCorrectField(row, col);
+        } else {
+            outputPort.defaultFieldError(fieldInput);
+        }
+    }
+
+    private boolean isValidationHint(String input) {
+        return input.equalsIgnoreCase("V") && settingService.getSetting().getFieldValidation();
+    }
+
+    private boolean isValueHint(String input) {
+        return input.equalsIgnoreCase("H") && settingService.getSetting().getValueHint();
+    }
+
+    private boolean areHintsActivated() {
+        return settingService.getSetting().getValueHint() || settingService.getSetting().getFieldValidation();
     }
 
     private boolean inputCorrect(String input) {
