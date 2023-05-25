@@ -3,6 +3,7 @@ package de.dhbw.karlsruhe.domain.services.dialogs;
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.InvalidOptionException;
 import de.dhbw.karlsruhe.domain.models.MenuOptions;
 import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
@@ -64,7 +65,7 @@ public class MenuDialogService {
             } catch (InputMismatchException ie) {
                 outputPort.optionError();
                 inputPort.cleanInput();
-            } catch (NumberFormatException nfe) {
+            } catch (InvalidOptionException ioe) {
                 outputPort.optionError();
             }
         }
