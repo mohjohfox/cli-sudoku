@@ -55,7 +55,7 @@ public class PlayDialogService {
         outputPort.startGame();
         outputPort.possibleHints(settingService.getSettingFromCurrentUser());
 
-        while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
+        while (sudokuValidator.isSudokuFullyFilled(sudoku.getGameField().sudokuArray())) {
             sudokuOutputPort.print(sudoku);
             if (!userInputDialog()) {
                 break;

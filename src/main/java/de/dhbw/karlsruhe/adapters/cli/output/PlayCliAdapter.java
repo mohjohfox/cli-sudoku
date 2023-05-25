@@ -70,7 +70,7 @@ public class PlayCliAdapter implements PlayOutputPort {
         if (notCorrectFields.isEmpty()) {
             cliOutputPort.write("All fields are correct - Well done!");
         } else {
-            cliOutputPort.write("You finished the sudoku! The following fields are not correct: " + notCorrectFields);
+            cliOutputPort.write("You finished the sudoku but not all fields are correct. The wrong fields are:" + notCorrectFields);
         }
     }
 
