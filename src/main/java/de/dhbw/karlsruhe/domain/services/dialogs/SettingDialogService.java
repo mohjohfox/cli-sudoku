@@ -26,22 +26,33 @@ public class SettingDialogService {
             try {
                 userInput = inputPort.getInputAsInt();
 
-                if (userInput == 1 || userInput == 2 || userInput == 3) {
+                if (validOptionSelected(userInput)) {
                     switch (userInput) {
                         case 1 -> settingService.toggleValueHint(setting);
                         case 2 -> settingService.toggleFieldValidation(setting);
                     }
-                    user.setSetting(setting);
-                    userService.updateUser(user);
+                    updateUserSettings(user, setting);
                 } else {
-                    settingsOutputPort.invalidOption();
-                    settingsOutputPort.settingsMenu(setting);
+                    printInvalidOptionWarning(setting);
                     userInput = -1;
                 }
             } catch (InvalidOptionException e) {
-                settingsOutputPort.invalidOption();
-                settingsOutputPort.settingsMenu(setting);
+                printInvalidOptionWarning(setting);
             }
         }
+    }
+
+    private void printInvalidOptionWarning(Setting setting) {
+        settingsOutputPort.invalidOption();
+        settingsOutputPort.settingsMenu(setting);
+    }
+
+    private void updateUserSettings(User user, Setting setting) {
+        user.setSetting(setting);
+        userService.updateUser(user);
+    }
+
+    private static boolean validOptionSelected(int userInput) {
+        return userInput == 1 || userInput == 2 || userInput == 3;
     }
 }
