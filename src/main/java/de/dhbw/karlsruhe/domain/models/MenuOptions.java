@@ -4,9 +4,10 @@ public enum MenuOptions {
     PLAY("Play"),
     SAVED_SUDOKUS("Show saved Sudokus"),
     LEADERBOARD("Leaderboard"),
+    SETTINGS("Settings"),
     LOGOUT("Logout");
 
-    String representation;
+    final String representation;
 
     MenuOptions(String representation) {
         this.representation = representation;
