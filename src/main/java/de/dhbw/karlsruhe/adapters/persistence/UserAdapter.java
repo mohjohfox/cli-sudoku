@@ -6,6 +6,7 @@ import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.ports.persistence.UserPort;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,6 +121,11 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
 
         // Rename the temporary file to replace the original file
         File originalFile = new File(getFullFilePath(userFileName));
+        try {
+            Files.delete(new File(getFullFilePath(userFileName)).toPath());
+        } catch (IOException e) {
+            System.out.println("File " + getFullFilePath(userFileName) + " could not be deleted.");
+        }
         File tempFile = new File(getFullFilePath(userFileName + ".tmp"));
         if (tempFile.renameTo(originalFile)) {
             System.out.println("User updated successfully.");
