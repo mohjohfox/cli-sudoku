@@ -78,7 +78,7 @@ public class DurationTrackAdapter extends AbstractStoreAdapter implements Durati
 
     private long parseDurationFormatted(String durationRaw) {
         TimeWrapper timeWrapper = new TimeWrapper();
-        String[] timesSeparated = durationRaw.split("(:|.)");
+        String[] timesSeparated = durationRaw.split("(:|\\.)");
 
         return timeWrapper.timeToMillis(timesSeparated[0], timesSeparated[1], timesSeparated[2], timesSeparated[3]);
     }
