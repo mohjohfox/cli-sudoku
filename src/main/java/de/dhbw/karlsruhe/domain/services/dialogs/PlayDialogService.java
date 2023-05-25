@@ -61,6 +61,10 @@ public class PlayDialogService {
                 break;
             }
         }
+
+        List<String> notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
+        outputPort.notCorrectSudoku(notCorrectFields);
+        // W:6,6save score/time
     }
 
     private boolean userInputDialog() {
@@ -228,7 +232,7 @@ public class PlayDialogService {
     }
 
     private boolean isValidAmountOfDigits(int[] splitInput) {
-        return splitInput.length == 3;
+        return splitInput.length == 3 || splitInput.length == 2;
     }
 
     private boolean isValidAction(String action) {

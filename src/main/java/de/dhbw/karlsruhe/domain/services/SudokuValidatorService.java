@@ -1,4 +1,5 @@
 package de.dhbw.karlsruhe.domain.services;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 
 import java.util.*;
@@ -76,6 +77,10 @@ public class SudokuValidatorService {
 
     public boolean isSudokuFinished(int[][] gameField){
         return Arrays.stream(gameField).anyMatch(arr -> Arrays.stream(arr).anyMatch(i -> i == 0));
+    }
+
+    public List<String> crossCheck(Sudoku sudoku){
+        return crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
     }
 
     public List<String> crossCheck(SudokuArray gameField, SudokuArray initialGameField, SudokuArray solvedGameField) {
