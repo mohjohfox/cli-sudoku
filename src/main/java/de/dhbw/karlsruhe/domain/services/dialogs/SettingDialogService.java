@@ -34,10 +34,12 @@ public class SettingDialogService {
                     user.setSetting(setting);
                     userService.updateUser(user);
                 } else {
+                    settingsOutputPort.invalidOption();
                     settingsOutputPort.settingsMenu(setting);
                     userInput = -1;
                 }
             } catch (InvalidOptionException e) {
+                settingsOutputPort.invalidOption();
                 settingsOutputPort.settingsMenu(setting);
             }
         }
