@@ -22,6 +22,8 @@ public interface PlayOutputPort {
 
     void notCorrectFields(List<String> notCorrectFields);
 
+    void notCorrectSudoku(List<String> notCorrectFields);
+
     void inputForSolvingField();
 
     void setCorrectField(int row, int col);

@@ -19,14 +19,16 @@ public class SudokuGeneratorTransformation {
         this.sudoku = fillSudokuWithDigits(unusedDigit);
     }
 
-    public Sudoku generateSudoku(Difficulty dif) {
-        SudokuTransformator sudokuTransformator = DependencyFactory.getInstance().getDependency(SudokuTransformator.class);
-        this.sudoku = sudokuTransformator.transform(this.sudoku);
+    public Sudoku generateSudoku(Difficulty dif){
+        SudokuTransformation sudokuTransformation = DependencyFactory.getInstance().getDependency(SudokuTransformation.class);
+        this.sudoku = sudokuTransformation.transform(this.sudoku);
 
-        SudokuFieldsRemover sudokuFieldsRemover = DependencyFactory.getInstance().getDependency(SudokuFieldsRemover.class);
         sudoku.setSolvedGameField(getGameFields(sudoku));
-        this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku, dif);
-        sudoku.setInitialGameField(getGameFields(sudoku));
+        SudokuFieldsRemover sudokuFieldsRemover = DependencyFactory.getInstance().getDependency(SudokuFieldsRemover.class);
+        this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku,dif);
+
+        this.sudoku.setInitialGameField(this.sudoku.getGameField());
+
         return sudoku;
     }
 

@@ -55,12 +55,16 @@ public class PlayDialogService {
         outputPort.startGame();
         outputPort.possibleHints(settingService.getSettingFromCurrentUser());
 
-        while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
+        while (sudokuValidator.isSudokuFullyFilled(sudoku.getGameField().sudokuArray())) {
             sudokuOutputPort.print(sudoku);
             if (!userInputDialog()) {
                 break;
             }
         }
+
+        List<String> notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
+        outputPort.notCorrectSudoku(notCorrectFields);
+        // save score/time
     }
 
     private boolean userInputDialog() {
@@ -245,7 +249,7 @@ public class PlayDialogService {
     }
 
     private boolean isValidAmountOfDigits(int[] splitInput) {
-        return splitInput.length == 3;
+        return splitInput.length == 3 || splitInput.length == 2;
     }
 
     private boolean isValidAction(String action) {

@@ -1,10 +1,9 @@
 package de.dhbw.karlsruhe.domain.services;
-
+import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 
 public class SudokuValidatorService {
 
@@ -34,8 +33,54 @@ public class SudokuValidatorService {
         return true;
     }
 
-    public boolean isSudokuFinished(int[][] gameField) {
+    public boolean isSudokuValid(int[][] sudoku){
+
+        for(int i=0; i<9;i++){
+            HashSet<Integer> row = new HashSet<>();
+            for(int j=0; j<9;j++) {
+                row.add(sudoku[i][j]);
+            }
+            if(isSectionInvalid(row))
+                return false;
+        }
+
+        for(int i=0; i<9;i++){
+            HashSet<Integer> column = new HashSet<>();
+            for(int j=0; j<9;j++) {
+                column.add(sudoku[j][i]);
+            }
+            if(isSectionInvalid(column))
+                return false;
+        }
+
+        for (int rowOffset = 0; rowOffset < 3; rowOffset++) {
+            for (int colOffset = 0; colOffset < 3; colOffset++) {
+
+                HashSet<Integer> block = new HashSet<>();
+
+                for (int row=0; row<3;row++) {
+                    for (int col=0; col<3; col++) {
+                        block.add(sudoku[row+rowOffset*3][col+colOffset*3]);
+                    }
+                }
+                if(isSectionInvalid(block))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isSectionInvalid(Set<Integer> section){
+        return section.size() != 10;
+    }
+
+    public boolean isSudokuFullyFilled(int[][] gameField){
         return Arrays.stream(gameField).anyMatch(arr -> Arrays.stream(arr).anyMatch(i -> i == 0));
+    }
+
+    public List<String> crossCheck(Sudoku sudoku){
+        return crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
     }
 
     public List<String> crossCheck(SudokuArray gameField, SudokuArray initialGameField, SudokuArray solvedGameField) {

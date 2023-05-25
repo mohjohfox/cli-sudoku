@@ -65,6 +65,15 @@ public class PlayCliAdapter implements PlayOutputPort {
         }
     }
 
+    @Override
+    public void notCorrectSudoku(List<String> notCorrectFields) {
+        if (notCorrectFields.isEmpty()) {
+            cliOutputPort.write("All fields are correct - Well done!");
+        } else {
+            cliOutputPort.write("You finished the sudoku but not all fields are correct. The wrong fields are:" + notCorrectFields);
+        }
+    }
+
     public void inputForSolvingField() {
         cliOutputPort.write("Solving gamefield [Row][Column] by writing: S:[Row],[Column]");
     }
