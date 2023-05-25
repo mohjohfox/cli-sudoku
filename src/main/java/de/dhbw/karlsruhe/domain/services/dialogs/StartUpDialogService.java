@@ -93,9 +93,9 @@ public class StartUpDialogService {
 
     private boolean hasUserAccount(String userInput) {
         do {
-            if (userInput.equals("y") || userInput.equals("yes")) {
+            if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("yes")) {
                 return true;
-            } else if (userInput.equals("n") || userInput.equals("no")) {
+            } else if (userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("no")) {
                 return false;
             }
             outputPort.askForLoginOrRegistration();
