@@ -1,24 +1,15 @@
 @startuml
-class User {
-  - String userName
-  - String password
-  + String getUserName()
-  + String getPassword()
+enum Difficulty {
+  - String shortDifficultyName;
+  + boolean match(String input)
+  + String getName()
+  + String getShortDifficultyName()
 }
 
-interface UserPort {
-   void saveUser(User user)
-   String getPassword(String userName)
-   List<String> getAllUserNames()
+class DifficultySelectionDialogService {
+   - Difficulty successfulSelection()
+   + Difficulty selectDifficulty()
 }
 
-class UserAdapter {
-   + void saveUser(User user)
-   + String getPassword(String userName)
-   + List<String> getAllUserNames()
-}
-
-UserAdapter--> "Inheritance" UserPort
-UserAdapter-->User
-UserPort-->User
+DifficultySelectionDialogService-->Difficulty
 @enduml
