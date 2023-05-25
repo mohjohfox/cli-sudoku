@@ -64,6 +64,8 @@ public class MenuDialogService {
             } catch (InputMismatchException ie) {
                 outputPort.optionError();
                 inputPort.cleanInput();
+            } catch (NumberFormatException nfe) {
+                outputPort.optionError();
             }
         }
         return input;
