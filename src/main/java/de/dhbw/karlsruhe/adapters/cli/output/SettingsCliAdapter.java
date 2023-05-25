@@ -11,9 +11,9 @@ public class SettingsCliAdapter implements SettingsOutputPort {
     @Override
     public void settingsMenu(Setting setting) {
         cliOutputPort.write("Settings Menu");
-        cliOutputPort.write("1. " + checkValueHintActivation(setting) + " value hint");
-        cliOutputPort.write("2. " + checkFieldValidationActivation(setting) + " field validation");
-        cliOutputPort.write("3. Back to main menu");
+        cliOutputPort.write("[1] " + checkValueHintActivation(setting) + " value hint");
+        cliOutputPort.write("[2] " + checkFieldValidationActivation(setting) + " field validation");
+        cliOutputPort.write("[3] Back to main menu");
     }
 
     @Override

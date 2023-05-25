@@ -53,7 +53,7 @@ public class PlayDialogService {
 
     private void startGame() {
         outputPort.startGame();
-        outputPort.possibleHints(settingService.getSetting());
+        outputPort.possibleHints(settingService.getSettingFromCurrentUser());
 
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
             sudokuOutputPort.print(sudoku);
@@ -74,7 +74,7 @@ public class PlayDialogService {
         if (isExitAction(input)) {
             return false;
         }
-        if (isHintAction(input) && areHintsActivated()) {
+        if (isHintAction(input) && settingService.areHintsActivated()) {
             executeHints(input);
             return true;
         }
@@ -139,7 +139,7 @@ public class PlayDialogService {
     private String getCorrectInput(String input) {
         while (!inputCorrect(input)) {
             outputPort.inputError();
-            outputPort.possibleHints(settingService.getSetting());
+            outputPort.possibleHints(settingService.getSettingFromCurrentUser());
             input = inputPort.getInput();
         }
         return input;
@@ -177,15 +177,11 @@ public class PlayDialogService {
     }
 
     private boolean isValidationHint(String input) {
-        return input.equalsIgnoreCase("V") && settingService.getSetting().getFieldValidation();
+        return input.equalsIgnoreCase("V") && settingService.getSettingFromCurrentUser().getFieldValidation();
     }
 
     private boolean isValueHint(String input) {
-        return input.equalsIgnoreCase("H") && settingService.getSetting().getValueHint();
-    }
-
-    private boolean areHintsActivated() {
-        return settingService.getSetting().getValueHint() || settingService.getSetting().getFieldValidation();
+        return input.equalsIgnoreCase("H") && settingService.getSettingFromCurrentUser().getValueHint();
     }
 
     private boolean inputCorrect(String input) {

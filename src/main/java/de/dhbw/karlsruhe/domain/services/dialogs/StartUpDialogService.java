@@ -19,7 +19,6 @@ public class StartUpDialogService {
 
     public StartUpDialogService() {
         userService = DependencyFactory.getInstance().getDependency(UserService.class);
-        ;
         logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
         outputPort = DependencyFactory.getInstance().getDependency(StartUpOutputPort.class);
         inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
