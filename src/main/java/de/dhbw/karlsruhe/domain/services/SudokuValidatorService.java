@@ -45,7 +45,7 @@ public class SudokuValidatorService {
                 if (gameField.sudokuArray()[row][col] != 0 &&
                         initialGameField.sudokuArray()[row][col] == 0 &&
                         gameField.sudokuArray()[row][col] != solvedGameField.sudokuArray()[row][col]) {
-                    notCorrectFields.add(row + "," + col);
+                    notCorrectFields.add((row + 1) + "," + (col + 1));
                 }
             }
         }
