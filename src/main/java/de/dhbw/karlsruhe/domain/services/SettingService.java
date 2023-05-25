@@ -15,8 +15,12 @@ public class SettingService {
         setting.setValueHint(!setting.getValueHint());
     }
 
-    public Setting getSetting() {
+    public Setting getSettingFromCurrentUser() {
         return userService.getUser(GameInformation.username).getSetting();
+    }
+
+    public boolean areHintsActivated() {
+        return getSettingFromCurrentUser().getValueHint() || getSettingFromCurrentUser().getFieldValidation();
     }
 
 }
