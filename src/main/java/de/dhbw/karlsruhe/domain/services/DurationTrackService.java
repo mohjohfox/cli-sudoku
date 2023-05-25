@@ -26,15 +26,20 @@ public class DurationTrackService {
         this.startTimeMillis = System.currentTimeMillis();
     }
 
-    public void setEndTime() {
+    public void setEndTime(long previousDuration) {
         this.endTimeMillis = System.currentTimeMillis();
         this.calculateDuration();
+        this.durationMillis += previousDuration;
     }
 
     public void saveDuration(String sudokuID) {
         this.saveId = UUID.randomUUID();
         this.durationTrackSaveEntry = new DurationTrackSaveEntry(String.valueOf(this.saveId), sudokuID, this.durationMillis);
         this.durationTrackAdapter.saveSolvingTime(this.durationTrackSaveEntry);
+    }
+
+    public long loadDuration(String sudokuId) {
+        return this.durationTrackAdapter.loadSolvingTime(sudokuId);
     }
 
     private void calculateDuration() {

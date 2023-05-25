@@ -32,6 +32,7 @@ public class PlayDialogService {
     private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     private final PlayOutputPort outputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);
     private final SudokuOutputPort sudokuOutputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
+    private long previousTime;
 
     public PlayDialogService() {
         // Empty constructor for JSON parser
@@ -45,11 +46,13 @@ public class PlayDialogService {
             outputPort.backtrackingSudoku();
             sudoku = sgBacktracking.generateSudoku(dif);
         }
+        this.previousTime = 0;
         startGame();
     }
 
     public void startSavedGame(Sudoku loadedSudoku) {
         sudoku = loadedSudoku;
+        this.previousTime = this.durationTrackService.loadDuration(sudoku.getId());
         startGame();
     }
 
@@ -65,7 +68,7 @@ public class PlayDialogService {
             }
         }
 
-        this.durationTrackService.setEndTime();
+        this.durationTrackService.setEndTime(previousTime);
         this.durationTrackService.saveDuration(sudoku.getId());
     }
 
