@@ -7,16 +7,18 @@ public class DurationTrackSaveEntry {
     private String saveId;
     private TimeWrapper timeWrapper;
     private String time;
+    private long duration;
     public DurationTrackSaveEntry(String saveId, String sudokuId, long duration) {
         this.timeWrapper = new TimeWrapper();
 
         this.saveId = saveId;
         this.sudokuId = sudokuId;
+        this.duration = duration;
 
-        this.time = this.timeWrapper.milisToTime(duration);
+        this.time = this.timeWrapper.millisToTime(duration);
     }
 
-    public String getSudoku() {
+    public String getSudokuId() {
         return this.sudokuId;
     }
 
@@ -28,4 +30,7 @@ public class DurationTrackSaveEntry {
         return this.time;
     }
 
+    public long getDuration() {
+        return this.duration;
+    }
 }
