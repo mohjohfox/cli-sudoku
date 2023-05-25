@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.domain.ports.persistence;
 
 import de.dhbw.karlsruhe.domain.models.User;
+
 import java.util.List;
 
 public interface UserPort {
@@ -10,4 +11,9 @@ public interface UserPort {
   String getPassword(String userName);
 
   List<String> getAllUserNames();
+
+  User getUser(String userName);
+
+  void updateUser(User user);
+
 }

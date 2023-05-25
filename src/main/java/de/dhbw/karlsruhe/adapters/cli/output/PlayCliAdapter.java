@@ -1,7 +1,10 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
+import de.dhbw.karlsruhe.domain.models.Setting;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
+
+import java.util.List;
 
 public class PlayCliAdapter implements PlayOutputPort {
 
@@ -42,6 +45,31 @@ public class PlayCliAdapter implements PlayOutputPort {
 
     @Override
     public void defaultFieldError(String value) {
-        cliOutputPort.write("The field "+ value +" could not be set, because it is a default field.");
+        cliOutputPort.write("The field " + value + " could not be set, because it is a default field.");
+    }
+
+    public void possibleHints(Setting setting) {
+        if (setting.getValueHint()) {
+            cliOutputPort.write("Press H to get a value hint.");
+        }
+        if (setting.getFieldValidation()) {
+            cliOutputPort.write("Press V to validate the sudoku.");
+        }
+    }
+
+    public void notCorrectFields(List<String> notCorrectFields) {
+        if (notCorrectFields.isEmpty()) {
+            cliOutputPort.write("All fields are correct - Keep going!");
+        } else {
+            cliOutputPort.write("The following fields are not correct: " + notCorrectFields);
+        }
+    }
+
+    public void inputForSolvingField() {
+        cliOutputPort.write("Solving gamefield [Row][Column] by writing: S:[Row],[Column]");
+    }
+
+    public void setCorrectField(int row, int col) {
+        cliOutputPort.write("The field " + row + "," + col + " was set.");
     }
 }

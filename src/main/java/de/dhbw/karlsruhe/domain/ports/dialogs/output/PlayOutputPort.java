@@ -1,5 +1,9 @@
 package de.dhbw.karlsruhe.domain.ports.dialogs.output;
 
+import de.dhbw.karlsruhe.domain.models.Setting;
+
+import java.util.List;
+
 public interface PlayOutputPort {
 
     void transformedSudoku();
@@ -14,4 +18,11 @@ public interface PlayOutputPort {
 
     void defaultFieldError(String value);
 
+    void possibleHints(Setting setting);
+
+    void notCorrectFields(List<String> notCorrectFields);
+
+    void inputForSolvingField();
+
+    void setCorrectField(int row, int col);
 }

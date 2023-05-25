@@ -14,20 +14,22 @@ import de.dhbw.karlsruhe.domain.services.dialogs.*;
 
 public class Main {
 
-  public static void main(String[] args) {
-    injectDependencies();
-    boolean desireToRun;
-    LogoutService logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
-    StartUpDialogService startUpDialogService = DependencyFactory.getInstance().getDependency(StartUpDialogService.class);;
-    MenuDialogService menuDialogService = DependencyFactory.getInstance().getDependency(MenuDialogService.class);;
+    public static void main(String[] args) {
+        injectDependencies();
+        boolean desireToRun;
+        LogoutService logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
+        StartUpDialogService startUpDialogService = DependencyFactory.getInstance().getDependency(StartUpDialogService.class);
+        ;
+        MenuDialogService menuDialogService = DependencyFactory.getInstance().getDependency(MenuDialogService.class);
+        ;
 
-    do {
-      startUpDialogService.signIn();
-      menuDialogService.startMenuDialog();
+        do {
+            startUpDialogService.signIn();
+            menuDialogService.startMenuDialog();
 
-      desireToRun = logoutService.checkDesireToRun();
-    } while (desireToRun);
-  }
+            desireToRun = logoutService.checkDesireToRun();
+        } while (desireToRun);
+    }
 
   private static void injectDependencies() {
     DependencyFactory dependencyFactory = DependencyFactory.getInstance();
@@ -59,4 +61,5 @@ public class Main {
     dependencyFactory.registerDependency(new SudokuFieldsRemover());
     dependencyFactory.registerDependency(new DifficultySelectionDialogService());
   }
+
 }

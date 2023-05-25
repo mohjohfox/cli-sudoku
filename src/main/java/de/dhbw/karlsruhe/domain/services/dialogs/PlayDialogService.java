@@ -8,12 +8,14 @@ import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
-import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
+import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
+import de.dhbw.karlsruhe.domain.services.SettingService;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -23,6 +25,7 @@ public class PlayDialogService {
     private SudokuGeneratorBacktracking sgBacktracking = DependencyFactory.getInstance().getDependency(SudokuGeneratorBacktracking.class);
     private SudokuValidatorService sudokuValidator = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
     private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
+    private SettingService settingService = DependencyFactory.getInstance().getDependency(SettingService.class);
     private Random rand = new Random();
     private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     private final PlayOutputPort outputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);
@@ -33,7 +36,7 @@ public class PlayDialogService {
     }
 
     public void startNewGame(Difficulty dif) {
-        if (rand.nextInt()<0.5){
+        if (rand.nextInt() < 0.5) {
             outputPort.transformedSudoku();
             sudoku = sgTransformation.generateSudoku(dif);
         } else {
@@ -50,6 +53,7 @@ public class PlayDialogService {
 
     private void startGame() {
         outputPort.startGame();
+        outputPort.possibleHints(settingService.getSetting());
 
         while (sudokuValidator.isSudokuFinished(sudoku.getGameField().sudokuArray())) {
             sudokuOutputPort.print(sudoku);
@@ -64,6 +68,7 @@ public class PlayDialogService {
 
         while (!inputCorrect(input)) {
             outputPort.inputError();
+            outputPort.possibleHints(settingService.getSetting());
             input = inputPort.getInput();
         }
 
@@ -77,27 +82,95 @@ public class PlayDialogService {
             return false;
         }
 
+        if (isHintAction(input) && areHintsActivated()) {
+            if (isValueHint(input)) {
+                outputPort.inputForSolvingField();
+                String fieldInput = inputPort.getInput();
+                while (!checkInputForSolvingField(fieldInput)) {
+                    outputPort.inputForSolvingField();
+                    fieldInput = inputPort.getInput();
+                }
+                int correctValue = getCorrectValue(fieldInput);
+                boolean isFieldCorrectlySet = sudoku.setField(
+                        getRowFromSplitInput(splitControleInputToIntegers(fieldInput)),
+                        getColFromSplitInput(splitControleInputToIntegers(fieldInput)), correctValue);
+                messageIsFieldCorrectlySet(fieldInput, isFieldCorrectlySet);
+            } else if (isValidationHint(input)) {
+                List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
+                outputPort.notCorrectFields(notCorrectFields);
+            }
+            return true;
+        }
+
+        try {
+            String[] getAction = input.split(":");
+
+            int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
+
+            boolean actionSuccessful = false;
+            if (isWriteAction(getAction[0])) {
+                actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, splitInput[2]);
+            }
+            if (isRemoveAction(getAction[0])) {
+                actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, 0);
+            }
+            if (!actionSuccessful) {
+                outputPort.defaultFieldError(getAction[1]);
+            }
+            return true;
+        } catch (IndexOutOfBoundsException e) {
+            outputPort.inputError();
+            return true;
+        }
+    }
+
+    private int getCorrectValue(String fieldInput) {
+        int[] splitInput = splitControleInputToIntegers(fieldInput);
+        int row = getRowFromSplitInput(splitInput);
+        int col = getColFromSplitInput(splitInput);
+        return sudoku.getSolvedGameField().sudokuArray()[row][col];
+    }
+
+    private int[] splitControleInputToIntegers(String input) {
         String[] getAction = input.split(":");
+        return Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
+    }
 
-        int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
+    private int getRowFromSplitInput(int[] splitInput) {
+        return splitInput[0] - 1;
+    }
 
-        boolean actionSuccessful = false;
-        if (isWriteAction(getAction[0])) {
-            actionSuccessful = sudoku.setField(splitInput[0]-1, splitInput[1]-1, splitInput[2]);
+    private int getColFromSplitInput(int[] splitInput) {
+        return splitInput[1] - 1;
+    }
+
+    private void messageIsFieldCorrectlySet(String fieldInput, boolean isFieldCorrectlySet) {
+        int[] splitInput = splitControleInputToIntegers(fieldInput);
+        if (isFieldCorrectlySet) {
+            int row = getRowFromSplitInput(splitInput);
+            int col = getColFromSplitInput(splitInput);
+            outputPort.setCorrectField(row, col);
+        } else {
+            outputPort.defaultFieldError(fieldInput);
         }
-        if (isRemoveAction(getAction[0])) {
-            actionSuccessful = sudoku.setField(splitInput[0]-1, splitInput[1]-1, 0);
-        }
-        if (!actionSuccessful){
-            outputPort.defaultFieldError(getAction[1]);
-        }
-        return true;
+    }
+
+    private boolean isValidationHint(String input) {
+        return input.equalsIgnoreCase("V") && settingService.getSetting().getFieldValidation();
+    }
+
+    private boolean isValueHint(String input) {
+        return input.equalsIgnoreCase("H") && settingService.getSetting().getValueHint();
+    }
+
+    private boolean areHintsActivated() {
+        return settingService.getSetting().getValueHint() || settingService.getSetting().getFieldValidation();
     }
 
     private boolean inputCorrect(String input) {
-        if (isAbortAction(input) || isExitAction(input)) {
+        if (isAbortAction(input) || isExitAction(input) || isHintAction(input)) {
             return true;
-        } else if (!input.contains(":")){
+        } else if (!input.contains(":")) {
             return false;
         }
         String[] getAction = input.split(":");
@@ -108,11 +181,11 @@ public class PlayDialogService {
         int[] splitInput;
         try {
             splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
 
-        if (! isValidAmountOfDigits(splitInput)){
+        if (!isValidAmountOfDigits(splitInput)) {
             return false;
         }
 
@@ -122,6 +195,20 @@ public class PlayDialogService {
             }
         }
         return true;
+    }
+
+    private boolean checkInputForSolvingField(String input) {
+        String[] getAction = input.split(":");
+        try {
+            int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean isHintAction(String action) {
+        return action.equalsIgnoreCase("H") || action.equalsIgnoreCase("V");
     }
 
     private boolean isAbortAction(String action) {
@@ -147,5 +234,4 @@ public class PlayDialogService {
     private boolean isValidAction(String action) {
         return action.equals("W") || action.equals("R");
     }
-
 }
