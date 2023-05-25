@@ -64,7 +64,7 @@ public class PlayDialogService {
 
         List<String> notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
         outputPort.notCorrectSudoku(notCorrectFields);
-        // W:6,6save score/time
+        // save score/time
     }
 
     private boolean userInputDialog() {

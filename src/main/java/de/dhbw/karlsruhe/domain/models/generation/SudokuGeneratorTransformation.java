@@ -23,6 +23,7 @@ public class SudokuGeneratorTransformation {
         SudokuTransformation sudokuTransformation = DependencyFactory.getInstance().getDependency(SudokuTransformation.class);
         this.sudoku = sudokuTransformation.transform(this.sudoku);
 
+        sudoku.setSolvedGameField(getGameFields(sudoku));
         SudokuFieldsRemover sudokuFieldsRemover = DependencyFactory.getInstance().getDependency(SudokuFieldsRemover.class);
         this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku,dif);
 
