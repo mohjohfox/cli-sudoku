@@ -16,6 +16,11 @@ public class SettingsCliAdapter implements SettingsOutputPort {
         cliOutputPort.write("[3] Back to main menu");
     }
 
+    @Override
+    public void invalidOption() {
+        cliOutputPort.write("Invalid option. Please choose an option by entering a number!");
+    }
+
     private String checkValueHintActivation(Setting setting) {
         return setting.getValueHint() ? "Deactivate" : "Activate";
     }

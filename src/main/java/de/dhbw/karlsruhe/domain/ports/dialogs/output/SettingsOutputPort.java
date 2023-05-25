@@ -6,4 +6,6 @@ public interface SettingsOutputPort {
 
     void settingsMenu(Setting setting);
 
+    void invalidOption();
+
 }

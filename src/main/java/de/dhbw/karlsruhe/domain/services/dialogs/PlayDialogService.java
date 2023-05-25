@@ -69,63 +69,84 @@ public class PlayDialogService {
 
     private boolean userInputDialog() {
         String input = inputPort.getInput();
+        input = getCorrectInput(input);
 
+        if (isAbortAction(input)) {
+            executeAbortActions();
+            return false;
+        }
+        if (isExitAction(input)) {
+            return false;
+        }
+        if (isHintAction(input) && settingService.areHintsActivated()) {
+            executeHints(input);
+            return true;
+        }
+        try {
+            return executeFieldInputAction(input);
+        } catch (IndexOutOfBoundsException e) {
+            outputPort.inputError();
+            return true;
+        }
+    }
+
+    private void executeHints(String input) {
+        if (isValueHint(input)) {
+            executeValueHint();
+        } else if (isValidationHint(input)) {
+            executeValidationHint();
+        }
+    }
+
+    private boolean executeFieldInputAction(String input) {
+        String[] getAction = input.split(":");
+
+        int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
+
+        boolean actionSuccessful = false;
+        if (isWriteAction(getAction[0])) {
+            actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, splitInput[2]);
+        }
+        if (isRemoveAction(getAction[0])) {
+            actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, 0);
+        }
+        if (!actionSuccessful) {
+            outputPort.defaultFieldError(getAction[1]);
+        }
+        return true;
+    }
+
+    private void executeValidationHint() {
+        List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
+        outputPort.notCorrectFields(notCorrectFields);
+    }
+
+    private void executeValueHint() {
+        outputPort.inputForSolvingField();
+        String fieldInput = inputPort.getInput();
+        while (!checkInputForSolvingField(fieldInput)) {
+            outputPort.inputForSolvingField();
+            fieldInput = inputPort.getInput();
+        }
+        int correctValue = getCorrectValue(fieldInput);
+        boolean isFieldCorrectlySet = sudoku.setField(
+                getRowFromSplitInput(splitControleInputToIntegers(fieldInput)),
+                getColFromSplitInput(splitControleInputToIntegers(fieldInput)), correctValue);
+        messageIsFieldCorrectlySet(fieldInput, isFieldCorrectlySet);
+    }
+
+    private void executeAbortActions() {
+        sudokuPersistencePort.saveSudoku(sudoku);
+        outputPort.gameSaved();
+    }
+
+    private String getCorrectInput(String input) {
         while (!inputCorrect(input)) {
             outputPort.inputError();
             outputPort.possibleHints(settingService.getSettingFromCurrentUser());
             input = inputPort.getInput();
         }
-
-        if (isAbortAction(input)) {
-            sudokuPersistencePort.saveSudoku(sudoku);
-            outputPort.gameSaved();
-            return false;
-        }
-
-        if (isExitAction(input)) {
-            return false;
-        }
-
-        if (isHintAction(input) && settingService.areHintsActivated()) {
-            if (isValueHint(input)) {
-                outputPort.inputForSolvingField();
-                String fieldInput = inputPort.getInput();
-                while (!checkInputForSolvingField(fieldInput)) {
-                    outputPort.inputForSolvingField();
-                    fieldInput = inputPort.getInput();
-                }
-                int correctValue = getCorrectValue(fieldInput);
-                boolean isFieldCorrectlySet = sudoku.setField(
-                        getRowFromSplitInput(splitControleInputToIntegers(fieldInput)),
-                        getColFromSplitInput(splitControleInputToIntegers(fieldInput)), correctValue);
-                messageIsFieldCorrectlySet(fieldInput, isFieldCorrectlySet);
-            } else if (isValidationHint(input)) {
-                List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
-                outputPort.notCorrectFields(notCorrectFields);
-            }
-            return true;
-        }
-
-        try {
-            String[] getAction = input.split(":");
-
-            int[] splitInput = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt).toArray();
-
-            boolean actionSuccessful = false;
-            if (isWriteAction(getAction[0])) {
-                actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, splitInput[2]);
-            }
-            if (isRemoveAction(getAction[0])) {
-                actionSuccessful = sudoku.setField(splitInput[0] - 1, splitInput[1] - 1, 0);
-            }
-            if (!actionSuccessful) {
-                outputPort.defaultFieldError(getAction[1]);
-            }
-            return true;
-        } catch (IndexOutOfBoundsException e) {
-            outputPort.inputError();
-            return true;
-        }
+        return input;
     }
 
     private int getCorrectValue(String fieldInput) {

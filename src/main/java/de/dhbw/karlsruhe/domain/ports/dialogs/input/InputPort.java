@@ -1,10 +1,12 @@
 package de.dhbw.karlsruhe.domain.ports.dialogs.input;
 
+import de.dhbw.karlsruhe.domain.models.InvalidOptionException;
+
 public interface InputPort {
 
     String getInput();
 
-    int getInputAsInt();
+    int getInputAsInt() throws InvalidOptionException;
 
     void cleanInput();
 
