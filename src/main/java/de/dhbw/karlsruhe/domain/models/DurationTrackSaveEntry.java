@@ -5,17 +5,13 @@ import de.dhbw.karlsruhe.domain.wrappers.TimeWrapper;
 public class DurationTrackSaveEntry {
     private String sudokuId;
     private String saveId;
-    private TimeWrapper timeWrapper;
-    private String time;
-    private long duration;
-    public DurationTrackSaveEntry(String saveId, String sudokuId, long duration) {
-        this.timeWrapper = new TimeWrapper();
+    private TimeWrapper time;
 
+    public DurationTrackSaveEntry(String saveId, String sudokuId, long duration) {
         this.saveId = saveId;
         this.sudokuId = sudokuId;
-        this.duration = duration;
 
-        this.time = this.timeWrapper.millisToTime(duration);
+        this.time = new TimeWrapper(duration);
     }
 
     public String getSudokuId() {
@@ -27,10 +23,10 @@ public class DurationTrackSaveEntry {
     }
 
     public String getTime() {
-        return this.time;
+        return this.time.getTimeAsString();
     }
 
     public long getDuration() {
-        return this.duration;
+        return this.time.getTimeAsLong();
     }
 }

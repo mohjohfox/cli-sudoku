@@ -23,13 +23,13 @@ public class DurationTrackAdapter extends AbstractStoreAdapter implements Durati
     public void saveSolvingTime(DurationTrackSaveEntry durationTrackSaveEntry) {
         prepareFileStructure(DURATIONTRACKFILENAME);
 
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(getFullFilePath(DURATIONTRACKFILENAME), true))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(getFullFilePath(DURATIONTRACKFILENAME), true))) {
             String durationToWriteFormatted = String.format("id=%s&sudoku=%s&duration=%s",
                     durationTrackSaveEntry.getSaveId(), durationTrackSaveEntry.getSudokuId(), durationTrackSaveEntry.getTime());
 
             bufferedWriter.append(durationToWriteFormatted);
             bufferedWriter.newLine();
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -39,7 +39,7 @@ public class DurationTrackAdapter extends AbstractStoreAdapter implements Durati
         List<DurationTrackSaveEntry> trackSaveEntryList = new ArrayList<>();
         long solvingTime = 0;
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(getFullFilePath(DURATIONTRACKFILENAME)))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(getFullFilePath(DURATIONTRACKFILENAME)))) {
             String line = bufferedReader.readLine();
 
             trackSaveEntryList.add(this.parseReadLineToEntry(line));
@@ -77,9 +77,8 @@ public class DurationTrackAdapter extends AbstractStoreAdapter implements Durati
     }
 
     private long parseDurationFormatted(String durationRaw) {
-        TimeWrapper timeWrapper = new TimeWrapper();
-        String[] timesSeparated = durationRaw.split("(:|\\.)");
+        TimeWrapper timeWrapper = new TimeWrapper(durationRaw);
 
-        return timeWrapper.timeToMillis(timesSeparated[0], timesSeparated[1], timesSeparated[2], timesSeparated[3]);
+        return timeWrapper.getTimeAsLong();
     }
 }

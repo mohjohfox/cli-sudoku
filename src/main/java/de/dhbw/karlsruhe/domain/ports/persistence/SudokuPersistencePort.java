@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface SudokuPersistencePort {
 
-  void saveSudoku(Sudoku sudoku);
+    void saveSudoku(Sudoku sudoku);
 
-  List<SudokuSaveEntry> getAllSudokus();
+    List<SudokuSaveEntry> getAllSudokus();
 
-  Optional<SudokuSaveEntry> getSudoku(String saveId);
+    Optional<SudokuSaveEntry> getSudoku(String saveId);
 
-  void deleteSudoku(String saveId);
+    void deleteSudoku(String saveId);
 }

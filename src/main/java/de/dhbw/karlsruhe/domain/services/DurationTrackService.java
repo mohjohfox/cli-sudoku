@@ -26,9 +26,12 @@ public class DurationTrackService {
         this.startTimeMillis = System.currentTimeMillis();
     }
 
-    public void setEndTime(long previousDuration) {
+    public void setEndTime(String sudokuID) {
+        long previousDuration = this.loadDuration(sudokuID);
+
         this.endTimeMillis = System.currentTimeMillis();
         this.calculateDuration();
+
         this.durationMillis += previousDuration;
     }
 
