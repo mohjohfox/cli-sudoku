@@ -40,13 +40,13 @@ public class DurationTrackService {
         this.durationTrackPort.saveSolvingTime(this.durationTrackSaveEntry);
     }
 
-    public long loadDuration(String sudokuId) {
+    private long loadDuration(String sudokuId) {
         return this.durationTrackPort.loadSolvingTime(sudokuId);
     }
 
     private void calculateDuration() {
         if (this.validateTimestamps()) {
-            durationMillis = this.endTimeMillis - this.startTimeMillis;
+            this.durationMillis = this.endTimeMillis - this.startTimeMillis;
         }
     }
 

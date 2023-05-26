@@ -13,6 +13,8 @@ public class TimeWrapper {
     }
 
     public TimeWrapper(String durationRaw) {
+        this.durationAsString = durationRaw;
+
         String[] timesSeparated = durationRaw.split("(:|\\.)");
         this.durationInMillis = this.timeToMillis(timesSeparated[0], timesSeparated[1], timesSeparated[2], timesSeparated[3]);
     }
