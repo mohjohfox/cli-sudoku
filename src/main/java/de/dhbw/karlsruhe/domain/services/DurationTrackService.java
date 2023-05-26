@@ -1,8 +1,7 @@
 package de.dhbw.karlsruhe.domain.services;
 
-import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
-import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.DurationTrackSaveEntry;
+import de.dhbw.karlsruhe.domain.ports.persistence.DurationTrackPort;
 
 import java.util.UUID;
 
@@ -11,12 +10,12 @@ public class DurationTrackService {
     private long startTimeMillis;
     private long endTimeMillis;
     private long durationMillis;
-    private DurationTrackAdapter durationTrackAdapter;
+    private DurationTrackPort durationTrackPort;
     private DurationTrackSaveEntry durationTrackSaveEntry;
     private UUID saveId;
 
     public DurationTrackService() {
-        this.durationTrackAdapter = new DurationTrackAdapter(Location.PROD);
+        this.durationTrackPort = DependencyFactory.getInstance().getDependency(DurationTrackPort.class);
 
         this.startTimeMillis = -1;
         this.endTimeMillis = -1;
@@ -38,11 +37,11 @@ public class DurationTrackService {
     public void saveDuration(String sudokuID) {
         this.saveId = UUID.randomUUID();
         this.durationTrackSaveEntry = new DurationTrackSaveEntry(String.valueOf(this.saveId), sudokuID, this.durationMillis);
-        this.durationTrackAdapter.saveSolvingTime(this.durationTrackSaveEntry);
+        this.durationTrackPort.saveSolvingTime(this.durationTrackSaveEntry);
     }
 
     public long loadDuration(String sudokuId) {
-        return this.durationTrackAdapter.loadSolvingTime(sudokuId);
+        return this.durationTrackPort.loadSolvingTime(sudokuId);
     }
 
     private void calculateDuration() {
