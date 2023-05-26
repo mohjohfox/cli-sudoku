@@ -1,11 +1,4 @@
 @startuml
-class User {
-  - String userName
-  - String password
-  + String getUserName()
-  + String getPassword()
-}
-
 interface UserPort {
    void saveUser(User user)
    String getPassword(String userName)
@@ -19,6 +12,4 @@ class UserAdapter {
 }
 
 UserAdapter--> "Inheritance" UserPort
-UserAdapter-->User
-UserPort-->User
 @enduml
