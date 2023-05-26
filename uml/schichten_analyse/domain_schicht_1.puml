@@ -1,24 +1,25 @@
 @startuml
-class User {
-  - String userName
-  - String password
-  + String getUserName()
-  + String getPassword()
+class Sudoku {
+  - String id;
+  - SudokuArray gameField;
+  - SudokuArray initialGameField;
+  - SudokuArray solvedGameField;
+  - Difficulty difficulty;
+  + int getId()
+  + SudokuArray getGameField()
+  + SudokuArray getInitialGameField()
+  + SudokuArray getSolvedGameField()
+  + Difficulty getDifficulty()
 }
 
-interface UserPort {
-   void saveUser(User user)
-   String getPassword(String userName)
-   List<String> getAllUserNames()
+class SudokuSaveEntry {
+   - String saveId
+   - Sudoku sudoku
+   - DateWrapper saveDate
+   + String getSaveId()
+   + Sudoku getSudoku()
+   + DateWrapper getSaveDate()
 }
 
-class UserAdapter {
-   + void saveUser(User user)
-   + String getPassword(String userName)
-   + List<String> getAllUserNames()
-}
-
-UserAdapter--> "Inheritance" UserPort
-UserAdapter-->User
-UserPort-->User
+SudokuSaveEntry-->Sudoku
 @enduml
