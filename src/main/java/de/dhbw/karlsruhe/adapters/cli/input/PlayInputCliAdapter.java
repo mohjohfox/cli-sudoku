@@ -25,11 +25,7 @@ public class PlayInputCliAdapter implements PlayInputPort{
                 return new ValidationHintAction();
             }
             if (isValueHintAction(input)) {
-                try {
-                    params = getParams(input);
-                } catch (NumberFormatException e) {
-                    throw new InvalidInputException();
-                }
+                params = getParams(input);
                 return new ValueHintAction(params.get(0), params.get(1));
             }
             if (isAbortAction(input)) {
@@ -39,19 +35,11 @@ public class PlayInputCliAdapter implements PlayInputPort{
                 return new ExitAction();
             }
             if (isWriteAction(input)) {
-                try {
-                    params = getParams(input);
-                } catch (NumberFormatException e) {
-                    throw new InvalidInputException();
-                }
+                params = getParams(input);
                 return new WriteAction(params.get(0), params.get(1), params.get(2));
             }
             if (isRemoveAction(input)) {
-                try {
-                    params = getParams(input);
-                } catch (NumberFormatException e) {
-                    throw new InvalidInputException();
-                }
+                params = getParams(input);
                 return new RemoveAction(params.get(0), params.get(1));
             }
         } catch (Exception e) {
@@ -67,11 +55,15 @@ public class PlayInputCliAdapter implements PlayInputPort{
     }
 
 
-    private ArrayList<Integer> getParams(String input) throws NumberFormatException {
-        if (input.contains(":")) {
-            return splitInputToIntegersWithAction(input);
-        } else {
-            return splitInputToIntegersWithoutSeparation(input);
+    private ArrayList<Integer> getParams(String input) throws InvalidInputException {
+        try {
+            if (input.contains(":")) {
+                return splitInputToIntegersWithAction(input);
+            } else {
+                return splitInputToIntegersWithoutSeparation(input);
+            }
+        } catch (NumberFormatException ex) {
+            throw new InvalidInputException();
         }
     }
 
