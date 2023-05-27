@@ -23,16 +23,20 @@ public class SudokuCliAdapter implements SudokuOutputPort {
     }
 
     private void printVerticalLine(int columnIndex, int sudokuArrayLength) {
-        if ((columnIndex + 1) % Math.sqrt(sudokuArrayLength) == 0 && columnIndex != sudokuArrayLength - 1)  {
+        if (isPrintSeparatorPosition(columnIndex, sudokuArrayLength))  {
             System.out.print("|");
             System.out.print(" ");
         }
     }
 
     private void printHorizontalLine(int rowIndex, int sudokuArrayLength) {
-        if ((rowIndex + 1) % Math.sqrt(sudokuArrayLength) == 0 && rowIndex != sudokuArrayLength - 1) {
+        if (isPrintSeparatorPosition(rowIndex, sudokuArrayLength)) {
             System.out.println("----------------------");
         }
+    }
+
+    private boolean isPrintSeparatorPosition(int index, int sudokuArrayLength) {
+        return (index + 1) % Math.sqrt(sudokuArrayLength) == 0 && index != sudokuArrayLength - 1;
     }
 
 }
