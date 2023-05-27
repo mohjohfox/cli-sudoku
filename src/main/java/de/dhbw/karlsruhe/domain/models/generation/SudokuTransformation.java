@@ -78,11 +78,11 @@ public class SudokuTransformation {
         }
     }
 
-    private static int getRandomField(Random random) {
+    private int getRandomField(Random random) {
         return random.nextInt(9);
     }
 
-    private static int getAmountOfCellsToRemove(Difficulty dif) {
+    private int getAmountOfCellsToRemove(Difficulty dif) {
         int amountOfCellsToRemove = switch (dif) {
             case EASY:
                 yield 40;
