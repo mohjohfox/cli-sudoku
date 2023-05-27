@@ -66,12 +66,13 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
             tempDict.put(tempSplit[0], tempSplit[1]);
         }
 
+        String saveEntryID = String.valueOf(tempDict.get("SaveID"));
         int leaderboardTypeID = (int) tempDict.get("LeaderboardID");
         String username = String.valueOf(tempDict.get("Username"));
         int score = (int) tempDict.get("Score");
         String date = String.valueOf(tempDict.get("Date"));
 
-        return new LeaderboardSaveEntry(leaderboardTypeID, username, score, date);
+        return new LeaderboardSaveEntry(saveEntryID, leaderboardTypeID, username, score, date);
     }
 
 }

@@ -29,4 +29,5 @@ public class Leaderboard {
     public List<LeaderboardSaveEntry> getLeaderboardSaveEntries() {
         return this.leaderboardSaveEntries;
     }
+
 }

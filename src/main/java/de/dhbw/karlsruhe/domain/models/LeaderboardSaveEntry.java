@@ -21,16 +21,41 @@ public class LeaderboardSaveEntry {
         this.dateAsString = this.date.toString();
     }
 
-    public LeaderboardSaveEntry(int leaderBoardTypeID, String username, int score, String date) {
+    public LeaderboardSaveEntry(String saveEntryID, int leaderBoardTypeID, String username, int score, String date) {
+        this.saveEntryID = UUID.fromString(saveEntryID);
         this.leaderBoardTypeID = leaderBoardTypeID;
         this.username = username;
         this.score = score;
+        this.date = new Date(date);
         this.dateAsString = date;
     }
 
     public String getFormattedLeaderboardSaveEntry() {
         return String.format("SaveID=%s&LeaderboardID=%s&Username=%s&Score=%s&Date=%s",
-                this.saveEntryID, this.leaderBoardTypeID, this.username, this.score, this.dateAsString);
+                this.getSaveEntryID(), this.getLeaderBoardTypeID(), this.getUsername(), this.getScore(), this.getDateAsString());
     }
 
+    public UUID getSaveEntryID() {
+        return saveEntryID;
+    }
+
+    public int getLeaderBoardTypeID() {
+        return leaderBoardTypeID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public String getDateAsString() {
+        return dateAsString;
+    }
 }
