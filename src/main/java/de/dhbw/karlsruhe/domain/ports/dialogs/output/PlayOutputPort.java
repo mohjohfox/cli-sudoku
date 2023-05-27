@@ -27,4 +27,6 @@ public interface PlayOutputPort {
     void inputForSolvingField();
 
     void setCorrectField(int row, int col);
+
+    void hintNotActive();
 }

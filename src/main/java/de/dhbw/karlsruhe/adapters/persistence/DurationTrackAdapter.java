@@ -36,13 +36,15 @@ public class DurationTrackAdapter extends AbstractStoreAdapter implements Durati
 
     @Override
     public long loadSolvingTime(String sudokuId) {
+        prepareFileStructure(DURATIONTRACKFILENAME);
         List<DurationTrackSaveEntry> trackSaveEntryList = new ArrayList<>();
         long solvingTime = 0;
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(getFullFilePath(DURATIONTRACKFILENAME)))) {
             String line = bufferedReader.readLine();
-
-            trackSaveEntryList.add(this.parseReadLineToEntry(line));
+            if (!(line == null)) {
+                trackSaveEntryList.add(this.parseReadLineToEntry(line));
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
