@@ -3,6 +3,9 @@ package de.dhbw.karlsruhe.adapters;
 import de.dhbw.karlsruhe.adapters.cli.input.InputCliAdapter;
 import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 import de.dhbw.karlsruhe.adapters.cli.output.*;
+import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
+import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
@@ -11,6 +14,7 @@ import de.dhbw.karlsruhe.domain.models.generation.SudokuTransformation;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.*;
 import de.dhbw.karlsruhe.domain.services.dialogs.*;
+import de.dhbw.karlsruhe.domain.services.DurationTrackService;
 
 public class Main {
 
@@ -33,6 +37,9 @@ public class Main {
 
   private static void injectDependencies() {
         DependencyFactory dependencyFactory = DependencyFactory.getInstance();
+        dependencyFactory.registerDependency(new SudokuPersistenceAdapter(Location.PROD));
+        dependencyFactory.registerDependency(new DurationTrackAdapter(Location.PROD));
+        dependencyFactory.registerDependency(new DurationTrackService());
         dependencyFactory.registerDependency(new EncryptionService());
         dependencyFactory.registerDependency(new ScannerAdapter());
         dependencyFactory.registerDependency(new InputCliAdapter());
