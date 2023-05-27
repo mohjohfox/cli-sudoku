@@ -6,7 +6,7 @@ import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 
 import java.util.Random;
 
-public class SudokuGeneratorBacktracking {
+public class SudokuGeneratorBacktracking extends SudokuGenerator {
 
     public Sudoku generateSudoku(Difficulty difficulty) {
         Sudoku sudoku = new Sudoku(difficulty);
@@ -166,11 +166,6 @@ public class SudokuGeneratorBacktracking {
 
         sudokuField[row][col] = 0;
         return false;
-    }
-
-    private SudokuArray getGameFields(Sudoku sudoku) {
-        SudokuArray tmpGameField = new SudokuArray(sudoku.getGameField().getCopyOfSudokuArray());
-        return tmpGameField;
     }
 
 }

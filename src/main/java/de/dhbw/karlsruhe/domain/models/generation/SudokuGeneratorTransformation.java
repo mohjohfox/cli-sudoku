@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SudokuGeneratorTransformation {
+public class SudokuGeneratorTransformation extends SudokuGenerator {
     private Sudoku sudoku;
 
     public SudokuGeneratorTransformation() {
@@ -26,7 +26,7 @@ public class SudokuGeneratorTransformation {
 
         sudoku.setSolvedGameField(getGameFields(sudoku));
         SudokuFieldsRemover sudokuFieldsRemover = DependencyFactory.getInstance().getDependency(SudokuFieldsRemover.class);
-        this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku,dif);
+        this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku, dif);
 
         SudokuArray tmpGameField = getGameFields(sudoku);
         sudoku.setInitialGameField(tmpGameField);
@@ -57,11 +57,6 @@ public class SudokuGeneratorTransformation {
         }
         Collections.shuffle(digits);
         return digits;
-    }
-
-    private SudokuArray getGameFields(Sudoku sudoku) {
-        SudokuArray tmpGameField = new SudokuArray(sudoku.getGameField().getCopyOfSudokuArray());
-        return tmpGameField;
     }
 
 }
