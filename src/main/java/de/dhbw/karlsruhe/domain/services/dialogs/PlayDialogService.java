@@ -25,7 +25,7 @@ public class PlayDialogService {
     private SudokuGeneratorTransformation sgTransformation = DependencyFactory.getInstance().getDependency(SudokuGeneratorTransformation.class);
     private SudokuGeneratorBacktracking sgBacktracking = DependencyFactory.getInstance().getDependency(SudokuGeneratorBacktracking.class);
     private SudokuValidatorService sudokuValidator = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
-    private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
+    private SudokuPersistencePort sudokuPersistencePort = DependencyFactory.getInstance().getDependency(SudokuPersistencePort.class);
     private SettingService settingService = DependencyFactory.getInstance().getDependency(SettingService.class);
     private DurationTrackService durationTrackService = DependencyFactory.getInstance().getDependency(DurationTrackService.class);
     private Random rand = new Random();

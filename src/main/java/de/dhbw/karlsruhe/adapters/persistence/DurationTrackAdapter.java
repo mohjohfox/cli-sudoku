@@ -25,7 +25,7 @@ public class DurationTrackAdapter extends AbstractStoreAdapter implements Durati
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(getFullFilePath(DURATIONTRACKFILENAME), true))) {
             String durationToWriteFormatted = String.format("id=%s&sudoku=%s&duration=%s",
-                    durationTrackSaveEntry.getSaveId(), durationTrackSaveEntry.getSudokuId(), durationTrackSaveEntry.getTime());
+                    durationTrackSaveEntry.getSaveId(), durationTrackSaveEntry.getSudokuId(), durationTrackSaveEntry.getTimeAsString());
 
             bufferedWriter.append(durationToWriteFormatted);
             bufferedWriter.newLine();

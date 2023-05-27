@@ -22,7 +22,7 @@ public class DurationTrackSaveEntry {
         return this.saveId;
     }
 
-    public String getTime() {
+    public String getTimeAsString() {
         return this.time.getTimeAsString();
     }
 
