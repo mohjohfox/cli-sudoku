@@ -50,7 +50,7 @@ public class PlayCliAdapter implements PlayOutputPort {
 
     public void possibleHints(Setting setting) {
         if (setting.getValueHint()) {
-            cliOutputPort.write("Press H to get a value hint.");
+            cliOutputPort.write("Press H:[row],[col] to get a value hint.");
         }
         if (setting.getFieldValidation()) {
             cliOutputPort.write("Press V to validate the sudoku.");
@@ -80,5 +80,9 @@ public class PlayCliAdapter implements PlayOutputPort {
 
     public void setCorrectField(int row, int col) {
         cliOutputPort.write("The field " + row + "," + col + " was set.");
+    }
+
+    public void hintNotActive(){
+        cliOutputPort.write("This hint is not active. To use hints update the settings!");
     }
 }
