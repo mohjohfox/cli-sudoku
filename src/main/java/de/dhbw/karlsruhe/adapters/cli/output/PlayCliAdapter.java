@@ -24,6 +24,7 @@ public class PlayCliAdapter implements PlayOutputPort {
     public void startGame() {
         cliOutputPort.write("Enter numbers by writing: W:[Row],[Column],[Value]");
         cliOutputPort.write("Example: W:3,4,9");
+        cliOutputPort.write("Or only write: 349 for a fast insert.");
         cliOutputPort.write("To remove a number write: R:[Row],[Column]");
         cliOutputPort.write("Example: R:3,4");
         cliOutputPort.write("Initially filled fields can't be removed.");

@@ -6,6 +6,7 @@ import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PlayInputCliAdapter implements PlayInputPort{
@@ -69,8 +70,9 @@ public class PlayInputCliAdapter implements PlayInputPort{
     private ArrayList<Integer> getParams(String input) throws NumberFormatException {
         if (input.contains(":")) {
             return splitInputToIntegersWithAction(input);
+        } else {
+            return splitInputToIntegersWithoutSeparation(input);
         }
-        return splitInputToIntegersWithoutAction(input);
     }
 
 
@@ -91,7 +93,7 @@ public class PlayInputCliAdapter implements PlayInputPort{
     }
 
     private boolean isWriteAction(String action) {
-        return action.substring(0,1).equalsIgnoreCase("W");
+        return action.substring(0,1).equalsIgnoreCase("W") || Pattern.compile("[1-9],[1-9],[1-9]").matcher(action).find() || Pattern.compile("[1-9][1-9][1-9]").matcher(action).find();
     }
 
     private boolean isRemoveAction(String action) {
@@ -100,14 +102,29 @@ public class PlayInputCliAdapter implements PlayInputPort{
 
     private ArrayList<Integer> splitInputToIntegersWithAction(String input) throws NumberFormatException {
         String[] getAction = input.split(":");
-        return Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt)
+        ArrayList<Integer> ints = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt)
                 .boxed()
                 .collect(Collectors.toCollection(ArrayList::new));
+        if (onlyValidDigits(ints)){
+            return ints;
+        } else {
+            throw new NumberFormatException();
+        }
     }
-    private ArrayList<Integer> splitInputToIntegersWithoutAction(String input) throws NumberFormatException {
-        return Arrays.stream(input.split(",")).mapToInt(Integer::parseInt)
+
+    private ArrayList<Integer> splitInputToIntegersWithoutSeparation(String input) throws NumberFormatException {
+        ArrayList<Integer> ints = new ArrayList<>(Arrays.stream(input.split("(?!^)")).mapToInt(Integer::parseInt)
                 .boxed()
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toCollection(ArrayList::new)));
+        if (onlyValidDigits(ints)){
+            return ints;
+        } else {
+            throw new NumberFormatException();
+        }
+    }
+
+    private boolean onlyValidDigits(ArrayList<Integer> ints) {
+        return ints.stream().allMatch(i -> i < 10 && i > 0);
     }
 
 }
