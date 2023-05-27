@@ -1,9 +1,9 @@
 package de.dhbw.karlsruhe.domain.models.generation;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,11 @@ public class SudokuTransformation {
     private Random rand = new Random();
     private Sudoku sudoku;
 
-    public Sudoku transform(Sudoku sudoku){
+    public Sudoku transform(Sudoku sudoku) {
         this.sudoku = sudoku;
-        for (int i=0; i<1000; i++){
-            int selectedTransformation = rand.nextInt(0,11);
-            switch (selectedTransformation){
+        for (int i = 0; i < 1000; i++) {
+            int selectedTransformation = rand.nextInt(0, 11);
+            switch (selectedTransformation) {
                 case 0:
                     mirrorVertical();
                     break;
@@ -56,8 +56,33 @@ public class SudokuTransformation {
         return this.sudoku;
     }
 
-    private void removeFields(Difficulty dif){
+    private void removeFields(Difficulty dif) {
         Random random = new Random();
+
+        for (int i = 0; i < getAmountOfCellsToRemove(dif); i++) {
+            int row = getRandomField(random);
+            int col = getRandomField(random);
+
+            if (this.sudoku.getGameField().sudokuArray()[row][col] == 0) {
+                i--;
+                continue;
+            }
+
+            int temp = this.sudoku.getGameField().sudokuArray()[row][col];
+            this.sudoku.setField(row, col, 0);
+            int numSolutions = countPossibleSolutions(this.sudoku.getGameField());
+            if (numSolutions != 1) {
+                this.sudoku.setField(row, col, temp);
+                i--;
+            }
+        }
+    }
+
+    private static int getRandomField(Random random) {
+        return random.nextInt(9);
+    }
+
+    private static int getAmountOfCellsToRemove(Difficulty dif) {
         int amountOfCellsToRemove = switch (dif) {
             case EASY:
                 yield 40;
@@ -66,23 +91,7 @@ public class SudokuTransformation {
             case HARD:
                 yield 60;
         };
-        for (int i = 0; i < amountOfCellsToRemove; i++) {
-            int row = random.nextInt(9);
-            int col = random.nextInt(9);
-
-            if (this.sudoku.getGameField().sudokuArray()[row][col] == 0) {
-                i--;
-                continue;
-            }
-
-            int temp = this.sudoku.getGameField().sudokuArray()[row][col];
-            this.sudoku.setField(row,col,0);
-            int numSolutions = countPossibleSolutions(this.sudoku.getGameField());
-            if (numSolutions != 1) {
-                this.sudoku.setField(row,col,temp);
-                i--;
-            }
-        }
+        return amountOfCellsToRemove;
     }
 
     private boolean isSudokuSolvable(int[][] sudokuField, int row, int col) {
@@ -127,53 +136,53 @@ public class SudokuTransformation {
         return numberOfSolutions;
     }
 
-    private void mirrorVertical(){
+    private void mirrorVertical() {
         int[][] tmpGameField = getGameFields();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                this.sudoku.setField(i,j, tmpGameField[i][8-j]);
+                this.sudoku.setField(i, j, tmpGameField[i][8 - j]);
             }
         }
     }
 
-    private void mirrorHorizontal(){
+    private void mirrorHorizontal() {
         int[][] tmpGameField = getGameFields();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                this.sudoku.setField(i,j, tmpGameField[8-i][j]);
+                this.sudoku.setField(i, j, tmpGameField[8 - i][j]);
             }
         }
     }
 
-    private void mirrorDiagonal(){
+    private void mirrorDiagonal() {
         int[][] tmpGameField = getGameFields();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                this.sudoku.setField(i,j, tmpGameField[j][i]);
+                this.sudoku.setField(i, j, tmpGameField[j][i]);
             }
         }
     }
 
-    private void mirrorDiagonalReverse(){
+    private void mirrorDiagonalReverse() {
         int[][] tmpGameField = getGameFields();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                this.sudoku.setField(i,j, tmpGameField[8-j][8-i]);
+                this.sudoku.setField(i, j, tmpGameField[8 - j][8 - i]);
             }
         }
     }
 
     // twice is 180° and three times is equal to one rotate to the left
-    private void rotateRight(){
+    private void rotateRight() {
         int[][] tmpGameField = getGameFields();
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                this.sudoku.setField(i,j, tmpGameField[8-j][i]);
+                this.sudoku.setField(i, j, tmpGameField[8 - j][i]);
             }
         }
     }
@@ -223,13 +232,13 @@ public class SudokuTransformation {
         }
 
         for (int i = 0; i < 9; i++) {
-            int actualRow1 = i%3 + (rowsOfFirstBlock * 3);
-            int actualRow2 = i%3 + (rowsOfSecondBlock * 3);
+            int actualRow1 = i % 3 + (rowsOfFirstBlock * 3);
+            int actualRow2 = i % 3 + (rowsOfSecondBlock * 3);
             for (int j = 0; j < 9; j++) {
-                if (rowsOfFirstBlock == (i/3)) {
+                if (rowsOfFirstBlock == (i / 3)) {
                     this.sudoku.setField(actualRow1, j, tmpGameField[actualRow2][j]);
                 }
-                if (rowsOfSecondBlock == (i/3)) {
+                if (rowsOfSecondBlock == (i / 3)) {
                     this.sudoku.setField(actualRow2, j, tmpGameField[actualRow1][j]);
                 }
             }
@@ -246,20 +255,20 @@ public class SudokuTransformation {
         }
 
         for (int i = 0; i < 9; i++) {
-            int actualCol1 = i%3 + (colsOfFirstBlock * 3);
-            int actualCol2 = i%3 + (colsOfSecondBlock * 3);
+            int actualCol1 = i % 3 + (colsOfFirstBlock * 3);
+            int actualCol2 = i % 3 + (colsOfSecondBlock * 3);
             for (int j = 0; j < 9; j++) {
-                if (colsOfFirstBlock == (i/3)) {
+                if (colsOfFirstBlock == (i / 3)) {
                     this.sudoku.setField(j, actualCol1, tmpGameField[j][actualCol2]);
                 }
-                if (colsOfSecondBlock == (i/3)) {
+                if (colsOfSecondBlock == (i / 3)) {
                     this.sudoku.setField(j, actualCol2, tmpGameField[j][actualCol1]);
                 }
             }
         }
     }
 
-    private void shuffleTwoRows(){
+    private void shuffleTwoRows() {
         int[][] tmpGameField = getGameFields();
 
         int row1 = rand.nextInt(0, 3);
@@ -269,14 +278,14 @@ public class SudokuTransformation {
         }
         int rowsOfBlock = rand.nextInt(0, 3);
 
-        int swapPosition = rand.nextInt(0,9);
+        int swapPosition = rand.nextInt(0, 9);
         List<Integer> affectedDigits = new ArrayList<>();
-        affectedDigits.add(tmpGameField[row1+3*rowsOfBlock][swapPosition]);
-        affectedDigits.add(tmpGameField[row2+3*rowsOfBlock][swapPosition]);
+        affectedDigits.add(tmpGameField[row1 + 3 * rowsOfBlock][swapPosition]);
+        affectedDigits.add(tmpGameField[row2 + 3 * rowsOfBlock][swapPosition]);
         List<Integer> alreadySwapped = new ArrayList<>();
 
         int actualRow1 = row1 + (rowsOfBlock * 3);
-        int actualRow2 = row2+ (rowsOfBlock * 3);
+        int actualRow2 = row2 + (rowsOfBlock * 3);
 
         int tmpSize;
         int tmpSize2 = 0;
@@ -288,8 +297,8 @@ public class SudokuTransformation {
                         int tmpValue1 = tmpGameField[actualRow1][j];
                         tmpGameField[actualRow1][j] = tmpGameField[actualRow2][j];
                         tmpGameField[actualRow2][j] = tmpValue1;
-                        this.sudoku.setField(actualRow1,j,tmpGameField[actualRow1][j]);
-                        this.sudoku.setField(actualRow2,j,tmpGameField[actualRow2][j]);
+                        this.sudoku.setField(actualRow1, j, tmpGameField[actualRow1][j]);
+                        this.sudoku.setField(actualRow2, j, tmpGameField[actualRow2][j]);
                         alreadySwapped.add(j);
                         tmpSize2 = alreadySwapped.size();
                         if (!affectedDigits.contains(tmpGameField[actualRow1][j])) {
@@ -301,10 +310,10 @@ public class SudokuTransformation {
                     }
                 }
             }
-        } while(tmpSize != tmpSize2);
+        } while (tmpSize != tmpSize2);
     }
 
-    private void shuffleTwoCols(){
+    private void shuffleTwoCols() {
         int[][] tmpGameField = getGameFields();
 
         int col1 = rand.nextInt(0, 3);
@@ -314,14 +323,14 @@ public class SudokuTransformation {
         }
         int colsOfBlock = rand.nextInt(0, 3);
 
-        int swapPosition = rand.nextInt(0,9);
+        int swapPosition = rand.nextInt(0, 9);
         List<Integer> affectedDigits = new ArrayList<>();
-        affectedDigits.add(tmpGameField[col1+3*colsOfBlock][swapPosition]);
-        affectedDigits.add(tmpGameField[col2+3*colsOfBlock][swapPosition]);
+        affectedDigits.add(tmpGameField[col1 + 3 * colsOfBlock][swapPosition]);
+        affectedDigits.add(tmpGameField[col2 + 3 * colsOfBlock][swapPosition]);
         List<Integer> alreadySwapped = new ArrayList<>();
 
         int actualCol1 = col1 + (colsOfBlock * 3);
-        int actualCol2 = col2+ (colsOfBlock * 3);
+        int actualCol2 = col2 + (colsOfBlock * 3);
 
         int tmpSize;
         int tmpSize2 = 0;
@@ -333,8 +342,8 @@ public class SudokuTransformation {
                         int tmpValue1 = tmpGameField[j][actualCol1];
                         tmpGameField[j][actualCol1] = tmpGameField[j][actualCol2];
                         tmpGameField[j][actualCol2] = tmpValue1;
-                        this.sudoku.setField(j,actualCol1,tmpGameField[j][actualCol1]);
-                        this.sudoku.setField(j,actualCol2,tmpGameField[j][actualCol2]);
+                        this.sudoku.setField(j, actualCol1, tmpGameField[j][actualCol1]);
+                        this.sudoku.setField(j, actualCol2, tmpGameField[j][actualCol2]);
                         alreadySwapped.add(j);
                         tmpSize2 = alreadySwapped.size();
                         if (!affectedDigits.contains(tmpGameField[j][actualCol1])) {
@@ -346,7 +355,7 @@ public class SudokuTransformation {
                     }
                 }
             }
-        } while(tmpSize != tmpSize2);
+        } while (tmpSize != tmpSize2);
     }
 
     private int[][] getGameFields() {
