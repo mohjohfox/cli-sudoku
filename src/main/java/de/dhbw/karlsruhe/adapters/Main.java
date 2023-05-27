@@ -68,7 +68,7 @@ public class Main {
         dependencyFactory.registerDependency(new SettingDialogService());
         dependencyFactory.registerDependency(new MenuDialogService());
         dependencyFactory.registerDependency(new StartUpDialogService());
-        dependencyFactory.registerDependency(new Sudoku());
+        //dependencyFactory.registerDependency(new Sudoku());
         dependencyFactory.registerDependency(new SudokuArray(new int[9][9]));
         dependencyFactory.registerDependency(new DifficultySelectionDialogService());
         dependencyFactory.registerDependency(new SudokuFieldsRemover());

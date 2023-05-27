@@ -15,22 +15,22 @@ public class SudokuCliAdapter implements SudokuOutputPort {
                     System.out.print(sudokuArray.getGameField().sudokuArray()[rowIndex][columnIndex]);
                 }
                 System.out.print(" ");
-                printVerticalLine(columnIndex);
+                printVerticalLine(columnIndex, sudokuArray.getGameField().sudokuArray().length);
             }
             System.out.println();
             printHorizontalLine(rowIndex, sudokuArray.getGameField().sudokuArray().length);
         }
     }
 
-    private void printVerticalLine(int columnIndex) {
-        if (columnIndex == 2 || columnIndex == 5) {
+    private void printVerticalLine(int columnIndex, int sudokuArrayLength) {
+        if ((columnIndex + 1) % Math.sqrt(sudokuArrayLength) == 0 && columnIndex != sudokuArrayLength - 1)  {
             System.out.print("|");
             System.out.print(" ");
         }
     }
 
     private void printHorizontalLine(int rowIndex, int sudokuArrayLength) {
-        if ((rowIndex + 1) % 3 == 0 && rowIndex != sudokuArrayLength - 1) {
+        if ((rowIndex + 1) % Math.sqrt(sudokuArrayLength) == 0 && rowIndex != sudokuArrayLength - 1) {
             System.out.println("----------------------");
         }
     }
