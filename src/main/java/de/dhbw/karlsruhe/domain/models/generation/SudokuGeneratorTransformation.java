@@ -13,13 +13,14 @@ public class SudokuGeneratorTransformation {
     private Sudoku sudoku;
 
     public SudokuGeneratorTransformation() {
+    }
+
+    public Sudoku generateSudoku(Difficulty dif){
         List<Integer> unusedDigit;
         unusedDigit = addShuffledDigits();
 
         this.sudoku = fillSudokuWithDigits(unusedDigit);
-    }
 
-    public Sudoku generateSudoku(Difficulty dif){
         SudokuTransformation sudokuTransformation = DependencyFactory.getInstance().getDependency(SudokuTransformation.class);
         this.sudoku = sudokuTransformation.transform(this.sudoku);
 
