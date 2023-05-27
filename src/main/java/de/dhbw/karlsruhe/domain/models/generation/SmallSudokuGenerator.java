@@ -7,13 +7,13 @@ import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 
 import java.util.Random;
 
-public class SudokuGeneratorBacktracking extends SudokuGenerator {
+public class SmallSudokuGenerator extends SudokuGenerator{
+    @Override
+    Sudoku generateSudoku(Difficulty difficulty) {
+        Sudoku sudoku = new Sudoku(SudokuSize.SMALL, difficulty);
 
-    public Sudoku generateSudoku(Difficulty difficulty) {
-        Sudoku sudoku = new Sudoku(SudokuSize.NORMAL, difficulty);
-
-        for (int i = 0; i < 9; i++) {
-            for (int k = 0; k < 9; k++) {
+        for (int i = 0; i < 4; i++) {
+            for (int k = 0; k < 4; k++) {
                 sudoku.getGameField().sudokuArray()[i][k] = 0;
             }
         }
@@ -21,14 +21,7 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
         fillSudokuField(sudoku.getGameField().sudokuArray(), 0, 0);
         sudoku.setSolvedGameField(getGameFields(sudoku));
 
-        int amountOfCellsToRemove = switch (difficulty) {
-            case EASY:
-                yield 40;
-            case MEDIUM:
-                yield 50;
-            case HARD:
-                yield 60;
-        };
+        int amountOfCellsToRemove = 8;
 
         removeCells(sudoku.getGameField(), amountOfCellsToRemove);
 
@@ -39,14 +32,14 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
     }
 
     private boolean fillSudokuField(int[][] sudokuGameField, int row, int col) {
-        if (row == 9) {
+        if (row == 4) {
             return true;
         }
 
         int nextRow;
         int nextCol;
 
-        if (col == 8) {
+        if (col == 3) {
             nextRow = row + 1;
             nextCol = 0;
         } else {
@@ -54,7 +47,7 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
             nextCol = col + 1;
         }
 
-        int[] allowedValues = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] allowedValues = {1, 2, 3, 4};
         shuffleArray(allowedValues);
         for (int allowedValue : allowedValues) {
             if (isSudokuFieldValid(sudokuGameField, row, col, allowedValue)) {
@@ -72,8 +65,8 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
     private void removeCells(SudokuArray sudokuField, int numberOfCellsToRemove) {
         Random random = new Random();
         for (int i = 0; i < numberOfCellsToRemove; i++) {
-            int row = random.nextInt(9);
-            int col = random.nextInt(9);
+            int row = random.nextInt(4);
+            int col = random.nextInt(4);
 
             if (sudokuField.sudokuArray()[row][col] == 0) {
                 i--;
@@ -101,22 +94,22 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
     }
 
     private boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value) {
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 4; i++) {
             if (sudoku[row][i] == value) {
                 return false;
             }
         }
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 4; i++) {
             if (sudoku[i][col] == value) {
                 return false;
             }
         }
 
-        int subgridRow = (row / 3) * 3;
-        int subgridCol = (col / 3) * 3;
-        for (int i = subgridRow; i < subgridRow + 3; i++) {
-            for (int j = subgridCol; j < subgridCol + 3; j++) {
+        int subgridRow = (row / 2) * 2;
+        int subgridCol = (col / 2) * 2;
+        for (int i = subgridRow; i < subgridRow + 2; i++) {
+            for (int j = subgridCol; j < subgridCol + 2; j++) {
                 if (sudoku[i][j] == value) {
                     return false;
                 }
@@ -137,14 +130,14 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
     }
 
     private boolean isSudokuSolvable(int[][] sudokuField, int row, int col) {
-        if (row == 9) {
+        if (row == 4) {
             return true;
         }
 
         int nextRow;
         int nextCol;
 
-        if (col == 8) {
+        if (col == 3) {
             nextRow = row + 1;
             nextCol = 0;
         } else {
@@ -156,7 +149,7 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
             return isSudokuSolvable(sudokuField, nextRow, nextCol);
         }
 
-        for (int value = 1; value <= 9; value++) {
+        for (int value = 1; value <= 4; value++) {
             if (isSudokuFieldValid(sudokuField, row, col, value)) {
                 sudokuField[row][col] = value;
                 if (isSudokuSolvable(sudokuField, nextRow, nextCol)) {
@@ -168,5 +161,4 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
         sudokuField[row][col] = 0;
         return false;
     }
-
 }

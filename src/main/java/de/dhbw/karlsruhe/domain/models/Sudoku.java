@@ -14,17 +14,17 @@ public class Sudoku {
     private SudokuArray solvedGameField;
     private Difficulty difficulty;
 
-    public Sudoku() {
+    public Sudoku(SudokuSize size) {
         id = UUID.randomUUID().toString();
-        gameField = new SudokuArray(new int[9][9]);
-        initialGameField = new SudokuArray(new int[9][9]);
-        solvedGameField = new SudokuArray(new int[9][9]);
+        gameField = new SudokuArray(new int[size.size][size.size]);
+        initialGameField = new SudokuArray(new int[size.size][size.size]);
+        solvedGameField = new SudokuArray(new int[size.size][size.size]);
         difficulty = Difficulty.EASY;
     }
 
-    public Sudoku(Difficulty difficulty) {
+    public Sudoku(SudokuSize size, Difficulty difficulty) {
         id = UUID.randomUUID().toString();
-        gameField = new SudokuArray(new int[9][9]);
+        gameField = new SudokuArray(new int[size.size][size.size]);
         this.difficulty = difficulty;
     }
 

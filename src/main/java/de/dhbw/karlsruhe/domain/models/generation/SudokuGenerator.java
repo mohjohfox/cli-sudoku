@@ -9,7 +9,7 @@ public abstract class SudokuGenerator {
     abstract Sudoku generateSudoku(Difficulty difficulty);
 
     public SudokuArray getGameFields(Sudoku sudoku) {
-        SudokuArray tmpGameField = new SudokuArray(sudoku.getGameField().getCopyOfSudokuArray());
+        SudokuArray tmpGameField = new SudokuArray(sudoku.getGameField().getCopyOfSudokuArray(sudoku.getGameField().length()));
         return tmpGameField;
     }
 
