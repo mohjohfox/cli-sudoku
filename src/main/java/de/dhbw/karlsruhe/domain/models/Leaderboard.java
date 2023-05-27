@@ -16,7 +16,7 @@ public class Leaderboard {
         return this.leaderboardType.getRepresentation();
     }
 
-    public int getLeaderboardID() {
+    public int getLeaderboardTypeID() {
         return this.leaderboardType.getTypeID();
     }
 
