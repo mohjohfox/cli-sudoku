@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SudokuTransformator {
+public class SudokuTransformation {
     private Random rand = new Random();
     private Sudoku sudoku;
 

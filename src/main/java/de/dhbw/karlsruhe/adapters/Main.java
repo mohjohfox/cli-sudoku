@@ -10,7 +10,7 @@ import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuFieldsRemover;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
-import de.dhbw.karlsruhe.domain.models.generation.SudokuTransformator;
+import de.dhbw.karlsruhe.domain.models.generation.SudokuTransformation;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.*;
 import de.dhbw.karlsruhe.domain.services.dialogs.*;
@@ -35,7 +35,7 @@ public class Main {
         } while (desireToRun);
     }
 
-    private static void injectDependencies() {
+  private static void injectDependencies() {
         DependencyFactory dependencyFactory = DependencyFactory.getInstance();
         dependencyFactory.registerDependency(new SudokuPersistenceAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackAdapter(Location.PROD));
@@ -57,7 +57,7 @@ public class Main {
         dependencyFactory.registerDependency(new UserService());
         dependencyFactory.registerDependency(new SudokuGeneratorBacktracking());
         dependencyFactory.registerDependency(new SudokuGeneratorTransformation());
-        dependencyFactory.registerDependency(new SudokuTransformator());
+        dependencyFactory.registerDependency(new SudokuTransformation());
         dependencyFactory.registerDependency(new SettingsCliAdapter());
         dependencyFactory.registerDependency(new LogoutService());
         dependencyFactory.registerDependency(new SudokuValidatorService());
@@ -70,5 +70,6 @@ public class Main {
         dependencyFactory.registerDependency(new SudokuArray(new int[9][9]));
         dependencyFactory.registerDependency(new DifficultySelectionDialogService());
         dependencyFactory.registerDependency(new SudokuFieldsRemover());
-    }
+  }
+
 }
