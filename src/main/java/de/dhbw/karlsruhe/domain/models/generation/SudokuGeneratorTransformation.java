@@ -2,14 +2,13 @@ package de.dhbw.karlsruhe.domain.models.generation;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SudokuGeneratorTransformation {
+public class SudokuGeneratorTransformation extends SudokuGenerator {
     private Sudoku sudoku;
 
     public SudokuGeneratorTransformation() {
@@ -19,13 +18,13 @@ public class SudokuGeneratorTransformation {
         this.sudoku = fillSudokuWithDigits(unusedDigit);
     }
 
-    public Sudoku generateSudoku(Difficulty dif){
+    public Sudoku generateSudoku(Difficulty dif) {
         SudokuTransformation sudokuTransformation = DependencyFactory.getInstance().getDependency(SudokuTransformation.class);
         this.sudoku = sudokuTransformation.transform(this.sudoku);
 
         sudoku.setSolvedGameField(getGameFields(sudoku));
         SudokuFieldsRemover sudokuFieldsRemover = DependencyFactory.getInstance().getDependency(SudokuFieldsRemover.class);
-        this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku,dif);
+        this.sudoku = sudokuFieldsRemover.removeFields(this.sudoku, dif);
 
         this.sudoku.setInitialGameField(this.sudoku.getGameField());
 
@@ -55,11 +54,6 @@ public class SudokuGeneratorTransformation {
         }
         Collections.shuffle(digits);
         return digits;
-    }
-
-    private SudokuArray getGameFields(Sudoku sudoku) {
-        SudokuArray tmpGameField = new SudokuArray(sudoku.getGameField().getCopyOfSudokuArray());
-        return tmpGameField;
     }
 
 }
