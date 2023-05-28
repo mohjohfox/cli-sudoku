@@ -6,6 +6,7 @@ import de.dhbw.karlsruhe.domain.models.GameInformation;
 import de.dhbw.karlsruhe.domain.models.Setting;
 import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.ports.persistence.UserPort;
+import de.dhbw.karlsruhe.domain.services.EncryptionService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.NoSuchAlgorithmException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -23,7 +25,7 @@ public class UserAdapterTest {
     void createFile() {
         UserPort userPort = new UserAdapter(Location.TEST);
         for (int i = 0; i < 2; i++) {
-            User user = createUser(1);
+            User user = createUser(i);
             userPort.saveUser(user);
         }
     }
@@ -53,6 +55,31 @@ public class UserAdapterTest {
         assertEquals(updatedUser.getSetting(), user.getSetting());
         assertEquals(updatedUser.getPassword(), user.getPassword());
         assertNull(oldUser);
+    }
+
+    @Test
+    void changePasswordTest() {
+        UserPort userPort = new UserAdapter(Location.TEST);
+        User user = userPort.getUser("user1");
+        GameInformation.username = user.getUserName();
+        String myNewPassword = "password123";
+
+        userPort.changePassword(myNewPassword);
+
+        User updatedUser = userPort.getUser(user.getUserName());
+
+        assertEquals(updatedUser.getUserName(), user.getUserName());
+        assertEquals(updatedUser.getSetting(), user.getSetting());
+        assertEquals(updatedUser.getPassword(), getEncryptedPassword(myNewPassword));
+    }
+
+    private static String getEncryptedPassword(String myNewPassword) {
+        try {
+            return new EncryptionService().getSHAEncryptedPassword(myNewPassword);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return "notEncrypted";
+        }
     }
 
     private User createUser(int id) {
