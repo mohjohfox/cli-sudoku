@@ -47,7 +47,6 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
                 }
                 line = br.readLine();
             }
-            System.out.println("Username not found!");
         } catch (IOException e) {
             return "";
         }

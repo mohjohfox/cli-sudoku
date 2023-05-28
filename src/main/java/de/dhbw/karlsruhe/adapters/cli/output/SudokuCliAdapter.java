@@ -31,7 +31,10 @@ public class SudokuCliAdapter implements SudokuOutputPort {
 
     private void printHorizontalLine(int rowIndex, int sudokuArrayLength) {
         if (isPrintSeparatorPosition(rowIndex, sudokuArrayLength)) {
-            System.out.println("----------------------");
+            for (int i = 0; i < sudokuArrayLength-1; i++) {
+                System.out.print("---");
+            }
+            System.out.println("");
         }
     }
 

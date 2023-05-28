@@ -6,7 +6,7 @@ public enum SudokuSize {
     NORMAL(9),
     BIG(16);
 
-    final int size;
+    public final int size;
 
     SudokuSize(int size) {
         this.size = size;

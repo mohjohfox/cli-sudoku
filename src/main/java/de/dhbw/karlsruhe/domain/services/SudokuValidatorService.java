@@ -7,15 +7,14 @@ import java.util.*;
 
 public class SudokuValidatorService {
 
-    //TODO: copied from Marcos implementation -> extract on merge
     public boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value) {
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < sudoku.length; i++) {
             if (sudoku[row][i] == value) {
                 return false;
             }
         }
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < sudoku.length; i++) {
             if (sudoku[i][col] == value) {
                 return false;
             }
@@ -35,35 +34,36 @@ public class SudokuValidatorService {
 
     public boolean isSudokuValid(int[][] sudoku){
 
-        for(int i=0; i<9;i++){
+        for(int i=0; i < sudoku.length;i++){
             HashSet<Integer> row = new HashSet<>();
-            for(int j=0; j<9;j++) {
+            for(int j=0; j < sudoku.length;j++) {
                 row.add(sudoku[i][j]);
             }
-            if(isSectionInvalid(row))
+            if(isSectionInvalid(row, sudoku.length))
                 return false;
         }
 
-        for(int i=0; i<9;i++){
+        for(int i=0; i < sudoku.length;i++){
             HashSet<Integer> column = new HashSet<>();
-            for(int j=0; j<9;j++) {
+            for(int j=0; j < sudoku.length;j++) {
                 column.add(sudoku[j][i]);
             }
-            if(isSectionInvalid(column))
+            if(isSectionInvalid(column, sudoku.length))
                 return false;
         }
 
-        for (int rowOffset = 0; rowOffset < 3; rowOffset++) {
-            for (int colOffset = 0; colOffset < 3; colOffset++) {
+        int root = (int) Math.sqrt(sudoku.length);
+        for (int rowOffset = 0; rowOffset < root; rowOffset++) {
+            for (int colOffset = 0; colOffset < root; colOffset++) {
 
                 HashSet<Integer> block = new HashSet<>();
 
-                for (int row=0; row<3;row++) {
-                    for (int col=0; col<3; col++) {
+                for (int row=0; row < root;row++) {
+                    for (int col=0; col < root; col++) {
                         block.add(sudoku[row+rowOffset*3][col+colOffset*3]);
                     }
                 }
-                if(isSectionInvalid(block))
+                if(isSectionInvalid(block, sudoku.length))
                     return false;
             }
         }
@@ -71,8 +71,8 @@ public class SudokuValidatorService {
         return true;
     }
 
-    private boolean isSectionInvalid(Set<Integer> section){
-        return section.size() != 10;
+    private boolean isSectionInvalid(Set<Integer> section, int sudokuLength){
+        return section.size() != sudokuLength;
     }
 
     public boolean isSudokuNotFullyFilled(int[][] gameField){
