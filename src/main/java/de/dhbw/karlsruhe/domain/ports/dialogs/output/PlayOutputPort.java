@@ -10,6 +10,8 @@ public interface PlayOutputPort {
 
     void backtrackingSudoku();
 
+    void longGeneratingSudoku();
+
     void startGame();
 
     void inputError();
@@ -27,4 +29,10 @@ public interface PlayOutputPort {
     void inputForSolvingField();
 
     void setCorrectField(int row, int col);
+
+    void hintNotActive();
+
+    void undoSuccessful();
+
+    void noActionToUndo();
 }

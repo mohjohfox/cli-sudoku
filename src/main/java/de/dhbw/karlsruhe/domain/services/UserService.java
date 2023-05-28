@@ -43,6 +43,27 @@ public class UserService {
         userPort.updateUser(user);
     }
 
+    public void changeUserName(String userName) {
+        if (isUserNameValid(userName)) {
+            userPort.changeUserName(userName);
+        } else {
+            outputPort.error();
+        }
+    }
+
+    public void changePassword(String password) {
+        try {
+            if (isPasswordValid(password)) {
+                userPort.changePassword(encryptionService.getSHAEncryptedPassword(password));
+            } else {
+                outputPort.error();
+            }
+        } catch (NoSuchAlgorithmException e) {
+            outputPort.error();
+        }
+
+    }
+
     public User getUser(String username) {
         return userPort.getUser(username);
     }

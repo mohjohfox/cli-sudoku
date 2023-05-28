@@ -42,8 +42,10 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
 
             StringBuilder tmpGameField = new StringBuilder();
             tmpGameField.append("GameField=");
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
+
+            int sudokuLineLength = sudoku.getGameField().length();
+            for (int i = 0; i < sudokuLineLength; i++) {
+                for (int j = 0; j < sudokuLineLength; j++) {
                     tmpGameField.append(sudoku.getGameField().sudokuArray()[i][j]);
                     tmpGameField.append(",");
                 }
@@ -54,8 +56,8 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
 
             StringBuilder tmpInitGameField = new StringBuilder();
             tmpInitGameField.append("InitGameField=");
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
+            for (int i = 0; i < sudokuLineLength; i++) {
+                for (int j = 0; j < sudokuLineLength; j++) {
                     tmpInitGameField.append(sudoku.getInitialGameField().sudokuArray()[i][j]);
                     tmpInitGameField.append(",");
                 }
@@ -66,8 +68,8 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
 
             StringBuilder tmpSolvedGameField = new StringBuilder();
             tmpSolvedGameField.append("SolvedGameField=");
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
+            for (int i = 0; i < sudokuLineLength; i++) {
+                for (int j = 0; j < sudokuLineLength; j++) {
                     tmpSolvedGameField.append(sudoku.getSolvedGameField().sudokuArray()[i][j]);
                     tmpSolvedGameField.append(",");
                 }
@@ -205,15 +207,16 @@ public class SudokuPersistenceAdapter extends AbstractStoreAdapter implements Su
                 .orElse(null);
     }
 
-    private SudokuArray readGameField(String gameFieldLine) throws IOException {
+    private SudokuArray readGameField(String gameFieldLine) {
 
         String[] array = gameFieldLine.split("=");
         String[] fieldArray = array[1].split(",");
-        SudokuArray tmpGameField = new SudokuArray(new int[9][9]);
+        int lineLength = (int) Math.sqrt(fieldArray.length);
+        SudokuArray tmpGameField = new SudokuArray(new int[lineLength][lineLength]);
 
         int fieldCount = 0;
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < lineLength; i++) {
+            for (int j = 0; j < lineLength; j++) {
                 tmpGameField.sudokuArray()[i][j] = Integer.parseInt(fieldArray[fieldCount]);
                 fieldCount++;
             }

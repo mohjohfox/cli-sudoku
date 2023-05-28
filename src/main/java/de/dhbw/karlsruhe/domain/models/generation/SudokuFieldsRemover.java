@@ -110,7 +110,7 @@ public class SudokuFieldsRemover {
 
     private int countPossibleSolutions(SudokuArray sudokuGameField) {
         int numberOfSolutions = 0;
-        isSudokuSolvable(sudokuGameField.getCopyOfSudokuArray(), 0, 0);
+        isSudokuSolvable(sudokuGameField.getCopyOfSudokuArray(sudokuGameField.length()), 0, 0);
         numberOfSolutions++;
 
         return numberOfSolutions;
