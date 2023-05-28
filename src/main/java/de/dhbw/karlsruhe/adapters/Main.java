@@ -1,6 +1,7 @@
 package de.dhbw.karlsruhe.adapters;
 
 import de.dhbw.karlsruhe.adapters.cli.input.InputCliAdapter;
+import de.dhbw.karlsruhe.adapters.cli.input.PlayInputCliAdapter;
 import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
 import de.dhbw.karlsruhe.adapters.cli.output.*;
 import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
@@ -43,6 +44,7 @@ public class Main {
         dependencyFactory.registerDependency(new EncryptionService());
         dependencyFactory.registerDependency(new ScannerAdapter());
         dependencyFactory.registerDependency(new InputCliAdapter());
+        dependencyFactory.registerDependency(new PlayInputCliAdapter());
         dependencyFactory.registerDependency(new CliOutputAdapter());
         dependencyFactory.registerDependency(new DifficultySelectionCliAdapter());
         dependencyFactory.registerDependency(new LeaderboardCliAdapter());

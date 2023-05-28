@@ -75,7 +75,7 @@ public class SudokuValidatorService {
         return section.size() != 10;
     }
 
-    public boolean isSudokuFullyFilled(int[][] gameField){
+    public boolean isSudokuNotFullyFilled(int[][] gameField){
         return Arrays.stream(gameField).anyMatch(arr -> Arrays.stream(arr).anyMatch(i -> i == 0));
     }
 
@@ -96,4 +96,5 @@ public class SudokuValidatorService {
         }
         return notCorrectFields;
     }
+
 }
