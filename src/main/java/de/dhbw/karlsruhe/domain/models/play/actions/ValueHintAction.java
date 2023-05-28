@@ -28,13 +28,17 @@ public class ValueHintAction extends PlayAction{
 
     @Override
     public void executeAction(Sudoku sudoku) {
-        if (settingService.areHintsActivated() && settingService.getSettingFromCurrentUser().getFieldValidation()) {
+        if (isHintActive()) {
             int correctValue = getCorrectValue(sudoku);
             boolean isFieldCorrectlySet = sudoku.setField(row - 1, col - 1, correctValue);
             messageIsFieldCorrectlySet(isFieldCorrectlySet);
         } else {
             outputPort.hintNotActive();
         }
+    }
+
+    private boolean isHintActive() {
+        return settingService.areHintsActivated() && settingService.getSettingFromCurrentUser().getFieldValidation();
     }
 
     private int getCorrectValue(Sudoku sudoku) {

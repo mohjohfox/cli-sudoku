@@ -15,11 +15,15 @@ public class ValidationHintAction extends PlayAction{
 
     @Override
     public void executeAction(Sudoku sudoku) {
-        if (settingService.areHintsActivated() && settingService.getSettingFromCurrentUser().getFieldValidation()) {
+        if (isHintActive()) {
             List<String> notCorrectFields = sudokuValidator.crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
             outputPort.notCorrectFields(notCorrectFields);
         } else {
             outputPort.hintNotActive();
         }
+    }
+
+    private boolean isHintActive() {
+        return settingService.areHintsActivated() && settingService.getSettingFromCurrentUser().getFieldValidation();
     }
 }

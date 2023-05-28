@@ -42,7 +42,7 @@ public class DurationTrackAdapter extends AbstractStoreAdapter implements Durati
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(getFullFilePath(DURATIONTRACKFILENAME)))) {
             String line = bufferedReader.readLine();
-            if (!(line == null)) {
+            if (line != null) {
                 trackSaveEntryList.add(this.parseReadLineToEntry(line));
             }
         } catch (IOException e) {

@@ -29,6 +29,7 @@ public class RemoveAction extends PlayAction {
         boolean isFieldCorrectlySet = sudoku.setField(row- 1, col - 1, 0);
         messageIsFieldCorrectlySet(isFieldCorrectlySet);
     }
+
     private void messageIsFieldCorrectlySet(boolean isFieldCorrectlySet) {
         if (!isFieldCorrectlySet) {
             outputPort.defaultFieldError(row+","+col);

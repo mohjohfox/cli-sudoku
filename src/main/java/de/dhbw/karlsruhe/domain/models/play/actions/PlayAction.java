@@ -4,12 +4,12 @@ import de.dhbw.karlsruhe.domain.models.Sudoku;
 
 public abstract class PlayAction {
 
-    boolean closeGame = false;
+    private boolean closeGame = false;
+
+    public abstract void executeAction(Sudoku sudoku);
 
     public boolean isCloseGame() {
         return closeGame;
     }
-
-    public abstract void executeAction(Sudoku sudoku);
 
 }
