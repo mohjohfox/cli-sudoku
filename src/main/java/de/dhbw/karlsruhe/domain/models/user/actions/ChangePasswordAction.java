@@ -1,20 +1,21 @@
 package de.dhbw.karlsruhe.domain.models.user.actions;
 
-import de.dhbw.karlsruhe.domain.models.Setting;
+import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.UserService;
 
 public class ChangePasswordAction extends UserAction {
 
-    private UserService userService = DependencyFactory.getInstance().getDependency(UserService.class);
+    private final UserService userService = DependencyFactory.getInstance().getDependency(UserService.class);
+    private final String newPassword;
 
-    @Override
-    public void executeAction(String modifiedValue) {
-        userService.changePassword(modifiedValue);
+    public ChangePasswordAction(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     @Override
-    public void executeAction(Setting setting) {
-
+    public void executeAction(User user) {
+        userService.changePassword(newPassword);
     }
+
 }

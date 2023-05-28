@@ -134,6 +134,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
                 if (username.equals(GameInformation.username)) {
                     User user = getUser(username);
                     user.setUserName(newUserName);
+                    GameInformation.username = newUserName;
                     String updatedLine = getSaveUserString(user);
                     wr.write(updatedLine);
                     wr.newLine();

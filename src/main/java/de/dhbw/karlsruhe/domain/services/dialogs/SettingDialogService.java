@@ -25,8 +25,7 @@ public class SettingDialogService {
         Setting setting = user.getSetting();
         settingsOutputPort.settingsMenu(setting);
         UserAction userAction = getUserAction(setting);
-        userAction.executeAction("");
-        userAction.executeAction(setting);
+        userAction.executeAction(user);
         updateUserSettings(user, setting);
     }
 
