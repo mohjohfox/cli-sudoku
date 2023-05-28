@@ -13,8 +13,8 @@ public class SettingsCliAdapter implements SettingsOutputPort {
         cliOutputPort.write("Settings Menu");
         cliOutputPort.write("[1] " + checkValueHintActivation(setting) + " value hint");
         cliOutputPort.write("[2] " + checkFieldValidationActivation(setting) + " field validation");
-        cliOutputPort.write("[3] Change username");
-        cliOutputPort.write("[4] Change password");
+        cliOutputPort.write("[3] Write '3 yourNewUserName' for changing your username");
+        cliOutputPort.write("[4] Write '4 yourNewPassword' for changing your password");
         cliOutputPort.write("[5] Back to main menu");
     }
 
