@@ -51,12 +51,17 @@ public class UserService {
         }
     }
 
-    public void changePassword(String password) throws NoSuchAlgorithmException {
-        if (isPasswordValid(password)) {
-            userPort.changePassword(encryptionService.getSHAEncryptedPassword(password));
-        } else {
+    public void changePassword(String password) {
+        try {
+            if (isPasswordValid(password)) {
+                userPort.changePassword(encryptionService.getSHAEncryptedPassword(password));
+            } else {
+                outputPort.error();
+            }
+        } catch (NoSuchAlgorithmException e) {
             outputPort.error();
         }
+
     }
 
     public User getUser(String username) {

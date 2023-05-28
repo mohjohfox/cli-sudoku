@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class PlayInputCliAdapter implements PlayInputPort{
+public class PlayInputCliAdapter implements PlayInputPort {
 
     private final ScannerPort scannerPort = DependencyFactory.getInstance().getDependency(ScannerPort.class);
 
@@ -19,7 +19,6 @@ public class PlayInputCliAdapter implements PlayInputPort{
         String input = getInput();
 
         List<Integer> params;
-
 
         try {
             if (isValidationHintAction(input)) {
@@ -110,7 +109,7 @@ public class PlayInputCliAdapter implements PlayInputPort{
         List<Integer> ints = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt)
                 .boxed()
                 .collect(Collectors.toCollection(ArrayList::new));
-        if (onlyValidDigits(ints)){
+        if (onlyValidDigits(ints)) {
             return ints;
         } else {
             throw new NumberFormatException();
@@ -121,7 +120,7 @@ public class PlayInputCliAdapter implements PlayInputPort{
         List<Integer> ints = new ArrayList<>(Arrays.stream(input.split("(?!^)")).mapToInt(Integer::parseInt)
                 .boxed()
                 .collect(Collectors.toCollection(ArrayList::new)));
-        if (onlyValidDigits(ints)){
+        if (onlyValidDigits(ints)) {
             return ints;
         } else {
             throw new NumberFormatException();

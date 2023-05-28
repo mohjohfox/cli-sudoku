@@ -1,10 +1,12 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
+import de.dhbw.karlsruhe.adapters.cli.input.InvalidInputException;
 import de.dhbw.karlsruhe.domain.models.GameInformation;
-import de.dhbw.karlsruhe.domain.models.InvalidOptionException;
 import de.dhbw.karlsruhe.domain.models.Setting;
 import de.dhbw.karlsruhe.domain.models.User;
+import de.dhbw.karlsruhe.domain.models.user.actions.UserAction;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.SettingInputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SettingsOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.SettingService;
@@ -16,30 +18,29 @@ public class SettingDialogService {
     private final UserService userService = DependencyFactory.getInstance().getDependency(UserService.class);
     private final SettingService settingService = DependencyFactory.getInstance().getDependency(SettingService.class);
     private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
+    private final SettingInputPort settingInputPort = DependencyFactory.getInstance().getDependency(SettingInputPort.class);
 
     public void settingDialog() {
         User user = userService.getUser(GameInformation.username);
         Setting setting = user.getSetting();
         settingsOutputPort.settingsMenu(setting);
-        int userInput = -1;
-        while (userInput == -1) {
-            try {
-                userInput = inputPort.getInputAsInt();
+        UserAction userAction = getUserAction(setting);
+        userAction.executeAction("");
+        userAction.executeAction(setting);
+        updateUserSettings(user, setting);
+    }
 
-                if (validOptionSelected(userInput)) {
-                    switch (userInput) {
-                        case 1 -> settingService.toggleValueHint(setting);
-                        case 2 -> settingService.toggleFieldValidation(setting);
-                    }
-                    updateUserSettings(user, setting);
-                } else {
-                    printInvalidOptionWarning(setting);
-                    userInput = -1;
-                }
-            } catch (InvalidOptionException e) {
+    private UserAction getUserAction(Setting setting) {
+        UserAction userAction = null;
+
+        while (userAction == null) {
+            try {
+                userAction = settingInputPort.getUserAction();
+            } catch (InvalidInputException ex) {
                 printInvalidOptionWarning(setting);
             }
         }
+        return userAction;
     }
 
     private void printInvalidOptionWarning(Setting setting) {
@@ -52,7 +53,4 @@ public class SettingDialogService {
         userService.updateUser(user);
     }
 
-    private static boolean validOptionSelected(int userInput) {
-        return userInput == 1 || userInput == 2 || userInput == 3;
-    }
 }
