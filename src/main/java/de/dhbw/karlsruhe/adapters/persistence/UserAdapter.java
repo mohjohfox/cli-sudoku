@@ -39,9 +39,8 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
             String line = br.readLine();
 
             while (line != null) {
-                String[] array = line.split("&");
-                String userNameInLine = array[0].split("=")[1];
-                String passwordInLine = array[1].split("=")[1];
+                String userNameInLine = getUserNameFromSaveLine(line);
+                String passwordInLine = getPasswordFromSaveLine(line);
 
                 if (userNameInLine.equals(userName)) {
                     return passwordInLine;
@@ -64,7 +63,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
             String line = br.readLine();
 
             while (line != null) {
-                userNames.add(line.split("&")[0].split("=")[1]);
+                userNames.add(getUserNameFromSaveLine(line));
 
                 line = br.readLine();
             }
@@ -80,13 +79,13 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
             String line = br.readLine();
 
             while (line != null) {
-                String username = line.split("&")[0].split("=")[1];
+                String username = getUserNameFromSaveLine(line);
                 if (!username.equals(userName)) {
                     line = br.readLine();
                     continue;
                 }
-                String password = line.split("&")[1].split("=")[1];
-                String[] settings = line.split("&")[2].split(",");
+                String password = getPasswordFromSaveLine(line);
+                String[] settings = getSettingsFromSaveLine(line);
                 boolean valueHint = Boolean.parseBoolean(settings[0].split("=")[1]);
                 boolean fieldValidation = Boolean.parseBoolean(settings[1].split("=")[1]);
                 Setting setting = new Setting(valueHint, fieldValidation);
@@ -106,7 +105,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
 
             String line;
             while ((line = br.readLine()) != null) {
-                String username = line.split("&")[0].split("=")[1];
+                String username = getUserNameFromSaveLine(line);
                 if (username.equals(user.getUserName())) {
                     String updatedLine = getSaveUserString(user);
                     wr.write(updatedLine);
@@ -120,19 +119,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
             e.printStackTrace();
         }
 
-        // Rename the temporary file to replace the original file
-        File originalFile = new File(getFullFilePath(userFileName));
-        try {
-            Files.delete(new File(getFullFilePath(userFileName)).toPath());
-        } catch (IOException e) {
-            System.out.println("File " + getFullFilePath(userFileName) + " could not be deleted.");
-        }
-        File tempFile = new File(getFullFilePath(userFileName + ".tmp"));
-        if (tempFile.renameTo(originalFile)) {
-            System.out.println("User updated successfully.");
-        } else {
-            System.err.println("Failed to update user.");
-        }
+        replacingOldFileWithTemporaryFile("User");
     }
 
     public void changeUserName(String newUserName) {
@@ -143,7 +130,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
 
             String line;
             while ((line = br.readLine()) != null) {
-                String username = line.split("&")[0].split("=")[1];
+                String username = getUserNameFromSaveLine(line);
                 if (username.equals(GameInformation.username)) {
                     User user = getUser(username);
                     user.setUserName(newUserName);
@@ -159,20 +146,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
             e.printStackTrace();
         }
 
-        // Rename the temporary file to replace the original file
-        File originalFile = new File(getFullFilePath(userFileName));
-        try {
-            Files.delete(new File(getFullFilePath(userFileName)).toPath());
-        } catch (IOException e) {
-            System.out.println("File " + getFullFilePath(userFileName) + " could not be deleted.");
-        }
-        File tempFile = new File(getFullFilePath(userFileName + ".tmp"));
-        if (tempFile.renameTo(originalFile)) {
-            GameInformation.username = newUserName;
-            System.out.println("Username changed successfully.");
-        } else {
-            System.err.println("Failed to update username.");
-        }
+        replacingOldFileWithTemporaryFile("Username");
     }
 
     public void changePassword(String newPassword) {
@@ -183,7 +157,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
 
             String line;
             while ((line = br.readLine()) != null) {
-                String username = line.split("&")[0].split("=")[1];
+                String username = getUserNameFromSaveLine(line);
                 if (username.equals(GameInformation.username)) {
                     User user = getUser(username);
                     user.setPassword(newPassword);
@@ -199,7 +173,22 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
             e.printStackTrace();
         }
 
-        // Rename the temporary file to replace the original file
+        replacingOldFileWithTemporaryFile("Password");
+    }
+
+    private String[] getSettingsFromSaveLine(String line) {
+        return line.split("&")[2].split(",");
+    }
+
+    private String getUserNameFromSaveLine(String line) {
+        return line.split("&")[0].split("=")[1];
+    }
+
+    private String getPasswordFromSaveLine(String line) {
+        return line.split("&")[1].split("=")[1];
+    }
+
+    private void replacingOldFileWithTemporaryFile(String changedModifier) {
         File originalFile = new File(getFullFilePath(userFileName));
         try {
             Files.delete(new File(getFullFilePath(userFileName)).toPath());
@@ -208,9 +197,9 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
         }
         File tempFile = new File(getFullFilePath(userFileName + ".tmp"));
         if (tempFile.renameTo(originalFile)) {
-            System.out.println("Password changed successfully.");
+            System.out.println(changedModifier + " changed successfully.");
         } else {
-            System.err.println("Failed to update password.");
+            System.err.println("Failed to update " + changedModifier + ".");
         }
     }
 
