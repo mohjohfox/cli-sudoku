@@ -30,6 +30,15 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
         int amountOfCellsToRemove;
         if (sudokuSize == SudokuSize.SMALL) {
             amountOfCellsToRemove = 8;
+        } else if (sudokuSize == SudokuSize.BIG) {
+            amountOfCellsToRemove = switch (difficulty) {
+                case EASY:
+                    yield 100;
+                case MEDIUM:
+                    yield 115;
+                case HARD:
+                    yield 130;
+            };
         } else {
             amountOfCellsToRemove = switch (difficulty) {
                 case EASY:

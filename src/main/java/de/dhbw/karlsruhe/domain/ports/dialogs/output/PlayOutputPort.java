@@ -10,6 +10,8 @@ public interface PlayOutputPort {
 
     void backtrackingSudoku();
 
+    void longGeneratingSudoku();
+
     void startGame();
 
     void inputError();

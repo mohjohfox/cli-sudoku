@@ -68,18 +68,24 @@ public class MenuDialogService {
     }
 
     private void checkUserInput(int pUserInput) {
+        DifficultySelectionDialogService difficultySelectionDialogService = DependencyFactory.getInstance().getDependency(DifficultySelectionDialogService.class);
+
+        Difficulty selectedDifficulty;
         switch (pUserInput) {
             case 1:
-                DifficultySelectionDialogService difficultySelectionDialogService = DependencyFactory.getInstance().getDependency(DifficultySelectionDialogService.class);
-
-                Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
+                selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
                 outputPort.selectionDifficultyOf(selectedDifficulty);
-                playDialogService.startNewGame(selectedDifficulty);
+                playDialogService.startNewStandardGame(selectedDifficulty);
                 break;
             case 2:
                 playDialogService.startNewGame(SudokuSize.SMALL,Difficulty.EASY );
                 break;
             case 3:
+                selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
+                outputPort.selectionDifficultyOf(selectedDifficulty);
+                playDialogService.startNewGame(SudokuSize.BIG, selectedDifficulty);
+                break;
+            case 4:
                 Optional<SudokuSaveEntry> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
                 if (selectedSudoku.isEmpty()) {
                     outputPort.noSudokuSelected();
@@ -87,14 +93,14 @@ public class MenuDialogService {
                 }
                 selectedSudoku.ifPresent(this::playOrDeleteDialog);
                 break;
-            case 4:
+            case 5:
                 this.leaderboardDialogService = DependencyFactory.getInstance().getDependency(LeaderboardDialogService.class);
                 this.leaderboardDialogService.startLeaderboardDialog();
                 break;
-            case 5:
+            case 6:
                 this.settingService.settingDialog();
                 break;
-            case 6:
+            case 7:
                 this.logoutService.logout();
                 break;
             default:

@@ -10,9 +10,12 @@ public class SudokuCliAdapter implements SudokuOutputPort {
         for (int rowIndex = 0; rowIndex < sudokuArray.getGameField().sudokuArray().length; rowIndex++) {
             for (int columnIndex = 0; columnIndex < sudokuArray.getGameField().sudokuArray()[rowIndex].length; columnIndex++) {
                 if (sudokuArray.getGameField().sudokuArray()[rowIndex][columnIndex] == 0) {
-                    System.out.print(" ");
+                    System.out.print("  ");
                 } else {
                     System.out.print(sudokuArray.getGameField().sudokuArray()[rowIndex][columnIndex]);
+                    if (sudokuArray.getGameField().sudokuArray()[rowIndex][columnIndex] < 10) {
+                        System.out.print(" ");
+                    }
                 }
                 System.out.print(" ");
                 printVerticalLine(columnIndex, sudokuArray.getGameField().sudokuArray().length);
@@ -31,7 +34,7 @@ public class SudokuCliAdapter implements SudokuOutputPort {
 
     private void printHorizontalLine(int rowIndex, int sudokuArrayLength) {
         if (isPrintSeparatorPosition(rowIndex, sudokuArrayLength)) {
-            for (int i = 0; i < sudokuArrayLength-1; i++) {
+            for (int i = 0; i < sudokuArrayLength+1; i++) {
                 System.out.print("---");
             }
             System.out.println("");

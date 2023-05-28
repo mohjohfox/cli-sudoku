@@ -35,7 +35,7 @@ public class PlayDialogService {
         // Empty constructor for JSON parser
     }
 
-    public void startNewGame(Difficulty dif) {
+    public void startNewStandardGame(Difficulty dif) {
         if (rand.nextInt() < 0.5) {
             outputPort.transformedSudoku();
             sudoku = sgTransformation.generateSudoku(dif);
@@ -47,8 +47,13 @@ public class PlayDialogService {
     }
 
     public void startNewGame(SudokuSize sudokuSize, Difficulty dif) {
+        if (sudokuSize == SudokuSize.BIG) {
+            outputPort.longGeneratingSudoku();
+            sudoku = sgBacktracking.generateSudoku(SudokuSize.BIG,dif);
+            startGame();
+        }
         if (sudokuSize == SudokuSize.NORMAL){
-            startNewGame(dif);
+            startNewStandardGame(dif);
         }
         if (sudokuSize == SudokuSize.SMALL){
             outputPort.backtrackingSudoku();
