@@ -1,0 +1,13 @@
+@startuml
+class EncryptionService {
+   + String getSHAEncryptedPassword(String password)
+   - String hashToHexString(byte[] hashValue)
+}
+
+class UserService {
+    + boolean createUser(User createUser)
+    + boolean isPasswordCorrect(User loginUser)
+}
+
+UserService --> EncryptionService
+@enduml

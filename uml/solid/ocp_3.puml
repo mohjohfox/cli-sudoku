@@ -1,0 +1,26 @@
+@startuml
+abstract class UserAction {
+   + executeAction(User user)
+}
+
+class ToggleValueHintAction {
+    + executeAction(User user)
+}
+
+class ToggleFieldValidationHintAction {
+    + executeAction(User user)
+}
+
+class ChangeUserNameAction {
+    + executeAction(User user)
+}
+
+class ChangePasswordAction {
+    + executeAction(User user)
+}
+
+ToggleFieldValidationHintAction --|> UserAction
+ToggleValueHintAction --|> UserAction
+ChangePasswordAction --|> UserAction
+ChangeUserNameAction --|> UserAction
+@enduml
