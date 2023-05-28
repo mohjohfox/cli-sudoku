@@ -1,0 +1,13 @@
+@startUml
+class User {
+-String UserName
+-String password
+-String settings
++String getUserName()
++String getPassword()
++Setting getSetting()
++setUserName(String userName)
++setPassword(String password)
++setSetting(Setting setting)
+}
+@endUml
