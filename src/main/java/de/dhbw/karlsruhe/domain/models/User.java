@@ -33,4 +33,8 @@ public class User {
     public void setSetting(Setting setting) {
         this.setting = setting;
     }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }
