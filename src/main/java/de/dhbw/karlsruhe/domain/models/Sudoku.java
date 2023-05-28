@@ -12,6 +12,7 @@ public class Sudoku {
     private SudokuArray gameField;
     private SudokuArray initialGameField;
     private SudokuArray solvedGameField;
+    private SudokuChange lastChange;
     private Difficulty difficulty;
 
     public Sudoku() {
@@ -20,12 +21,14 @@ public class Sudoku {
         initialGameField = new SudokuArray(new int[9][9]);
         solvedGameField = new SudokuArray(new int[9][9]);
         difficulty = Difficulty.EASY;
+        lastChange = null;
     }
 
     public Sudoku(Difficulty difficulty) {
         id = UUID.randomUUID().toString();
         gameField = new SudokuArray(new int[9][9]);
         this.difficulty = difficulty;
+        lastChange = null;
     }
 
     public Sudoku(String id, SudokuArray gameField, SudokuArray initialGameField, SudokuArray solvedGameField, Difficulty difficulty) {
@@ -34,6 +37,7 @@ public class Sudoku {
         this.initialGameField = initialGameField;
         this.solvedGameField = solvedGameField;
         this.difficulty = difficulty;
+        lastChange = null;
     }
 
     public SudokuArray getInitialGameField() {
@@ -54,6 +58,7 @@ public class Sudoku {
 
     public boolean setField(int row, int col, int val) {
         if (this.initialGameField.sudokuArray()[row][col] == 0) {
+            this.lastChange = new SudokuChange(row,col,this.gameField.sudokuArray()[row][col], val);
             this.gameField.sudokuArray()[row][col] = val;
             return true;
         }
@@ -72,6 +77,9 @@ public class Sudoku {
         return gameField;
     }
 
+    public SudokuChange getLastChange() {
+        return lastChange;
+    }
 
     @Override
     public boolean equals(Object o) {

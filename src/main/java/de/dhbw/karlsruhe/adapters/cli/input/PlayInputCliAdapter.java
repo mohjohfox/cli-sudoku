@@ -43,6 +43,9 @@ public class PlayInputCliAdapter implements PlayInputPort{
                 params = getParams(input);
                 return new RemoveAction(params.get(0), params.get(1));
             }
+            if (isUndoAction(input)) {
+                return new UndoAction();
+            }
         } catch (Exception e) {
             throw new InvalidInputException();
         }
@@ -103,6 +106,10 @@ public class PlayInputCliAdapter implements PlayInputPort{
 
     private boolean isRemoveAction(String action) {
         return action.toUpperCase().charAt(0) == 'R';
+    }
+
+    private boolean isUndoAction(String action) {
+        return action.equalsIgnoreCase("U");
     }
 
     private List<Integer> splitInputToIntegersWithAction(String input) throws NumberFormatException {
