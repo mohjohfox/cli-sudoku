@@ -18,4 +18,6 @@ public interface UserPort {
 
   void changeUserName(String newUserName);
 
+  void changePassword(String newPassword);
+
 }

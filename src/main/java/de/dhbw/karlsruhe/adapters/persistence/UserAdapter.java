@@ -175,6 +175,45 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
         }
     }
 
+    public void changePassword(String newPassword) {
+        prepareFileStructure(userFileName);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(userFileName)));
+             BufferedWriter wr = new BufferedWriter(new FileWriter(getFullFilePath(userFileName + ".tmp"), false))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String username = line.split("&")[0].split("=")[1];
+                if (username.equals(GameInformation.username)) {
+                    User user = getUser(username);
+                    user.setPassword(newPassword);
+                    String updatedLine = getSaveUserString(user);
+                    wr.write(updatedLine);
+                    wr.newLine();
+                } else {
+                    wr.write(line);
+                    wr.newLine();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Rename the temporary file to replace the original file
+        File originalFile = new File(getFullFilePath(userFileName));
+        try {
+            Files.delete(new File(getFullFilePath(userFileName)).toPath());
+        } catch (IOException e) {
+            System.out.println("File " + getFullFilePath(userFileName) + " could not be deleted.");
+        }
+        File tempFile = new File(getFullFilePath(userFileName + ".tmp"));
+        if (tempFile.renameTo(originalFile)) {
+            System.out.println("Password changed successfully.");
+        } else {
+            System.err.println("Failed to update password.");
+        }
+    }
+
     private String getSaveUserString(User user) {
         return String.format("username=%s&password=%s&%s", user.getUserName(), user.getPassword(), user.getSetting());
     }

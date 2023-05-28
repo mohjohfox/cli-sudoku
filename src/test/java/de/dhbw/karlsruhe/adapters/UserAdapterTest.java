@@ -64,7 +64,7 @@ public class UserAdapterTest {
         GameInformation.username = user.getUserName();
         String myNewPassword = "password123";
 
-        userPort.changePassword(myNewPassword);
+        userPort.changePassword(getEncryptedPassword(myNewPassword));
 
         User updatedUser = userPort.getUser(user.getUserName());
 
@@ -73,16 +73,16 @@ public class UserAdapterTest {
         assertEquals(updatedUser.getPassword(), getEncryptedPassword(myNewPassword));
     }
 
-    private static String getEncryptedPassword(String myNewPassword) {
+    private User createUser(int id) {
+        return new User("user" + id, getEncryptedPassword("password"), new Setting(false, false));
+    }
+
+    private String getEncryptedPassword(String password) {
         try {
-            return new EncryptionService().getSHAEncryptedPassword(myNewPassword);
+            return new EncryptionService().getSHAEncryptedPassword(password);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return "notEncrypted";
         }
-    }
-
-    private User createUser(int id) {
-        return new User("user" + id, "password", new Setting(false, false));
     }
 }
