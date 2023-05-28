@@ -23,7 +23,7 @@ public class UndoAction extends PlayAction{
 
     private void messageIsFieldCorrectlySet(boolean isFieldCorrectlySet, SudokuChange sChange) {
         if (!isFieldCorrectlySet) {
-            outputPort.defaultFieldError(sChange.row()+","+sChange);
+            outputPort.defaultFieldError(sChange.row()+","+sChange.col());
         } else {
             outputPort.undoSuccessful();
         }
