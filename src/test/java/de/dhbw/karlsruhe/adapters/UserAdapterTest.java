@@ -3,9 +3,11 @@ package de.dhbw.karlsruhe.adapters;
 import de.dhbw.karlsruhe.adapters.persistence.UserAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.GameInformation;
+import de.dhbw.karlsruhe.domain.models.Setting;
 import de.dhbw.karlsruhe.domain.models.User;
 import de.dhbw.karlsruhe.domain.ports.persistence.UserPort;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -15,6 +17,15 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserAdapterTest {
+
+    @BeforeEach
+    void createFile() {
+        UserPort userPort = new UserAdapter(Location.TEST);
+        for (int i = 0; i < 2; i++) {
+            User user = createUser(1);
+            userPort.saveUser(user);
+        }
+    }
 
     @AfterEach
     void deleteFile() {
@@ -57,4 +68,7 @@ public class UserAdapterTest {
         assertEquals(updatedUser.getPassword(), user.getPassword());
     }
 
+    private User createUser(int id) {
+        return new User("user" + id, "password", new Setting(false, false));
+    }
 }
