@@ -3,6 +3,7 @@ package de.dhbw.karlsruhe.adapters;
 import de.dhbw.karlsruhe.adapters.cli.input.InputCliAdapter;
 import de.dhbw.karlsruhe.adapters.cli.input.PlayInputCliAdapter;
 import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
+import de.dhbw.karlsruhe.adapters.cli.input.SettingInputCliAdapter;
 import de.dhbw.karlsruhe.adapters.cli.output.*;
 import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
@@ -12,7 +13,6 @@ import de.dhbw.karlsruhe.domain.models.generation.*;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.*;
 import de.dhbw.karlsruhe.domain.services.dialogs.*;
-import de.dhbw.karlsruhe.domain.services.DurationTrackService;
 
 public class Main {
 
@@ -32,7 +32,7 @@ public class Main {
         } while (desireToRun);
     }
 
-  private static void injectDependencies() {
+    private static void injectDependencies() {
         DependencyFactory dependencyFactory = DependencyFactory.getInstance();
         dependencyFactory.registerDependency(new SudokuPersistenceAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackAdapter(Location.PROD));
@@ -60,6 +60,7 @@ public class Main {
         dependencyFactory.registerDependency(new LogoutService());
         dependencyFactory.registerDependency(new SudokuValidatorService());
         dependencyFactory.registerDependency(new SettingService());
+        dependencyFactory.registerDependency(new SettingInputCliAdapter());
         dependencyFactory.registerDependency(new PlayDialogService());
         dependencyFactory.registerDependency(new SettingDialogService());
         dependencyFactory.registerDependency(new MenuDialogService());
@@ -67,6 +68,6 @@ public class Main {
         dependencyFactory.registerDependency(new SudokuArray(new int[9][9]));
         dependencyFactory.registerDependency(new DifficultySelectionDialogService());
         dependencyFactory.registerDependency(new SudokuFieldsRemover());
-  }
+    }
 
 }

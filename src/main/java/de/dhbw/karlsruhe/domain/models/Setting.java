@@ -1,5 +1,7 @@
 package de.dhbw.karlsruhe.domain.models;
 
+import java.util.Objects;
+
 public class Setting {
 
     private boolean valueHint;
@@ -34,5 +36,18 @@ public class Setting {
 
     public void setFieldValidation(boolean fieldValidation) {
         this.fieldValidation = fieldValidation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Setting setting = (Setting) o;
+        return valueHint == setting.valueHint && fieldValidation == setting.fieldValidation;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(valueHint, fieldValidation);
     }
 }
