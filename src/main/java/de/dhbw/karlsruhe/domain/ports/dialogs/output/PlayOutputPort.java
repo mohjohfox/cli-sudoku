@@ -29,4 +29,8 @@ public interface PlayOutputPort {
     void setCorrectField(int row, int col);
 
     void hintNotActive();
+
+    void undoSuccessful();
+
+    void noActionToUndo();
 }

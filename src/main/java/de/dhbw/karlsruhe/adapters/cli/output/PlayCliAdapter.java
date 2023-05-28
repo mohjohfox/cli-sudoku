@@ -28,6 +28,7 @@ public class PlayCliAdapter implements PlayOutputPort {
         cliOutputPort.write("To remove a number write: R:[Row],[Column]");
         cliOutputPort.write("Example: R:3,4");
         cliOutputPort.write("Initially filled fields can't be removed.");
+        cliOutputPort.write("To undo the previous action press: U");
         cliOutputPort.write("To abort and save the status of a game press: A");
         cliOutputPort.write("To exit the game press: E");
     }
@@ -85,5 +86,15 @@ public class PlayCliAdapter implements PlayOutputPort {
 
     public void hintNotActive(){
         cliOutputPort.write("This hint is not active. To use hints update the settings!");
+    }
+
+    @Override
+    public void undoSuccessful() {
+        cliOutputPort.write("The undo was successful!");
+    }
+
+    @Override
+    public void noActionToUndo() {
+        cliOutputPort.write("You haven't set any field to undo yet!");
     }
 }
