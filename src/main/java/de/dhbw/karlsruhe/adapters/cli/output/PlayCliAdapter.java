@@ -21,6 +21,11 @@ public class PlayCliAdapter implements PlayOutputPort {
     }
 
     @Override
+    public void longGeneratingSudoku() {
+        cliOutputPort.write("Backtracking sudoku is being generated. This could take a while!");
+    }
+
+    @Override
     public void startGame() {
         cliOutputPort.write("Enter numbers by writing: W:[Row],[Column],[Value]");
         cliOutputPort.write("Example: W:3,4,9");

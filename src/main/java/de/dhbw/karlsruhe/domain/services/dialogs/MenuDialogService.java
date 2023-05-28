@@ -2,10 +2,7 @@ package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
-import de.dhbw.karlsruhe.domain.models.Difficulty;
-import de.dhbw.karlsruhe.domain.models.InvalidOptionException;
-import de.dhbw.karlsruhe.domain.models.MenuOptions;
-import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
+import de.dhbw.karlsruhe.domain.models.*;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.MenuOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
@@ -30,9 +27,7 @@ public class MenuDialogService {
 
     public MenuDialogService() {
         this.sudokuSelectionDialog = DependencyFactory.getInstance().getDependency(SudokuSelectionDialog.class);
-        ;
         this.playDialogService = DependencyFactory.getInstance().getDependency(PlayDialogService.class);
-        ;
         this.logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
         this.outputPort = DependencyFactory.getInstance().getDependency(MenuOutputPort.class);
         this.inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
@@ -73,15 +68,24 @@ public class MenuDialogService {
     }
 
     private void checkUserInput(int pUserInput) {
+        DifficultySelectionDialogService difficultySelectionDialogService = DependencyFactory.getInstance().getDependency(DifficultySelectionDialogService.class);
+
+        Difficulty selectedDifficulty;
         switch (pUserInput) {
             case 1:
-                DifficultySelectionDialogService difficultySelectionDialogService = DependencyFactory.getInstance().getDependency(DifficultySelectionDialogService.class);
-
-                Difficulty selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
+                selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
                 outputPort.selectionDifficultyOf(selectedDifficulty);
-                playDialogService.startNewGame(selectedDifficulty);
+                playDialogService.startNewStandardGame(selectedDifficulty);
                 break;
             case 2:
+                playDialogService.startNewGame(SudokuSize.SMALL,Difficulty.EASY );
+                break;
+            case 3:
+                selectedDifficulty = difficultySelectionDialogService.selectDifficulty();
+                outputPort.selectionDifficultyOf(selectedDifficulty);
+                playDialogService.startNewGame(SudokuSize.BIG, selectedDifficulty);
+                break;
+            case 4:
                 Optional<SudokuSaveEntry> selectedSudoku = this.sudokuSelectionDialog.selectSudokuDialog();
                 if (selectedSudoku.isEmpty()) {
                     outputPort.noSudokuSelected();
@@ -89,14 +93,14 @@ public class MenuDialogService {
                 }
                 selectedSudoku.ifPresent(this::playOrDeleteDialog);
                 break;
-            case 3:
+            case 5:
                 this.leaderboardDialogService = DependencyFactory.getInstance().getDependency(LeaderboardDialogService.class);
                 this.leaderboardDialogService.startLeaderboardDialog();
                 break;
-            case 4:
+            case 6:
                 this.settingService.settingDialog();
                 break;
-            case 5:
+            case 7:
                 this.logoutService.logout();
                 break;
             default:

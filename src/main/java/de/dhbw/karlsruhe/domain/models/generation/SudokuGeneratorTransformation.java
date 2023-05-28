@@ -2,6 +2,7 @@ package de.dhbw.karlsruhe.domain.models.generation;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
+import de.dhbw.karlsruhe.domain.models.SudokuSize;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
@@ -35,7 +36,7 @@ public class SudokuGeneratorTransformation extends SudokuGenerator {
     }
 
     private Sudoku fillSudokuWithDigits(List<Integer> unusedDigit) {
-        Sudoku tmpSudoku = new Sudoku();
+        Sudoku tmpSudoku = new Sudoku(SudokuSize.NORMAL);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 int tmp = (unusedDigit.get((i * 3 + j) % 9));
