@@ -8,7 +8,7 @@ import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class AbortAction extends PlayAction{
-    private SudokuPersistencePort sudokuPersistencePort = new SudokuPersistenceAdapter(Location.PROD);
+    private SudokuPersistencePort sudokuPersistencePort = DependencyFactory.getInstance().getDependency(SudokuPersistenceAdapter.class);
     private final PlayOutputPort outputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);
     private final boolean closeGame = true;
 

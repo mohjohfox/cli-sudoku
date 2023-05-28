@@ -6,6 +6,7 @@ import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ public class PlayInputCliAdapter implements PlayInputPort{
     public PlayAction getPlayAction() throws InvalidInputException {
         String input = getInput();
 
-        ArrayList<Integer> params;
+        List<Integer> params;
 
 
         try {
@@ -55,7 +56,7 @@ public class PlayInputCliAdapter implements PlayInputPort{
     }
 
 
-    private ArrayList<Integer> getParams(String input) throws InvalidInputException {
+    private List<Integer> getParams(String input) throws InvalidInputException {
         try {
             if (input.contains(":")) {
                 return splitInputToIntegersWithAction(input);
@@ -73,7 +74,7 @@ public class PlayInputCliAdapter implements PlayInputPort{
     }
 
     private boolean isValueHintAction(String action) {
-        return action.substring(0,1).equalsIgnoreCase("H");
+        return action.toUpperCase().charAt(0) == 'H';
     }
 
     private boolean isAbortAction(String action) {
@@ -85,16 +86,28 @@ public class PlayInputCliAdapter implements PlayInputPort{
     }
 
     private boolean isWriteAction(String action) {
-        return action.substring(0,1).equalsIgnoreCase("W") || Pattern.compile("[1-9],[1-9],[1-9]").matcher(action).find() || Pattern.compile("[1-9][1-9][1-9]").matcher(action).find();
+        return isStartingWithWriteActionSymbol(action) || isThreeValuesCommaSeparated(action) || isThreeValuesNotSeparated(action);
+    }
+
+    private boolean isStartingWithWriteActionSymbol(String action) {
+        return action.toUpperCase().charAt(0) == 'W';
+    }
+
+    private boolean isThreeValuesCommaSeparated(String action) {
+        return Pattern.compile("[1-9],[1-9],[1-9]").matcher(action).find();
+    }
+
+    private static boolean isThreeValuesNotSeparated(String action) {
+        return Pattern.compile("[1-9][1-9][1-9]").matcher(action).find();
     }
 
     private boolean isRemoveAction(String action) {
-        return action.substring(0,1).equalsIgnoreCase("R");
+        return action.toUpperCase().charAt(0) == 'R';
     }
 
-    private ArrayList<Integer> splitInputToIntegersWithAction(String input) throws NumberFormatException {
+    private List<Integer> splitInputToIntegersWithAction(String input) throws NumberFormatException {
         String[] getAction = input.split(":");
-        ArrayList<Integer> ints = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt)
+        List<Integer> ints = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt)
                 .boxed()
                 .collect(Collectors.toCollection(ArrayList::new));
         if (onlyValidDigits(ints)){
@@ -104,8 +117,8 @@ public class PlayInputCliAdapter implements PlayInputPort{
         }
     }
 
-    private ArrayList<Integer> splitInputToIntegersWithoutSeparation(String input) throws NumberFormatException {
-        ArrayList<Integer> ints = new ArrayList<>(Arrays.stream(input.split("(?!^)")).mapToInt(Integer::parseInt)
+    private List<Integer> splitInputToIntegersWithoutSeparation(String input) throws NumberFormatException {
+        List<Integer> ints = new ArrayList<>(Arrays.stream(input.split("(?!^)")).mapToInt(Integer::parseInt)
                 .boxed()
                 .collect(Collectors.toCollection(ArrayList::new)));
         if (onlyValidDigits(ints)){
@@ -115,7 +128,7 @@ public class PlayInputCliAdapter implements PlayInputPort{
         }
     }
 
-    private boolean onlyValidDigits(ArrayList<Integer> ints) {
+    private boolean onlyValidDigits(List<Integer> ints) {
         return ints.stream().allMatch(i -> i < 10 && i > 0);
     }
 
