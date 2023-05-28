@@ -1,0 +1,23 @@
+@startuml
+class SudokuCliAdapter {
+   + void print(Sudoku sudokuArray)
+   - void printVerticalLine(int columnIndex)
+   - void printHorizontalLine(int rowIndex, int sudokuArrayLength)
+}
+
+interface SudokuOutputPort {
+ + void print(Sudoku sudokuArray)
+}
+
+class SudokuPrintService {
+    + void printSudoku(Sudoku sudoku)
+}
+
+class PlayDialogService {
+    - void startGame()
+}
+
+SudokuCliAdapter --|> SudokuOutputPort
+SudokuPrintService --> SudokuOutputPort
+PlayDialogService --> SudokuOutputPort
+@enduml
