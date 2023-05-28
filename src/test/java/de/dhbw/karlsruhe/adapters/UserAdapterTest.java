@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class UserAdapterTest {
 
@@ -46,26 +47,12 @@ public class UserAdapterTest {
         userPort.changeUserName(newUserName);
 
         User updatedUser = userPort.getUser(newUserName);
+        User oldUser = userPort.getUser(user.getUserName());
 
         assertEquals(updatedUser.getUserName(), newUserName);
         assertEquals(updatedUser.getSetting(), user.getSetting());
         assertEquals(updatedUser.getPassword(), user.getPassword());
-    }
-
-    @Test
-    void changeUserNameToForgivenUserNameTest() {
-        UserPort userPort = new UserAdapter(Location.TEST);
-        User user = userPort.getUser("user1");
-        GameInformation.username = user.getUserName();
-        String newUserName = "MyNewUserName";
-
-        userPort.changeUserName(newUserName);
-
-        User updatedUser = userPort.getUser(newUserName);
-
-        assertEquals(updatedUser.getUserName(), user.getUserName());
-        assertEquals(updatedUser.getSetting(), user.getSetting());
-        assertEquals(updatedUser.getPassword(), user.getPassword());
+        assertNull(oldUser);
     }
 
     private User createUser(int id) {

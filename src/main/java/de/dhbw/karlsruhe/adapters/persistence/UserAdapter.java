@@ -168,6 +168,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
         }
         File tempFile = new File(getFullFilePath(userFileName + ".tmp"));
         if (tempFile.renameTo(originalFile)) {
+            GameInformation.username = newUserName;
             System.out.println("Username changed successfully.");
         } else {
             System.err.println("Failed to update username.");
