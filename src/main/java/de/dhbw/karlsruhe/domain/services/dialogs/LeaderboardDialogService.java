@@ -148,6 +148,9 @@ public class LeaderboardDialogService {
     }
 
     private void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+        if (leaderboardSaveEntries.size() == 0) {
+            outputPort.noLeaderboardEntriesYet();
+        }
         outputPort.displayLeaderboard(leaderboardTypeRepresentation, leaderboardSaveEntries);
     }
 

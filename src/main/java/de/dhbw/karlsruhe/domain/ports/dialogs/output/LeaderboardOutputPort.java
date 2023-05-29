@@ -13,4 +13,6 @@ public interface LeaderboardOutputPort {
     void invalidInput();
 
     void noLeaderboardDisplayed();
+
+    void noLeaderboardEntriesYet();
 }

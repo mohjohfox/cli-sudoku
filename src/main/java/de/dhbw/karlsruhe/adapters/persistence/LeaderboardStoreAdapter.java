@@ -45,6 +45,7 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
         List<LeaderboardSaveEntry> readLeaderboardSaveEntries = new ArrayList<>();
 
         if (!this.fileIsAvailable(completeFileName)) {
+
             return readLeaderboardSaveEntries;
         }
 
