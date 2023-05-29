@@ -32,13 +32,13 @@ public class Sudoku {
   }
 
   public void setInitialGameField(SudokuArray initialGameField) {
-    if (this.initialGameField == null) {
+    if (isDefaultField(this.initialGameField)) {
       this.initialGameField = initialGameField;
     }
   }
 
   public void setSolvedGameField(SudokuArray solvedGameField) {
-    if (this.initialGameField == null) {
+    if (isDefaultField(this.solvedGameField)) {
       this.solvedGameField = solvedGameField;
     }
   }
@@ -85,6 +85,17 @@ public class Sudoku {
   @Override
   public int hashCode() {
     return Objects.hash(id, gameField, initialGameField, difficulty);
+  }
+
+  private boolean isDefaultField(SudokuArray gameField) {
+    for (int i = 0; i < gameField.length(); i++) {
+      for (int k = 0; k < gameField.length(); k++) {
+        if (gameField.sudokuArray()[i][k] != 0) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
 }
