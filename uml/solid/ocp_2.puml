@@ -1,0 +1,32 @@
+@startuml
+enum MenuOptions {
+   + PLAY
+   + PLAY_SMALL
+   + PLAY_BIG
+   + SAVED_SUDOKUS
+   + LEADERBOARD
+   + SETTINGS
+   + LOGOUT
+   + String getRepresentation()
+}
+
+class MenuCliAdapter {
+    + void welcome()
+    + void startOfOptions()
+    + void optionError()
+    + void selectionDifficulty(Difficulty dif)
+    + void noSudokuSelected()
+    + void invalidOption()
+    + void menuOptions()
+    + void playOrDeleteOptions()
+    + void cancel()
+    + void playOrDeleteError()
+}
+
+class MenuDialogService {
+    + void startMenuDialog()
+}
+
+MenuCliAdapter --> MenuOptions
+MenuDialogService --> MenuOptions
+@enduml
