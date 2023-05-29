@@ -8,8 +8,8 @@ public class Setting {
     private boolean fieldValidation;
 
     public Setting() {
-        this.valueHint = false;
-        this.fieldValidation = false;
+        this.valueHint = true;
+        this.fieldValidation = true;
     }
 
     public Setting(boolean valueHint, boolean fieldValidation) {

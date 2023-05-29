@@ -1,9 +1,6 @@
 package de.dhbw.karlsruhe.adapters;
 
-import de.dhbw.karlsruhe.adapters.cli.input.InputCliAdapter;
-import de.dhbw.karlsruhe.adapters.cli.input.PlayInputCliAdapter;
-import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
-import de.dhbw.karlsruhe.adapters.cli.input.SettingInputCliAdapter;
+import de.dhbw.karlsruhe.adapters.cli.input.*;
 import de.dhbw.karlsruhe.adapters.cli.output.*;
 import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.LeaderboardStoreAdapter;
@@ -43,12 +40,14 @@ public class Main {
         dependencyFactory.registerDependency(new DurationTrackService());
         dependencyFactory.registerDependency(new EncryptionService());
         dependencyFactory.registerDependency(new ScannerAdapter());
+        dependencyFactory.registerDependency(new InputSplitter());
         dependencyFactory.registerDependency(new InputCliAdapter());
         dependencyFactory.registerDependency(new PlayInputCliAdapter());
         dependencyFactory.registerDependency(new CliOutputAdapter());
         dependencyFactory.registerDependency(new LeaderboardCliAdapter());
         dependencyFactory.registerDependency(new LeaderboardStoreAdapter(Location.PROD));
         dependencyFactory.registerDependency(new LeaderboardDialogService());
+        dependencyFactory.registerDependency(new RulesCliAdapter());
         dependencyFactory.registerDependency(new DifficultySelectionCliAdapter());
         dependencyFactory.registerDependency(new LogoutCliAdapter());
         dependencyFactory.registerDependency(new MenuCliAdapter());
@@ -73,6 +72,9 @@ public class Main {
         dependencyFactory.registerDependency(new StartUpDialogService());
         dependencyFactory.registerDependency(new DifficultySelectionDialogService());
         dependencyFactory.registerDependency(new SudokuFieldsRemover());
+        dependencyFactory.registerDependency(new TutorialOutputCliAdapter());
+        dependencyFactory.registerDependency(new TutorialInputCliAdapter());
+        dependencyFactory.registerDependency(new TutorialDialogService());
     }
 
 }
