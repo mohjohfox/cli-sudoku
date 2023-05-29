@@ -35,6 +35,10 @@ public class LeaderboardSaveEntry {
                 this.getSaveEntryID(), this.getLeaderboardTypeID(), this.getUsername(), this.getScore(), this.getDateAsString());
     }
 
+    public String getLeaderboardSaveEntryToDisplay () {
+        return String.format("%s\t%s\t%s", this.getScore(), this.getUsername(), this.getDateAsString());
+    }
+
     public UUID getSaveEntryID() {
         return saveEntryID;
     }

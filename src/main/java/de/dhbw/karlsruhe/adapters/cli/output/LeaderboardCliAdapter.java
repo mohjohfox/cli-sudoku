@@ -15,21 +15,25 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
     public void displayLeaderboardOptions() {
         cliOutputPort.write("Please select a leaderboard:");
 
-        cliOutputPort.write("[" + LeaderboardType.COMPLETE.getTypeID() + "]" + LeaderboardType.COMPLETE.getRepresentation());
-        cliOutputPort.write("[" + LeaderboardType.SOLVINGTIME.getTypeID() + "]" + LeaderboardType.SOLVINGTIME.getRepresentation());
-        cliOutputPort.write("[" + LeaderboardType.DIFFICULTY_EASY.getTypeID() + "]" + LeaderboardType.DIFFICULTY_EASY.getRepresentation());
-        cliOutputPort.write("[" + LeaderboardType.DIFFICULTY_MEDIUM.getTypeID() + "]" + LeaderboardType.DIFFICULTY_MEDIUM.getRepresentation());
-        cliOutputPort.write("[" + LeaderboardType.DIFFICULTY_HARD.getTypeID() + "]" + LeaderboardType.DIFFICULTY_HARD.getRepresentation());
+        cliOutputPort.write("[" + LeaderboardType.COMPLETE.getTypeID() + "] " + LeaderboardType.COMPLETE.getRepresentation());
+        cliOutputPort.write("[" + LeaderboardType.SOLVINGTIME.getTypeID() + "] " + LeaderboardType.SOLVINGTIME.getRepresentation());
+        cliOutputPort.write("[" + LeaderboardType.DIFFICULTY_EASY.getTypeID() + "] " + LeaderboardType.DIFFICULTY_EASY.getRepresentation());
+        cliOutputPort.write("[" + LeaderboardType.DIFFICULTY_MEDIUM.getTypeID() + "] " + LeaderboardType.DIFFICULTY_MEDIUM.getRepresentation());
+        cliOutputPort.write("[" + LeaderboardType.DIFFICULTY_HARD.getTypeID() + "] " + LeaderboardType.DIFFICULTY_HARD.getRepresentation());
     }
 
     @Override
     public void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
-        StringBuilder leaderboardDialog = new StringBuilder(leaderboardTypeRepresentation + "Leaderboard:");
+        StringBuilder leaderboardDialog = new StringBuilder(leaderboardTypeRepresentation + " Leaderboard:");
+        leaderboardDialog.append(System.getProperty("line.separator"));
 
+        leaderboardDialog.append("Score\tUsername\tDate");
+        leaderboardDialog.append(System.getProperty("line.separator"));
+        leaderboardDialog.append("-------------------------------------");
         leaderboardDialog.append(System.getProperty("line.separator"));
 
         for (LeaderboardSaveEntry leaderboardSaveEntry : leaderboardSaveEntries) {
-            leaderboardDialog.append(leaderboardSaveEntry.getFormattedLeaderboardSaveEntry());
+            leaderboardDialog.append(leaderboardSaveEntry.getLeaderboardSaveEntryToDisplay());
             leaderboardDialog.append(System.getProperty("line.separator"));
         }
 
