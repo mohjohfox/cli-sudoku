@@ -1,0 +1,32 @@
+@startuml
+interface SudokuPersistencePort {
+   + void saveSudoku(Sudoku sudoku)
+   + List<SudokuSaveEntry> getAllSudokus()
+   + Optional<SudokuSaveEntry> getSudoku(String saveId)
+   + void deleteSudoku(String saveId)
+}
+
+class SudokuPersistenceAdapter {
+    + void saveSudoku(Sudoku sudoku)
+    + List<SudokuSaveEntry> getAllSudokus()
+    + Optional<SudokuSaveEntry> getSudoku(String saveId)
+    + void deleteSudoku(String saveId)
+}
+
+class AbortAction {
+    + executeAction(Sudoku sudoku)
+}
+
+class MenuDialogService {
+    + void startMenuDialog()
+}
+
+class SudokuSelectionDialog {
+    + Optional<SudokuSaveEntry> selectSudokuDialog()
+}
+
+SudokuPersistenceAdapter --|> SudokuPersistencePort
+AbortAction --> SudokuPersistencePort
+MenuDialogService --> SudokuPersistencePort
+SudokuSelectionDialog --> SudokuPersistencePort
+@enduml
