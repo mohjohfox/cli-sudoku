@@ -17,17 +17,16 @@ public class TutorialDialogService {
     SudokuOutputPort sudokuPort = DependencyFactory.getInstance().getDependency(SudokuCliAdapter.class);
 
     public void start(){
-        do {
-            if (!successfulFirstLevel()){
-                return;
-            }
-            if (!successfulSecondLevel()){
-                return;
-            }
-            if (!successfulThirdtLevel()){
-                return;
-            }
-        } while(true);
+        if (!successfulFirstLevel()){
+            return;
+        }
+        if (!successfulSecondLevel()){
+            return;
+        }
+        if (!successfulThirdLevel()){
+            return;
+        }
+        outputPort.solvedTutorial();
     }
 
     private boolean successfulFirstLevel() {
@@ -55,7 +54,7 @@ public class TutorialDialogService {
         gameField[3][2] = 2;
         gameField[3][3] = 3;
         SudokuArray solvedGameField = new SudokuArray(gameField);
-        gameField[2][3] = 0;
+        gameField[1][2] = 0;
         SudokuArray currentGameField = new SudokuArray(gameField);
         return  new Sudoku(
                     UUID.randomUUID().toString(),
@@ -66,9 +65,11 @@ public class TutorialDialogService {
     }
 
     private boolean successfulSecondLevel() {
+        return true;
     }
 
-    private boolean successfulThirdtLevel() {
+    private boolean successfulThirdLevel() {
+        return true;
     }
 
 }

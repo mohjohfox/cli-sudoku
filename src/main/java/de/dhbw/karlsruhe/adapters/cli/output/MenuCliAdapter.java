@@ -11,6 +11,7 @@ public class MenuCliAdapter implements MenuOutputPort {
 
     @Override
     public void welcome() {
+        cliOutputPort.writeEmptyLine();
         cliOutputPort.write("Welcome to your favorite cli Sudoku :)");
     }
 

@@ -16,7 +16,7 @@ public class StartUpDialogService {
     private final LogoutService logoutService;
     private final StartUpOutputPort outputPort;
     private final InputPort inputPort;
-    private boolean playTutorial;
+    private boolean askForTutorial;
 
     public StartUpDialogService() {
         userService = DependencyFactory.getInstance().getDependency(UserService.class);
@@ -27,15 +27,19 @@ public class StartUpDialogService {
 
     public void signIn() {
         boolean successfulSignedIn = false;
-        playTutorial = false;
+        askForTutorial = false;
         while (!successfulSignedIn) {
             outputPort.askForLogin();
             String input = inputPort.getInput();
             successfulSignedIn = signInProcess(input);
         }
-        if (playTutorial) {
-            TutorialDialogService tutorial = DependencyFactory.getInstance().getDependency(TutorialDialogService.class);
-            tutorial.start();
+        if (askForTutorial) {
+            outputPort.playTutorial();
+            String input = inputPort.getInput();
+            if (tutorialResponse(input)) {
+                TutorialDialogService tutorial = DependencyFactory.getInstance().getDependency(TutorialDialogService.class);
+                tutorial.start();
+            }
         }
         logoutService.setSignedIn(true);
     }
@@ -47,9 +51,7 @@ public class StartUpDialogService {
                 if (!successfulRegistrated) {
                     return false;
                 } else {
-                    outputPort.playTutorial();
-                    String input = inputPort.getInput();
-                    playTutorial = tutorialResponse(input);
+                    askForTutorial = true;
                 }
             }
             return loginProcess();

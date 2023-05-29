@@ -65,8 +65,8 @@ public class Main {
         dependencyFactory.registerDependency(new SudokuArray(new int[9][9]));
         dependencyFactory.registerDependency(new DifficultySelectionDialogService());
         dependencyFactory.registerDependency(new SudokuFieldsRemover());
-        dependencyFactory.registerDependency(new TutorialInputCliAdapter());
         dependencyFactory.registerDependency(new TutorialOutputCliAdapter());
+        dependencyFactory.registerDependency(new TutorialInputCliAdapter());
         dependencyFactory.registerDependency(new TutorialDialogService());
     }
 
