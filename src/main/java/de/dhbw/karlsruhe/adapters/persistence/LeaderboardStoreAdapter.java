@@ -98,9 +98,9 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
         }
 
         String saveEntryID = String.valueOf(tempDict.get("SaveID"));
-        int leaderboardTypeID = (int) tempDict.get("LeaderboardID");
+        int leaderboardTypeID = Integer.parseInt((String) tempDict.get("LeaderboardID"));
         String username = String.valueOf(tempDict.get("Username"));
-        int score = (int) tempDict.get("Score");
+        int score = Integer.parseInt((String) tempDict.get("Score"));
         String date = String.valueOf(tempDict.get("Date"));
 
         return new LeaderboardSaveEntry(saveEntryID, leaderboardTypeID, username, score, date);

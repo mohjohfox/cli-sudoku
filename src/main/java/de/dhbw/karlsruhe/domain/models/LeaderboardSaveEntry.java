@@ -26,7 +26,7 @@ public class LeaderboardSaveEntry {
         this.leaderboardTypeID = leaderboardTypeID;
         this.username = username;
         this.score = score;
-        this.date = new Date(date);
+        // this.date = new Date(date);
         this.dateAsString = date;
     }
 
