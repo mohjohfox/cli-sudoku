@@ -5,6 +5,7 @@ import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.*;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.MenuOutputPort;
+import de.dhbw.karlsruhe.domain.ports.dialogs.output.RulesOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.LogoutService;
@@ -105,6 +106,10 @@ public class MenuDialogService {
                 tutorialDialogService.start();
                 break;
             case 8:
+                RulesOutputPort rulesOutputPort = DependencyFactory.getInstance().getDependency(RulesOutputPort.class);
+                rulesOutputPort.printGameRules();
+                break;
+            case 9:
                 this.logoutService.logout();
                 break;
             default:

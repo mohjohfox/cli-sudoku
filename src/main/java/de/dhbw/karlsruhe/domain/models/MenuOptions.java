@@ -7,7 +7,8 @@ public enum MenuOptions {
     SAVED_SUDOKUS("Show saved Sudokus"),
     LEADERBOARD("Leaderboard"),
     SETTINGS("Settings"),
-    TUTORIAL("Turtorial"),
+    TUTORIAL("Tutorial"),
+    RULES("Sudoku rules"),
     LOGOUT("Logout");
 
     final String representation;

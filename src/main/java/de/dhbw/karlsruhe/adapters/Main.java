@@ -40,6 +40,7 @@ public class Main {
         dependencyFactory.registerDependency(new InputCliAdapter());
         dependencyFactory.registerDependency(new PlayInputCliAdapter());
         dependencyFactory.registerDependency(new CliOutputAdapter());
+        dependencyFactory.registerDependency(new RulesCliAdapter());
         dependencyFactory.registerDependency(new DifficultySelectionCliAdapter());
         dependencyFactory.registerDependency(new LeaderboardCliAdapter());
         dependencyFactory.registerDependency(new LogoutCliAdapter());
