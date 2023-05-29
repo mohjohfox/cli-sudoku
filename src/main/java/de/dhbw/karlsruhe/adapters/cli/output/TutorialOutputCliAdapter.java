@@ -10,6 +10,7 @@ public class TutorialOutputCliAdapter implements TutorialOutputPort {
     @Override
     public void firstLevelInstructions() {
         cliOutputPort.write("Welcome to the sudoku tutorial!");
+        cliOutputPort.write("If at any point you want to skip the tutorial write: E");
         cliOutputPort.write("Sudoku is a brain teaser game that involves numbers.");
         cliOutputPort.write("A sudoku consists of a grid of a certain size.");
         cliOutputPort.write("A standard sudoku is a 9 by 9 grid. But there are smaller and bigger variants.");
@@ -33,9 +34,30 @@ public class TutorialOutputCliAdapter implements TutorialOutputPort {
     }
 
     @Override
-    public void firstLevelIinputNotCorrectHint() {
+    public void firstLevelInputNotCorrectHint() {
         cliOutputPort.write("That's not correct. The only field missing is in row 2 and column 3.");
         cliOutputPort.write("So start by writing: W:2,3, and the value you think is correct!");
+    }
+
+    @Override
+    public void finishedFirstLevel() {
+        cliOutputPort.write("Congratulations! You finished the first sudoku!");
+        cliOutputPort.write("Let's move on to the second step!");
+        cliOutputPort.writeEmptyLine();
+    }
+
+    @Override
+    public void secondLevelInstructions() {
+        cliOutputPort.write("In this next sudoku are more spaces to fill.");
+        cliOutputPort.write("If you make a mistake, don't worry. You can remove a set field by writing R:[Row],[Column]");
+        cliOutputPort.write("You can also undo your last step by writing: U");
+    }
+
+    @Override
+    public void finishedSecondLevel() {
+        cliOutputPort.write("Congratulations! You finished the second sudoku!");
+        cliOutputPort.write("You should be ready now for a full sized sudoku!");
+        cliOutputPort.writeEmptyLine();
     }
 
     @Override

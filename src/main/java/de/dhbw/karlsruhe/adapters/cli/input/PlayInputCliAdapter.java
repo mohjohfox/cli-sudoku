@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class PlayInputCliAdapter implements PlayInputPort {
 
     private final ScannerPort scannerPort = DependencyFactory.getInstance().getDependency(ScannerPort.class);
+    private InputSplitter inputSplitter = DependencyFactory.getInstance().getDependency(InputSplitter.class);
 
     @Override
     public PlayAction getPlayAction() throws InvalidInputException {
@@ -61,9 +62,9 @@ public class PlayInputCliAdapter implements PlayInputPort {
     private List<Integer> getParams(String input) throws InvalidInputException {
         try {
             if (input.contains(":")) {
-                return splitInputToIntegersWithAction(input);
+                return inputSplitter.splitInputToIntegersWithAction(input);
             } else {
-                return splitInputToIntegersWithoutSeparation(input);
+                return inputSplitter.splitInputToIntegersWithoutSeparation(input);
             }
         } catch (NumberFormatException ex) {
             throw new InvalidInputException();
@@ -109,33 +110,6 @@ public class PlayInputCliAdapter implements PlayInputPort {
 
     private boolean isUndoAction(String action) {
         return action.equalsIgnoreCase("U");
-    }
-
-    private List<Integer> splitInputToIntegersWithAction(String input) throws NumberFormatException {
-        String[] getAction = input.split(":");
-        List<Integer> ints = Arrays.stream(getAction[1].split(",")).mapToInt(Integer::parseInt)
-                .boxed()
-                .collect(Collectors.toCollection(ArrayList::new));
-        if (onlyValidDigits(ints)) {
-            return ints;
-        } else {
-            throw new NumberFormatException();
-        }
-    }
-
-    private List<Integer> splitInputToIntegersWithoutSeparation(String input) throws NumberFormatException {
-        List<Integer> ints = new ArrayList<>(Arrays.stream(input.split("(?!^)")).mapToInt(Integer::parseInt)
-                .boxed()
-                .collect(Collectors.toCollection(ArrayList::new)));
-        if (onlyValidDigits(ints)) {
-            return ints;
-        } else {
-            throw new NumberFormatException();
-        }
-    }
-
-    private boolean onlyValidDigits(List<Integer> ints) {
-        return ints.stream().allMatch(i -> i < 10 && i > 0);
     }
 
 }

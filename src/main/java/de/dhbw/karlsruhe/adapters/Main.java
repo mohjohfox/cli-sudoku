@@ -36,6 +36,7 @@ public class Main {
         dependencyFactory.registerDependency(new DurationTrackService());
         dependencyFactory.registerDependency(new EncryptionService());
         dependencyFactory.registerDependency(new ScannerAdapter());
+        dependencyFactory.registerDependency(new InputSplitter());
         dependencyFactory.registerDependency(new InputCliAdapter());
         dependencyFactory.registerDependency(new PlayInputCliAdapter());
         dependencyFactory.registerDependency(new CliOutputAdapter());

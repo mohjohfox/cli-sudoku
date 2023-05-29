@@ -6,7 +6,13 @@ public interface TutorialOutputPort {
 
     void firstLevelInputNotCorrectFirstTry();
 
-    void firstLevelIinputNotCorrectHint();
+    void firstLevelInputNotCorrectHint();
+
+    void finishedFirstLevel();
+
+    void secondLevelInstructions();
+
+    void finishedSecondLevel();
 
     void solvedTutorial();
 }
