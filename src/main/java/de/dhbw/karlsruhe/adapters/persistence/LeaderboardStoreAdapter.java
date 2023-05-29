@@ -67,13 +67,14 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
     private List<LeaderboardSaveEntry> filterReadLeaderboardSaveEntries(List<LeaderboardSaveEntry> readLeaderboardSaveEntries, int leaderboardTypeID) {
         List<LeaderboardSaveEntry> readLeaderboardSaveEntriesForID = new ArrayList<>();
 
+        // Filter for relevant entries
         for (LeaderboardSaveEntry leaderboardSaveEntry : readLeaderboardSaveEntries) {
             if (leaderboardSaveEntry.getLeaderboardTypeID() == leaderboardTypeID) {
                 readLeaderboardSaveEntriesForID.add(leaderboardSaveEntry);
             }
         }
 
-        return readLeaderboardSaveEntries;
+        return readLeaderboardSaveEntriesForID;
     }
 
     private boolean fileIsAvailable(String completeFileName) {
