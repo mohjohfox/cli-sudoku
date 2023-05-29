@@ -59,7 +59,7 @@ public class LeaderboardDialogService {
         return score;
     }
 
-    public int calculateDifficultyLeaderboardScore (String difficultyAsString) {
+    public int calculateDifficultyLeaderboardScore(String difficultyAsString) {
         int score = 0;
         int difficultyAsInt = 0;
 

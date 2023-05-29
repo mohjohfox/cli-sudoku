@@ -8,6 +8,7 @@ import de.dhbw.karlsruhe.domain.models.SudokuSize;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
 import de.dhbw.karlsruhe.domain.models.play.actions.PlayAction;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.PlayInputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
@@ -47,7 +48,7 @@ public class PlayDialogService {
             sudoku = sgTransformation.generateSudoku(dif);
         } else {
             outputPort.backtrackingSudoku();
-            sudoku = sgBacktracking.generateSudoku(SudokuSize.NORMAL,dif);
+            sudoku = sgBacktracking.generateSudoku(SudokuSize.NORMAL, dif);
         }
         startGame();
     }
@@ -55,15 +56,15 @@ public class PlayDialogService {
     public void startNewGame(SudokuSize sudokuSize, Difficulty dif) {
         if (sudokuSize == SudokuSize.BIG) {
             outputPort.longGeneratingSudoku();
-            sudoku = sgBacktracking.generateSudoku(SudokuSize.BIG,dif);
+            sudoku = sgBacktracking.generateSudoku(SudokuSize.BIG, dif);
             startGame();
         }
-        if (sudokuSize == SudokuSize.NORMAL){
+        if (sudokuSize == SudokuSize.NORMAL) {
             startNewStandardGame(dif);
         }
-        if (sudokuSize == SudokuSize.SMALL){
+        if (sudokuSize == SudokuSize.SMALL) {
             outputPort.backtrackingSudoku();
-            sudoku = sgBacktracking.generateSudoku(SudokuSize.SMALL,dif);
+            sudoku = sgBacktracking.generateSudoku(SudokuSize.SMALL, dif);
             startGame();
         }
     }
@@ -119,12 +120,12 @@ public class PlayDialogService {
         this.leaderboardDialogService.saveLeaderboardEntry(this.leaderboard);
 
         if (!sudokuValidator.isSudokuNotFullyFilled(sudoku.getGameField().sudokuArray())) {
-            List<String> notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
+            notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
             outputPort.notCorrectSudoku(notCorrectFields);
         }
     }
 
-    private PlayAction userInputDialog(){
+    private PlayAction userInputDialog() {
         PlayAction playAction = null;
 
         while (playAction == null) {
