@@ -10,4 +10,7 @@ public interface LeaderboardOutputPort {
 
     void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries);
 
+    void invalidInput();
+
+    void noLeaderboardDisplayed();
 }

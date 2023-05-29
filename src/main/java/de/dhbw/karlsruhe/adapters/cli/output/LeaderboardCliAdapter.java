@@ -36,4 +36,14 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
         cliOutputPort.write(leaderboardDialog.toString());
 
     }
+
+    @Override
+    public void invalidInput() {
+        cliOutputPort.write("This isn't a valid option!");
+    }
+
+    @Override
+    public void noLeaderboardDisplayed() {
+        cliOutputPort.write("No Leaderboard displayed!");
+    }
 }
