@@ -55,4 +55,9 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
     public void noLeaderboardEntriesYet() {
         cliOutputPort.write("No Leaderboard entries yet!");
     }
+
+    @Override
+    public void writeEmptyLine() {
+        cliOutputPort.writeEmptyLine();
+    }
 }

@@ -152,6 +152,8 @@ public class LeaderboardDialogService {
     private void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
         if (leaderboardSaveEntries.size() == 0) {
             outputPort.noLeaderboardEntriesYet();
+            outputPort.writeEmptyLine();
+            return;
         }
 
         this.sortLeaderboardEntries(leaderboardSaveEntries);
