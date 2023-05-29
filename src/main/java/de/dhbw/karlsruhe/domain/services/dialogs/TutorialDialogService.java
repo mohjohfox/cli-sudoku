@@ -1,6 +1,8 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.adapters.cli.input.InvalidInputException;
+import de.dhbw.karlsruhe.adapters.cli.input.PlayInputCliAdapter;
+import de.dhbw.karlsruhe.adapters.cli.input.TutorialInputCliAdapter;
 import de.dhbw.karlsruhe.adapters.cli.output.SudokuCliAdapter;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
@@ -20,8 +22,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class TutorialDialogService {
-    TutorialInputPort inputPort = DependencyFactory.getInstance().getDependency(TutorialInputPort.class);
-    PlayInputPort playInputPort = DependencyFactory.getInstance().getDependency(PlayInputPort.class);
+
+    TutorialInputPort inputPort= DependencyFactory.getInstance().getDependency(TutorialInputPort.class);
     TutorialOutputPort outputPort = DependencyFactory.getInstance().getDependency(TutorialOutputPort.class);
     PlayOutputPort playOutputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);
     SudokuOutputPort sudokuPort = DependencyFactory.getInstance().getDependency(SudokuCliAdapter.class);
@@ -81,13 +83,13 @@ public class TutorialDialogService {
     private boolean successfulSecondLevel() {
         outputPort.secondLevelInstructions();
         Sudoku sudoku = sgBacktracking.generateSudoku(SudokuSize.SMALL,Difficulty.EASY);
-        return startGame(sudoku);
+        return startGame(sudoku, false);
     }
 
-    private boolean startGame(Sudoku sudoku) {
+    private boolean startGame(Sudoku sudoku, boolean withHints) {
         while (sudokuValidator.isSudokuNotFullyFilled(sudoku.getGameField().sudokuArray())) {
             sudokuPort.print(sudoku);
-            PlayAction playAction = userInputDialog();
+            PlayAction playAction = userInputDialog(withHints);
             playAction.executeAction(sudoku);
             if (playAction.isCloseGame()) {
                 return false;
@@ -101,12 +103,12 @@ public class TutorialDialogService {
         return true;
     }
 
-    private PlayAction userInputDialog(){
+    private PlayAction userInputDialog(boolean withHints){
         PlayAction playAction = null;
 
         while (playAction == null) {
             try {
-                playAction = playInputPort.getPlayAction();
+                playAction = inputPort.getPlayAction(withHints);
             } catch (InvalidInputException ex) {
                 playOutputPort.inputError();
             }
@@ -115,7 +117,9 @@ public class TutorialDialogService {
     }
 
     private boolean successfulThirdLevel() {
-        return true;
+        outputPort.thirdLevelInstructions();
+        Sudoku sudoku = sgBacktracking.generateSudoku(SudokuSize.NORMAL,Difficulty.EASY);
+        return startGame(sudoku, true);
     }
 
 }

@@ -1,17 +1,14 @@
 package de.dhbw.karlsruhe.adapters.cli.input;
 
 import de.dhbw.karlsruhe.domain.models.play.actions.*;
-import de.dhbw.karlsruhe.domain.ports.dialogs.input.PlayInputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.TutorialInputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.TutorialOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
 
-public class TutorialInputCliAdapter implements TutorialInputPort, PlayInputPort {
+public class TutorialInputCliAdapter implements TutorialInputPort{
 
     private ScannerPort scanner = DependencyFactory.getInstance().getDependency(ScannerPort.class);
 
@@ -50,12 +47,19 @@ public class TutorialInputCliAdapter implements TutorialInputPort, PlayInputPort
     }
 
     @Override
-    public PlayAction getPlayAction() throws InvalidInputException {
+    public PlayAction getPlayAction(boolean withHints) throws InvalidInputException {
         String input = getInput();
 
         List<Integer> params;
 
         try {
+            if (withHints && isValidationHintAction(input)){
+                return new ValidationHintAction();
+            }
+            if (withHints && isValueHintAction(input)) {
+                params = getParams(input);
+                return new ValueHintAction(params.get(0), params.get(1));
+            }
             if (isExitAction(input)) {
                 return new ExitAction();
             }
@@ -89,7 +93,21 @@ public class TutorialInputCliAdapter implements TutorialInputPort, PlayInputPort
         }
     }
 
-    private boolean isWriteAction(String action) { return action.toUpperCase().charAt(0) == 'W';}
+    private boolean isWriteAction(String action) {
+        return isStartingWithWriteActionSymbol(action) || isThreeValuesCommaSeparated(action) || isThreeValuesNotSeparated(action);
+    }
+
+    private boolean isStartingWithWriteActionSymbol(String action) {
+        return action.toUpperCase().charAt(0) == 'W';
+    }
+
+    private boolean isThreeValuesCommaSeparated(String action) {
+        return Pattern.compile("[1-9],[1-9],[1-9]").matcher(action).find();
+    }
+
+    private static boolean isThreeValuesNotSeparated(String action) {
+        return Pattern.compile("[1-9][1-9][1-9]").matcher(action).find();
+    }
 
     private boolean isRemoveAction(String action) {
         return action.toUpperCase().charAt(0) == 'R';
@@ -103,7 +121,12 @@ public class TutorialInputCliAdapter implements TutorialInputPort, PlayInputPort
         return action.equalsIgnoreCase("E");
     }
 
+    private boolean isValidationHintAction(String action) {
+        return action.equalsIgnoreCase("V");
+    }
 
-
+    private boolean isValueHintAction(String action) {
+        return action.toUpperCase().charAt(0) == 'H';
+    }
 
 }

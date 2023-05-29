@@ -14,5 +14,7 @@ public interface TutorialOutputPort {
 
     void finishedSecondLevel();
 
+    void thirdLevelInstructions();
+
     void solvedTutorial();
 }

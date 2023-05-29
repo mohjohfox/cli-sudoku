@@ -61,9 +61,18 @@ public class TutorialOutputCliAdapter implements TutorialOutputPort {
     }
 
     @Override
+    public void thirdLevelInstructions() {
+        cliOutputPort.write("You can also use a fast input variation to set fields by writing e.g. 123.");
+        cliOutputPort.write("There are also hints you can use while playing the game.");
+        cliOutputPort.write("You can activate or deactivate these hints in the settings menu later.");
+        cliOutputPort.write("Press H:[row],[col] to get a value hint.");
+        cliOutputPort.write("Press V to validate the sudoku.");
+    }
+
+    @Override
     public void solvedTutorial() {
         cliOutputPort.write("Congratulations! You finished the tutorial!");
         cliOutputPort.write("You can now choose to play sudokus of different sizes and difficulties from the menu.");
-        cliOutputPort.write("Or start by activating hints in the settings!");
+        cliOutputPort.write("Or deactivate hints in the settings!");
     }
 }
