@@ -22,4 +22,8 @@ public interface StartUpOutputPort {
 
     void promptPassword();
 
+    void playTutorial();
+
+    void askForYOrN();
+
 }
