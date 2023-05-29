@@ -7,6 +7,8 @@ import de.dhbw.karlsruhe.domain.ports.dialogs.output.LeaderboardOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.LeaderboardStorePort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LeaderboardDialogService {
@@ -152,7 +154,13 @@ public class LeaderboardDialogService {
             outputPort.noLeaderboardEntriesYet();
         }
 
+        this.sortLeaderboardEntries(leaderboardSaveEntries);
+
         outputPort.displayLeaderboard(leaderboardTypeRepresentation, leaderboardSaveEntries);
+    }
+
+    private void sortLeaderboardEntries(List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+        leaderboardSaveEntries.sort(new LeaderboardSaveEntryComparator());
     }
 
 }
