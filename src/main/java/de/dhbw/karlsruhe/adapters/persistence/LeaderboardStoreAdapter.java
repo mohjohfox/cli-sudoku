@@ -40,9 +40,13 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
     }
 
     @Override
-    public List<LeaderboardSaveEntry> loadSavedEntriesFromLeaderboard (int leaderboardTypeID) {
+    public List<LeaderboardSaveEntry> loadSavedEntriesFromLeaderboard(int leaderboardTypeID) {
         String completeFileName = LEADERBOARDFILENAME + leaderboardTypeID;
         List<LeaderboardSaveEntry> readLeaderboardSaveEntries = new ArrayList<>();
+
+        if (!this.fileIsAvailable(completeFileName)) {
+            return readLeaderboardSaveEntries;
+        }
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(getFullFilePath(completeFileName)))) {
             String line = bufferedReader.readLine();
@@ -54,6 +58,17 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
 
         return readLeaderboardSaveEntries;
 
+    }
+
+    private boolean fileIsAvailable(String completeFileName) {
+        boolean fileIsAvailable = false;
+
+        File f = new File(getFullFilePath(completeFileName));
+        if(f.exists() && !f.isDirectory()) {
+            fileIsAvailable = true;
+        }
+
+        return fileIsAvailable;
     }
 
     private LeaderboardSaveEntry parseReadLineToEntry(String line) {
