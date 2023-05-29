@@ -35,4 +35,6 @@ public interface PlayOutputPort {
     void undoSuccessful();
 
     void noActionToUndo();
+
+    void mistakesFixed(List<String> notCorrectFields);
 }

@@ -74,9 +74,9 @@ public class TutorialDialogService {
         SudokuArray currentGameField = new SudokuArray(gameField);
         return  new Sudoku(
                     UUID.randomUUID().toString(),
-                    new SudokuArray(currentGameField.getCopyOfSudokuArray(4)),
-                    new SudokuArray(currentGameField.getCopyOfSudokuArray(4)),
-                    new SudokuArray(solvedGameField.getCopyOfSudokuArray(4)),
+                    new SudokuArray(currentGameField.getCopyOfSudokuArray()),
+                    new SudokuArray(currentGameField.getCopyOfSudokuArray()),
+                    new SudokuArray(solvedGameField.getCopyOfSudokuArray()),
                     Difficulty.EASY);
     }
 

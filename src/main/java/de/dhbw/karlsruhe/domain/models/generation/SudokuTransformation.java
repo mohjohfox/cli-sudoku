@@ -128,7 +128,7 @@ public class SudokuTransformation {
     }
 
     private int countPossibleSolutions(SudokuArray sudokuGameField) {
-        int[][] copyOfGameField = sudokuGameField.getCopyOfSudokuArray(sudokuGameField.length());
+        int[][] copyOfGameField = sudokuGameField.getCopyOfSudokuArray();
         int numberOfSolutions = 0;
         isSudokuSolvable(copyOfGameField, 0, 0);
         numberOfSolutions++;
@@ -359,7 +359,7 @@ public class SudokuTransformation {
     }
 
     private int[][] getGameFields() {
-        int[][] tmpGameField = this.sudoku.getGameField().getCopyOfSudokuArray(sudoku.getGameField().length());
+        int[][] tmpGameField = this.sudoku.getGameField().getCopyOfSudokuArray();
         return tmpGameField;
     }
 }
