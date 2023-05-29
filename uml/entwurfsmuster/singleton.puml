@@ -1,0 +1,13 @@
+@startuml
+class DependencyFactory {
+  - static instance : DependencyFactory
+  - dependencies : List<Object>
+  - DependencyFactory()
+  + static getInstance() : DependencyFactory
+  + registerDependency(Object o)
+  + getDependency(Class<T> type) : T
+}
+DependencyFactory --> "instance" DependencyFactory: <<singleton>>
+
+@enduml
+
