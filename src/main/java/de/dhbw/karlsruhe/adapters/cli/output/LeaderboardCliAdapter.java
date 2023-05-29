@@ -24,17 +24,22 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
 
     @Override
     public void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+        int rank = 1;
+
         StringBuilder leaderboardDialog = new StringBuilder(leaderboardTypeRepresentation + " Leaderboard:");
         leaderboardDialog.append(System.getProperty("line.separator"));
-
-        leaderboardDialog.append("Score\tUsername\tDate");
         leaderboardDialog.append(System.getProperty("line.separator"));
-        leaderboardDialog.append("-------------------------------------");
+
+        leaderboardDialog.append("\tScore\tUsername\tDate");
+        leaderboardDialog.append(System.getProperty("line.separator"));
+        leaderboardDialog.append("-------------------------------------------------------");
         leaderboardDialog.append(System.getProperty("line.separator"));
 
         for (LeaderboardSaveEntry leaderboardSaveEntry : leaderboardSaveEntries) {
-            leaderboardDialog.append(leaderboardSaveEntry.getLeaderboardSaveEntryToDisplay());
+            leaderboardDialog.append(rank + "\t" + leaderboardSaveEntry.getLeaderboardSaveEntryToDisplay());
             leaderboardDialog.append(System.getProperty("line.separator"));
+
+            rank++;
         }
 
         cliOutputPort.write(leaderboardDialog.toString());
