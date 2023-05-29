@@ -101,6 +101,10 @@ public class MenuDialogService {
                 this.settingService.settingDialog();
                 break;
             case 7:
+                TutorialDialogService tutorialDialogService = DependencyFactory.getInstance().getDependency(TutorialDialogService.class);
+                tutorialDialogService.start();
+                break;
+            case 8:
                 this.logoutService.logout();
                 break;
             default:

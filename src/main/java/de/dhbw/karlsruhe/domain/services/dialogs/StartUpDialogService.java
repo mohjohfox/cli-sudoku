@@ -16,6 +16,7 @@ public class StartUpDialogService {
     private final LogoutService logoutService;
     private final StartUpOutputPort outputPort;
     private final InputPort inputPort;
+    private boolean playTutorial;
 
     public StartUpDialogService() {
         userService = DependencyFactory.getInstance().getDependency(UserService.class);
@@ -26,13 +27,16 @@ public class StartUpDialogService {
 
     public void signIn() {
         boolean successfulSignedIn = false;
-
+        playTutorial = false;
         while (!successfulSignedIn) {
             outputPort.askForLogin();
             String input = inputPort.getInput();
             successfulSignedIn = signInProcess(input);
         }
-
+        if (playTutorial) {
+            TutorialDialogService tutorial = DependencyFactory.getInstance().getDependency(TutorialDialogService.class);
+            tutorial.start();
+        }
         logoutService.setSignedIn(true);
     }
 
@@ -42,6 +46,10 @@ public class StartUpDialogService {
                 boolean successfulRegistrated = registrationProcess();
                 if (!successfulRegistrated) {
                     return false;
+                } else {
+                    outputPort.playTutorial();
+                    String input = inputPort.getInput();
+                    playTutorial = tutorialResponse(input);
                 }
             }
             return loginProcess();
@@ -76,6 +84,18 @@ public class StartUpDialogService {
         } else {
             outputPort.failedRegistration();
         }
+    }
+
+    private boolean tutorialResponse(String input) {
+        do {
+            if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
+                return true;
+            } else if (input.equalsIgnoreCase("n") || input.equalsIgnoreCase("no")) {
+                return false;
+            }
+            outputPort.askForYOrN();
+            input = inputPort.getInput();
+        } while (true);
     }
 
     private boolean loginProcess() throws NoSuchAlgorithmException {
