@@ -1,0 +1,15 @@
+@startuml
+interface UserPort {
+   void saveUser(User user)
+   String getPassword(String userName)
+   List<String> getAllUserNames()
+}
+
+class UserAdapter {
+   + void saveUser(User user)
+   + String getPassword(String userName)
+   + List<String> getAllUserNames()
+}
+
+UserAdapter--> "Inheritance" UserPort
+@enduml

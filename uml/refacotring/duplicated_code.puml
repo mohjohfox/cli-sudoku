@@ -1,0 +1,27 @@
+@startuml
+class SudokuGeneratorBacktracking {
+    +generateSudoku(): Sudoku
+    - SudokuArray getGameFields(Sudoku sudoku)
+ }
+
+ class SudokuGeneratorTransformation {
+   +generateSudoku(): Sudoku
+   - SudokuArray getGameFields(Sudoku sudoku)
+ }
+
+ abstract class SudokuGenerator {
+   +abstract generateSudoku(): Sudoku
+   +SudokuArray getGameFields(Sudoku sudoku)
+ }
+
+ class SudokuGeneratorBacktrackingUpdated {
+     +generateSudoku(): Sudoku
+  }
+
+  class SudokuGeneratorTransformationUpdated {
+    +generateSudoku(): Sudoku
+  }
+
+  SudokuGeneratorTransformationUpdated --> SudokuGenerator
+  SudokuGeneratorBacktrackingUpdated --> SudokuGenerator
+@enduml

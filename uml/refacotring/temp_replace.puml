@@ -1,0 +1,5 @@
+@startuml
+class SudokuTransformation {
+- void removeFields(Difficulty dif)
+}
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+class PlayDialogService {
+   - boolean userInputDialog()
+}
+
+class PlayDialogServiceUpdated {
+   - boolean userInputDialog()
+   - int getCorrectValue(String fieldInput)
+   - int[] splitControleInputToIntegers(String input)
+   - int getRowFromSplitInput(int[] splitInput)
+   - int getColFromSplitInput(int[] splitInput)
+   - void messageIsFieldCorrectlySet(String fieldInput, boolean isFieldCorrectlySet)
+   - boolean isValidationHint(String input)
+   - boolean isValueHint(String input)
+   - boolean areHintsActivated()
+}
+@enduml
