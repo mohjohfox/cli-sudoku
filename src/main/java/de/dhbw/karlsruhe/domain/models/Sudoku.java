@@ -49,11 +49,15 @@ public class Sudoku {
     }
 
     public void setInitialGameField(SudokuArray initialGameField) {
-        this.initialGameField = initialGameField;
+        if (this.initialGameField == null) {
+            this.initialGameField = initialGameField;
+        }
     }
 
     public void setSolvedGameField(SudokuArray solvedGameField) {
-        this.solvedGameField = solvedGameField;
+        if (this.initialGameField == null) {
+            this.solvedGameField = solvedGameField;
+        }
     }
 
     public boolean setField(int row, int col, int val) {
@@ -73,8 +77,8 @@ public class Sudoku {
         return id;
     }
 
-    public SudokuArray getGameField() {
-        return gameField;
+    public SudokuArray getGameField(){
+        return this.gameField;
     }
 
     public SudokuChange getLastChange() {

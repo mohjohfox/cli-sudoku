@@ -1,0 +1,16 @@
+@startuml
+class SudokuFieldsRemover {
+   + Sudoku removeFields(Sudoku sudoku, Difficulty dif)
+   - int amountOfCellsToRemove(Difficulty dif)
+   - void removeNumberOfCells(int amountOfCellsToRemove)
+   - boolean isSudokuSolvable(int[][] sudokuField, int row, int col)
+   - boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value)
+   - int countPossibleSolutions(SudokuArray sudokuGameField)
+}
+
+class SudokuGeneratorTransformation {
+    + Sudoku generateSudoku(Difficulty dif)
+}
+
+SudokuGeneratorTransformation --> SudokuFieldsRemover
+@enduml

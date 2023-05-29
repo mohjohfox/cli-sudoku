@@ -1,0 +1,43 @@
+@startuml
+class SudokuTransformator {
+   - Sudoku fillSudokuWithDigits(List<Integer> unusedDigit)
+   - List<Integer> addShuffledDigits()
+   - void transform()
+   - void removeFields(Difficulty dif)
+   - void removeNumberOfCells(int amountOfCellsToRemove)
+   - boolean isSudokuSolvable(int[][] sudokuField, int row, int col)
+   - void mirrorVertical()
+}
+
+class SudokuTransformatorUpdated {
+   + Sudoku transform(Sudoku sudoku)
+   - void mirrorVertical()
+   - void mirrorVertical()
+   - void exchangeCols()
+   - void exchangeBlockRows()
+}
+
+class SudokuGeneratorTransformation {
+   - Sudoku fillSudokuWithDigits(List<Integer> unusedDigit)
+   - List<Integer> addShuffledDigits()
+   + Sudoku generateSudoku(Difficulty dif)
+   - void removeFields(Difficulty dif)
+   - int amountOfCellsToRemove(Difficulty dif)
+   - void removeNumberOfCells(int amountOfCellsToRemove)
+   - boolean isSudokuSolvable(int[][] sudokuField, int row, int col)
+}
+
+class FieldsRemover {
+   + Sudoku removeFields(Sudoku sudoku, Difficulty dif)
+   - void removeNumberOfCells(int amountOfCellsToRemove)
+   - int countPossibleSolutions(int[][] sudokuGameField)
+ }
+
+ class SudokuGeneratorTransformationUpdated {
+  + Sudoku generateSudoku(Difficulty dif)
+ }
+
+SudokuGeneratorTransformation ..>"Outdated" SudokuTransformatorUpdated
+SudokuGeneratorTransformationUpdated --> FieldsRemover
+SudokuGeneratorTransformationUpdated --> SudokuTransformatorUpdated
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+class Sudoku {
+  - String id;
+  - SudokuArray gameField;
+  - SudokuArray initialGameField;
+  - SudokuArray solvedGameField;
+  - Difficulty difficulty;
+  + int getId()
+  + SudokuArray getGameField()
+  + SudokuArray getInitialGameField()
+  + SudokuArray getSolvedGameField()
+  + Difficulty getDifficulty()
+}
+
+class SudokuSaveEntry {
+   - String saveId
+   - Sudoku sudoku
+   - DateWrapper saveDate
+   + String getSaveId()
+   + Sudoku getSudoku()
+   + DateWrapper getSaveDate()
+}
+
+SudokuSaveEntry-->Sudoku
+@enduml

@@ -1,0 +1,5 @@
+@startUml
+class SudokuSelectionDialog{
++Optional<SudokuSaveEntry> selectSudokuDialog()
+}
+@endUml

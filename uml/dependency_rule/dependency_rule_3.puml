@@ -1,0 +1,15 @@
+@startuml
+enum Difficulty {
+  - String shortDifficultyName;
+  + boolean match(String input)
+  + String getName()
+  + String getShortDifficultyName()
+}
+
+class DifficultySelectionDialogService {
+   - Difficulty successfulSelection()
+   + Difficulty selectDifficulty()
+}
+
+DifficultySelectionDialogService-->Difficulty
+@enduml

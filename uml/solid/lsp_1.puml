@@ -1,0 +1,21 @@
+@startuml
+abstract class PlayAction {
+   + executeAction(Sudoku sudoku)
+}
+
+class ExitAction {
+    + executeAction(Sudoku sudoku)
+}
+
+class WriteAction {
+    + executeAction(Sudoku sudoku)
+}
+
+class UndoAction {
+    + executeAction(Sudoku sudoku)
+}
+
+ExitAction --|> PlayAction
+WriteAction --|> PlayAction
+UndoAction --|> PlayAction
+@enduml
