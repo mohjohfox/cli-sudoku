@@ -32,7 +32,6 @@ public class PlayDialogService {
     private DurationTrackService durationTrackService = DependencyFactory.getInstance().getDependency(DurationTrackService.class);
     private LeaderboardDialogService leaderboardDialogService = DependencyFactory.getInstance().getDependency(LeaderboardDialogService.class);
     private Leaderboard leaderboard = DependencyFactory.getInstance().getDependency(Leaderboard.class);
-    private GameInformation gameInformation = DependencyFactory.getInstance().getDependency(GameInformation.class);
     private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     private final PlayInputPort playInputPort = DependencyFactory.getInstance().getDependency(PlayInputPort.class);
     private final PlayOutputPort outputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);

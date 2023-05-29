@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
+import de.dhbw.karlsruhe.adapters.cli.output.CliOutputPort;
 import de.dhbw.karlsruhe.domain.models.*;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.LeaderboardOutputPort;
