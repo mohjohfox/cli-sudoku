@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
+import de.dhbw.karlsruhe.domain.models.Leaderboard;
 import de.dhbw.karlsruhe.domain.models.LeaderboardSaveEntry;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.LeaderboardOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
@@ -15,10 +16,10 @@ public class LeaderboardDialogService {
     }
 
     public void startLeaderboardDialog() {
-        outputPort.startLeaderboard();
+        outputPort.displayLeaderboardOptions();
     }
 
-    public void displayLeaderboard(List<LeaderboardSaveEntry> leaderboardSaveEntries) {
-        outputPort.displayLeaderboard(leaderboardSaveEntries);
+    public void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+        outputPort.displayLeaderboard(leaderboardTypeRepresentation, leaderboardSaveEntries);
     }
 }

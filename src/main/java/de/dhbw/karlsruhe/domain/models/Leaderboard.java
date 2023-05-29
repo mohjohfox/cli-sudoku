@@ -20,7 +20,7 @@ public class Leaderboard {
         return this.leaderboardType.getTypeID();
     }
 
-    public void updateLeaderboard(int leaderboardID, String username, int score) {
+    public void addToLeaderboard(int leaderboardID, String username, int score) {
         LeaderboardSaveEntry leaderboardSaveEntry = new LeaderboardSaveEntry(leaderboardID, username, score);
 
         leaderboardSaveEntries.add(leaderboardSaveEntry);

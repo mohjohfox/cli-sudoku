@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface LeaderboardOutputPort {
 
-    void startLeaderboard();
+    void displayLeaderboardOptions();
 
-    void displayLeaderboard(List<LeaderboardSaveEntry> leaderboardSaveEntries);
+    void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries);
 
 }
