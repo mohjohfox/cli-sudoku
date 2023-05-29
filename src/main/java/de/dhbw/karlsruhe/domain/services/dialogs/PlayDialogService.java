@@ -99,8 +99,25 @@ public class PlayDialogService {
         DurationTrackSaveEntry durationTrackSaveEntry = this.durationTrackService.getDurationTrackSaveEntry();
         boolean isSudokuValid = this.sudokuValidator.isSudokuValid(sudoku.getGameField().sudokuArray());
         String difficultyAsString = sudoku.getDifficulty().getName();
+        String username = GameInformation.username;
+        long durationInMillis = durationTrackSaveEntry.getDuration();
 
-        int scoreComplete = this.leaderboardDialogService.calculateCompleteLeaderboardScore(isSudokuValid, durationTrackSaveEntry.getDuration(), difficultyAsString);
+        int scoreComplete = this.leaderboardDialogService.calculateCompleteLeaderboardScore(isSudokuValid, durationInMillis, difficultyAsString);
+        int scoreTime = this.leaderboardDialogService.calculateTimeLeaderboardScore(durationInMillis);
+        int scoreDifficulty = this.leaderboardDialogService.calculateDifficultyLeaderboardScore(difficultyAsString);
+
+        this.leaderboard.addToLeaderboard(1, username, scoreComplete);
+        this.leaderboard.addToLeaderboard(2, username, scoreTime);
+
+        if (difficultyAsString.equals(Difficulty.EASY.getName())) {
+            this.leaderboard.addToLeaderboard(3, username, scoreDifficulty);
+        } else if (difficultyAsString.equals(Difficulty.MEDIUM.getName())) {
+            this.leaderboard.addToLeaderboard(4, username, scoreDifficulty);
+        } else {
+            this.leaderboard.addToLeaderboard(5, username, scoreDifficulty);
+        }
+
+        this.leaderboardDialogService.saveLeaderboardEntry(this.leaderboard);
 
         if (!sudokuValidator.isSudokuNotFullyFilled(sudoku.getGameField().sudokuArray())) {
             List<String> notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
