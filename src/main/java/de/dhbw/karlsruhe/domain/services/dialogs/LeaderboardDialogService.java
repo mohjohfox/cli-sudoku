@@ -48,7 +48,7 @@ public class LeaderboardDialogService {
         }
 
         score += difficultyAsInt * 0.75 * 66;
-        score += (System.currentTimeMillis() - timeInMillis) * 0.00001;
+        score += (System.currentTimeMillis() - timeInMillis) * 0.000001;
 
         return score;
     }
@@ -56,7 +56,7 @@ public class LeaderboardDialogService {
     public int calculateTimeLeaderboardScore(long timeInMillis) {
         int score = 0;
 
-        score += (System.currentTimeMillis() - timeInMillis) * 0.00001;
+        score += (System.currentTimeMillis() - timeInMillis) * 0.000001;
 
         return score;
     }
