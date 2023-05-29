@@ -21,8 +21,8 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
 
     @Override
     public void saveLeaderboard(Leaderboard leaderboard) {
-        int leaderboardType = leaderboard.getLeaderboardTypeID();
-        String completeFileName = LEADERBOARDFILENAME + leaderboardType;
+        // int leaderboardType = leaderboard.getLeaderboardTypeID();
+        String completeFileName = LEADERBOARDFILENAME;
         List<LeaderboardSaveEntry> leaderboardSaveEntries = leaderboard.getLeaderboardSaveEntries();
 
         prepareFileStructure(completeFileName);
@@ -41,8 +41,9 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
 
     @Override
     public List<LeaderboardSaveEntry> loadSavedEntriesFromLeaderboard(int leaderboardTypeID) {
-        String completeFileName = LEADERBOARDFILENAME + leaderboardTypeID;
+        String completeFileName = LEADERBOARDFILENAME;
         List<LeaderboardSaveEntry> readLeaderboardSaveEntries = new ArrayList<>();
+        List<LeaderboardSaveEntry> readLeaderboardSaveEntriesForID;
 
         if (!this.fileIsAvailable(completeFileName)) {
 
@@ -57,8 +58,22 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
             throw new RuntimeException(e);
         }
 
-        return readLeaderboardSaveEntries;
+        readLeaderboardSaveEntriesForID = this.filterReadLeaderboardSaveEntries(readLeaderboardSaveEntries, leaderboardTypeID);
 
+        return readLeaderboardSaveEntriesForID;
+
+    }
+
+    private List<LeaderboardSaveEntry> filterReadLeaderboardSaveEntries(List<LeaderboardSaveEntry> readLeaderboardSaveEntries, int leaderboardTypeID) {
+        List<LeaderboardSaveEntry> readLeaderboardSaveEntriesForID = new ArrayList<>();
+
+        for (LeaderboardSaveEntry leaderboardSaveEntry : readLeaderboardSaveEntries) {
+            if (leaderboardSaveEntry.getLeaderboardTypeID() == leaderboardTypeID) {
+                readLeaderboardSaveEntriesForID.add(leaderboardSaveEntry);
+            }
+        }
+
+        return readLeaderboardSaveEntries;
     }
 
     private boolean fileIsAvailable(String completeFileName) {

@@ -6,24 +6,24 @@ import java.util.UUID;
 public class LeaderboardSaveEntry {
 
     private UUID saveEntryID;
-    private int leaderBoardTypeID;
+    private int leaderboardTypeID;
     private String username;
     private int score;
     private Date date;
     private String dateAsString;
 
-    public LeaderboardSaveEntry(int leaderBoardTypeID, String username, int score) {
+    public LeaderboardSaveEntry(int leaderboardTypeID, String username, int score) {
         this.saveEntryID = UUID.randomUUID();
-        this.leaderBoardTypeID = leaderBoardTypeID;
+        this.leaderboardTypeID = leaderboardTypeID;
         this.username = username;
         this.score = score;
         this.date = new Date();
         this.dateAsString = this.date.toString();
     }
 
-    public LeaderboardSaveEntry(String saveEntryID, int leaderBoardTypeID, String username, int score, String date) {
+    public LeaderboardSaveEntry(String saveEntryID, int leaderboardTypeID, String username, int score, String date) {
         this.saveEntryID = UUID.fromString(saveEntryID);
-        this.leaderBoardTypeID = leaderBoardTypeID;
+        this.leaderboardTypeID = leaderboardTypeID;
         this.username = username;
         this.score = score;
         this.date = new Date(date);
@@ -32,15 +32,15 @@ public class LeaderboardSaveEntry {
 
     public String getFormattedLeaderboardSaveEntry() {
         return String.format("SaveID=%s&LeaderboardID=%s&Username=%s&Score=%s&Date=%s",
-                this.getSaveEntryID(), this.getLeaderBoardTypeID(), this.getUsername(), this.getScore(), this.getDateAsString());
+                this.getSaveEntryID(), this.getLeaderboardTypeID(), this.getUsername(), this.getScore(), this.getDateAsString());
     }
 
     public UUID getSaveEntryID() {
         return saveEntryID;
     }
 
-    public int getLeaderBoardTypeID() {
-        return leaderBoardTypeID;
+    public int getLeaderboardTypeID() {
+        return leaderboardTypeID;
     }
 
     public String getUsername() {
