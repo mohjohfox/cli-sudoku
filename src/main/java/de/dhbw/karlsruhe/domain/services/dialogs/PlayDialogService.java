@@ -98,7 +98,7 @@ public class PlayDialogService {
         // Save game score
         DurationTrackSaveEntry durationTrackSaveEntry = this.durationTrackService.getDurationTrackSaveEntry();
         boolean isSudokuValid = this.sudokuValidator.isSudokuValid(sudoku.getGameField().sudokuArray());
-        String difficultyAsString = sudoku.getDifficulty().getName();
+        String difficultyAsString = sudoku.getDifficulty().getShortDifficultyName();
         String username = GameInformation.username;
         long durationInMillis = durationTrackSaveEntry.getDuration();
 
@@ -109,9 +109,9 @@ public class PlayDialogService {
         this.leaderboard.addToLeaderboard(1, username, scoreComplete);
         this.leaderboard.addToLeaderboard(2, username, scoreTime);
 
-        if (difficultyAsString.equals(Difficulty.EASY.getName())) {
+        if (difficultyAsString.equals(Difficulty.EASY.getShortDifficultyName())) {
             this.leaderboard.addToLeaderboard(3, username, scoreDifficulty);
-        } else if (difficultyAsString.equals(Difficulty.MEDIUM.getName())) {
+        } else if (difficultyAsString.equals(Difficulty.MEDIUM.getShortDifficultyName())) {
             this.leaderboard.addToLeaderboard(4, username, scoreDifficulty);
         } else {
             this.leaderboard.addToLeaderboard(5, username, scoreDifficulty);

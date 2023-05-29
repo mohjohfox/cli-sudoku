@@ -51,9 +51,12 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
         }
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(getFullFilePath(completeFileName)))) {
-            String line = bufferedReader.readLine();
+            String readLine = "";
 
-            readLeaderboardSaveEntries.add(this.parseReadLineToEntry(line));
+            while ((readLine=bufferedReader.readLine())!=null) {
+                readLeaderboardSaveEntries.add(this.parseReadLineToEntry(readLine));
+            }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
