@@ -3,6 +3,9 @@ package de.dhbw.karlsruhe.domain.services;
 import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.DurationTrackSaveEntry;
+import de.dhbw.karlsruhe.domain.ports.persistence.DurationTrackPort;
+
+import java.time.Duration;
 import java.util.UUID;
 
 public class DurationTrackService {
@@ -41,15 +44,20 @@ public class DurationTrackService {
     this.durationTrackAdapter.saveSolvingTime(this.durationTrackSaveEntry);
   }
 
-  private long loadDuration(String sudokuId) {
-    return this.durationTrackAdapter.loadSolvingTime(sudokuId);
-  }
+    public DurationTrackSaveEntry getDurationTrackSaveEntry() {
+        return this.durationTrackSaveEntry;
+    }
 
-  private void calculateDuration() {
-    if (this.validateTimestamps()) {
-      this.durationMillis = this.endTimeMillis - this.startTimeMillis;
+    private long loadDuration(String sudokuId) {
+        return this.durationTrackPort.loadSolvingTime(sudokuId);
     }
   }
+  
+  private void calculateDuration() {
+        if (this.validateTimestamps()) {
+            this.durationMillis = this.endTimeMillis - this.startTimeMillis;
+        }
+    }
 
   private boolean validateTimestamps() {
     if (this.startTimeMillis == -1 || this.endTimeMillis == -1) {

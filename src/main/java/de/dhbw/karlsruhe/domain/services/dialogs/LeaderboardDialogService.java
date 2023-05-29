@@ -1,23 +1,23 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.domain.models.InvalidOptionException;
-import de.dhbw.karlsruhe.domain.models.LeaderboardSaveEntry;
-import de.dhbw.karlsruhe.domain.models.LeaderboardType;
+import de.dhbw.karlsruhe.domain.models.*;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.LeaderboardOutputPort;
+import de.dhbw.karlsruhe.domain.ports.persistence.LeaderboardStorePort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LeaderboardDialogService {
 
     private final LeaderboardOutputPort outputPort;
     private final InputPort inputPort;
+    private LeaderboardStorePort leaderboardStorePort;
 
     public LeaderboardDialogService() {
-        outputPort = DependencyFactory.getInstance().getDependency(LeaderboardOutputPort.class);
-        inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
+        this.outputPort = DependencyFactory.getInstance().getDependency(LeaderboardOutputPort.class);
+        this.inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
+        this.leaderboardStorePort = DependencyFactory.getInstance().getDependency(LeaderboardStorePort.class);
     }
 
     public void startLeaderboardDialog() {
@@ -26,6 +26,57 @@ public class LeaderboardDialogService {
         int userInput = this.awaitUserInput();
 
         this.loadAndDisplayCorrectLeaderboard(userInput);
+    }
+
+    public int calculateCompleteLeaderboardScore(boolean isCorrect, long timeInMillis, String difficultyAsString) {
+        int score = 0;
+        int difficultyAsInt = 0;
+
+        if (difficultyAsString.equals(Difficulty.EASY.getName())) {
+            difficultyAsInt = 1;
+        } else if (difficultyAsString.equals(Difficulty.MEDIUM.getName())) {
+            difficultyAsInt = 2;
+        } else {
+            difficultyAsInt = 3;
+        }
+
+        if (isCorrect) {
+            score += 250;
+        }
+
+        score += difficultyAsInt * 0.75 * 66;
+        score += (System.currentTimeMillis() - timeInMillis) * 0.00001;
+
+        return score;
+    }
+
+    public int calculateTimeLeaderboardScore(long timeInMillis) {
+        int score = 0;
+
+        score += (System.currentTimeMillis() - timeInMillis) * 0.00001;
+
+        return score;
+    }
+
+    public int calculateDifficultyLeaderboardScore (String difficultyAsString) {
+        int score = 0;
+        int difficultyAsInt = 0;
+
+        if (difficultyAsString.equals(Difficulty.EASY.getName())) {
+            difficultyAsInt = 1;
+        } else if (difficultyAsString.equals(Difficulty.MEDIUM.getName())) {
+            difficultyAsInt = 2;
+        } else {
+            difficultyAsInt = 3;
+        }
+
+        score += difficultyAsInt * 0.75 * 66;
+
+        return score;
+    }
+
+    public void saveLeaderboardEntry(Leaderboard leaderboard) {
+        this.leaderboardStorePort.saveLeaderboard(leaderboard);
     }
 
     private int awaitUserInput() {
@@ -92,10 +143,11 @@ public class LeaderboardDialogService {
     }
 
     private List<LeaderboardSaveEntry> loadLeaderboardEntries(int leaderboardTypeID) {
-        return null;
+        return this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(leaderboardTypeID);
     }
 
     private void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
         outputPort.displayLeaderboard(leaderboardTypeRepresentation, leaderboardSaveEntries);
     }
+
 }

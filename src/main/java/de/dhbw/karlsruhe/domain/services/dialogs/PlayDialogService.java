@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
+import de.dhbw.karlsruhe.domain.models.*;
 import de.dhbw.karlsruhe.adapters.cli.input.InvalidInputException;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
@@ -10,6 +11,8 @@ import de.dhbw.karlsruhe.domain.models.play.actions.PlayAction;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.PlayInputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
+import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
+import de.dhbw.karlsruhe.domain.ports.persistence.UserPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.SettingService;
 import de.dhbw.karlsruhe.domain.services.DurationTrackService;
@@ -27,6 +30,10 @@ public class PlayDialogService {
     private SudokuValidatorService sudokuValidator = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
     private SettingService settingService = DependencyFactory.getInstance().getDependency(SettingService.class);
     private DurationTrackService durationTrackService = DependencyFactory.getInstance().getDependency(DurationTrackService.class);
+    private LeaderboardDialogService leaderboardDialogService = DependencyFactory.getInstance().getDependency(LeaderboardDialogService.class);
+    private Leaderboard leaderboard = DependencyFactory.getInstance().getDependency(Leaderboard.class);
+    private GameInformation gameInformation = DependencyFactory.getInstance().getDependency(GameInformation.class);
+    private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     private final PlayInputPort playInputPort = DependencyFactory.getInstance().getDependency(PlayInputPort.class);
     private final PlayOutputPort outputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);
     private final SudokuOutputPort sudokuOutputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
@@ -81,8 +88,19 @@ public class PlayDialogService {
             }
         }
 
+        List<String> notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
+        outputPort.notCorrectSudoku(notCorrectFields);
+
+        // Save game duration
         this.durationTrackService.setEndTime(sudoku.getId());
         this.durationTrackService.saveDuration(sudoku.getId());
+
+        // Save game score
+        DurationTrackSaveEntry durationTrackSaveEntry = this.durationTrackService.getDurationTrackSaveEntry();
+        boolean isSudokuValid = this.sudokuValidator.isSudokuValid(sudoku.getGameField().sudokuArray());
+        String difficultyAsString = sudoku.getDifficulty().getName();
+
+        int scoreComplete = this.leaderboardDialogService.calculateCompleteLeaderboardScore(isSudokuValid, durationTrackSaveEntry.getDuration(), difficultyAsString);
 
         if (!sudokuValidator.isSudokuNotFullyFilled(sudoku.getGameField().sudokuArray())) {
             List<String> notCorrectFields = this.sudokuValidator.crossCheck(sudoku);

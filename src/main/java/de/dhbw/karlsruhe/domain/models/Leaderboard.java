@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Leaderboard {
-    private final LeaderboardType leaderboardType;
+    private LeaderboardType leaderboardType;
     private List<LeaderboardSaveEntry> leaderboardSaveEntries;
 
-    public Leaderboard(LeaderboardType leaderboardType) {
+    public Leaderboard() {
         this.leaderboardSaveEntries = new ArrayList<>();
-        this.leaderboardType = leaderboardType;
     }
 
     public String getLeaderboardTypeRepresentation() {
@@ -28,6 +27,10 @@ public class Leaderboard {
 
     public List<LeaderboardSaveEntry> getLeaderboardSaveEntries() {
         return this.leaderboardSaveEntries;
+    }
+
+    public void setLeaderboardType (LeaderboardType leaderboardType) {
+        this.leaderboardType = leaderboardType;
     }
 
 }
