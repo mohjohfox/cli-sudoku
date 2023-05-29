@@ -1,8 +1,8 @@
 @startuml
 class SudokuChange {
-int row
-int col
-int oldValue
-int newValue
+-int row
+-int col
+-int oldValue
+-int newValue
 }
 @enduml
