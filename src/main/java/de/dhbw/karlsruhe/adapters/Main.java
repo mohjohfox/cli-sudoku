@@ -1,9 +1,6 @@
 package de.dhbw.karlsruhe.adapters;
 
-import de.dhbw.karlsruhe.adapters.cli.input.InputCliAdapter;
-import de.dhbw.karlsruhe.adapters.cli.input.PlayInputCliAdapter;
-import de.dhbw.karlsruhe.adapters.cli.input.ScannerAdapter;
-import de.dhbw.karlsruhe.adapters.cli.input.SettingInputCliAdapter;
+import de.dhbw.karlsruhe.adapters.cli.input.*;
 import de.dhbw.karlsruhe.adapters.cli.output.*;
 import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
@@ -68,6 +65,8 @@ public class Main {
         dependencyFactory.registerDependency(new SudokuArray(new int[9][9]));
         dependencyFactory.registerDependency(new DifficultySelectionDialogService());
         dependencyFactory.registerDependency(new SudokuFieldsRemover());
+        dependencyFactory.registerDependency(new TutorialInputCliAdapter());
+        dependencyFactory.registerDependency(new TutorialOutputCliAdapter());
         dependencyFactory.registerDependency(new TutorialDialogService());
     }
 
