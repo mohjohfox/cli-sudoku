@@ -116,7 +116,7 @@ public class SudokuTransformation {
 
         SudokuValidatorService sudokuValidator = new SudokuValidatorService();
         for (int value = 1; value <= 9; value++) {
-            if (sudokuValidator.isSudokuFieldValid(sudokuField, row, col, value)) {
+            if (sudokuValidator.isSudokuStandardSizedFieldValid(sudokuField, row, col, value)) {
                 sudokuField[row][col] = value;
                 if (isSudokuSolvable(sudokuField, nextRow, nextCol)) {
                     return true;
@@ -128,7 +128,7 @@ public class SudokuTransformation {
     }
 
     private int countPossibleSolutions(SudokuArray sudokuGameField) {
-        int[][] copyOfGameField = sudokuGameField.getCopyOfSudokuArray(sudokuGameField.length());
+        int[][] copyOfGameField = sudokuGameField.getCopyOfSudokuArray();
         int numberOfSolutions = 0;
         isSudokuSolvable(copyOfGameField, 0, 0);
         numberOfSolutions++;
@@ -359,7 +359,7 @@ public class SudokuTransformation {
     }
 
     private int[][] getGameFields() {
-        int[][] tmpGameField = this.sudoku.getGameField().getCopyOfSudokuArray(sudoku.getGameField().length());
+        int[][] tmpGameField = this.sudoku.getGameField().getCopyOfSudokuArray();
         return tmpGameField;
     }
 }
