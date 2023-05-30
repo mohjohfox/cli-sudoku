@@ -17,7 +17,7 @@ public class UserService {
     private final UserPort userPort = new UserAdapter(Location.PROD);
 
     public void saveUser(User user) {
-        userPort.saveUser(user);
+        userPort.save(user);
     }
 
     public boolean createUser(User createUser) throws NoSuchAlgorithmException {
@@ -65,7 +65,7 @@ public class UserService {
     }
 
     public User getUser(String username) {
-        return userPort.getUser(username);
+        return userPort.findByUserName(username);
     }
 
     private String getPasswordFromUserName(String userName) {

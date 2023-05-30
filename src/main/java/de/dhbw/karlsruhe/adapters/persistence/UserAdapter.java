@@ -20,7 +20,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
     }
 
     @Override
-    public void saveUser(User user) {
+    public void save(User user) {
 
         prepareFileStructure(userFileName);
 
@@ -31,6 +31,26 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    @Override
+    public void delete(User user) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(userFileName)));
+             BufferedWriter wr = new BufferedWriter(new FileWriter(getFullFilePath(userFileName + ".tmp"), false))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String username = getUserNameFromSaveLine(line);
+                if (!username.equals(user.getUserName())) {
+                    wr.write(line);
+                    wr.newLine();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        replacingOldFileWithTemporaryFile("User");
     }
 
     @Override
@@ -73,7 +93,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
     }
 
     @Override
-    public User getUser(String userName) {
+    public User findByUserName(String userName) {
         try (BufferedReader br = new BufferedReader(new FileReader(getFullFilePath(userFileName)))) {
             String line = br.readLine();
 
@@ -132,7 +152,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
             while ((line = br.readLine()) != null) {
                 String username = getUserNameFromSaveLine(line);
                 if (username.equals(GameInformation.username)) {
-                    User user = getUser(username);
+                    User user = findByUserName(username);
                     user.setUserName(newUserName);
                     GameInformation.username = newUserName;
                     String updatedLine = getSaveUserString(user);
@@ -160,7 +180,7 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
             while ((line = br.readLine()) != null) {
                 String username = getUserNameFromSaveLine(line);
                 if (username.equals(GameInformation.username)) {
-                    User user = getUser(username);
+                    User user = findByUserName(username);
                     user.setPassword(newPassword);
                     String updatedLine = getSaveUserString(user);
                     wr.write(updatedLine);

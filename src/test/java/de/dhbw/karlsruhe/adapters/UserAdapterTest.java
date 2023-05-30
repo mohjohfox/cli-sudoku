@@ -16,8 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserAdapterTest {
 
@@ -26,7 +25,7 @@ public class UserAdapterTest {
         UserPort userPort = new UserAdapter(Location.TEST);
         for (int i = 0; i < 2; i++) {
             User user = createUser(i);
-            userPort.saveUser(user);
+            userPort.save(user);
         }
     }
 
@@ -42,14 +41,14 @@ public class UserAdapterTest {
     @Test
     void changeUserNameTest() {
         UserPort userPort = new UserAdapter(Location.TEST);
-        User user = userPort.getUser("user1");
+        User user = userPort.findByUserName("user1");
         GameInformation.username = user.getUserName();
         String newUserName = "MyNewUserName";
 
         userPort.changeUserName(newUserName);
 
-        User updatedUser = userPort.getUser(newUserName);
-        User oldUser = userPort.getUser(user.getUserName());
+        User updatedUser = userPort.findByUserName(newUserName);
+        User oldUser = userPort.findByUserName(user.getUserName());
 
         assertEquals(updatedUser.getUserName(), newUserName);
         assertEquals(updatedUser.getSetting(), user.getSetting());
@@ -60,17 +59,27 @@ public class UserAdapterTest {
     @Test
     void changePasswordTest() {
         UserPort userPort = new UserAdapter(Location.TEST);
-        User user = userPort.getUser("user1");
+        User user = userPort.findByUserName("user1");
         GameInformation.username = user.getUserName();
         String myNewPassword = "password123";
 
         userPort.changePassword(getEncryptedPassword(myNewPassword));
 
-        User updatedUser = userPort.getUser(user.getUserName());
+        User updatedUser = userPort.findByUserName(user.getUserName());
 
         assertEquals(updatedUser.getUserName(), user.getUserName());
         assertEquals(updatedUser.getSetting(), user.getSetting());
         assertEquals(updatedUser.getPassword(), getEncryptedPassword(myNewPassword));
+    }
+
+    @Test
+    void deleteTest() {
+        UserPort userPort = new UserAdapter(Location.TEST);
+        User user = userPort.findByUserName("user1");
+        String username = user.getUserName();
+
+        userPort.delete(user);
+        assertTrue(!userPort.getAllUserNames().contains(username));
     }
 
     private User createUser(int id) {

@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface UserPort {
 
-  void saveUser(User user);
+  void save(User user);
+
+  void delete(User user);
 
   String getPassword(String userName);
 
   List<String> getAllUserNames();
 
-  User getUser(String userName);
+  User findByUserName(String userName);
 
   void updateUser(User user);
 

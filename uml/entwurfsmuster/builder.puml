@@ -1,0 +1,39 @@
+@startuml
+class SudokoBuilder {
+  - id : String
+  - gameField : SudokuArray
+  - initialGameField : SudokuArray
+  - solvedGameField : SudokuArray
+  - difficulty : Difficulty
+  - SudokuBuilder(SudokuArray sudokuArray)
+  - SudokuBuilder(SudokuSize size)
+  + static withGameField(SudokuSize size) : SudokuBuilder
+  + static withSize(SudokuSize size) : SudokuBuilder
+  + withId(String id) : SudokuBuilder
+  + withInitialGameField(SudokuArray initialGameField) : SudokuBuilder
+  + withSolvedGameField(SudokuArray solvedGameField) : SudokuBuilder
+  + withDifficulty(Difficulty difficulty) : SudokuBuilder
+  + build() : Sudoku
+}
+
+class Sudoku {
+  - id : String
+  - gameField : SudokuArray
+  - initialGameField : SudokuArray
+  - solvedGameField : SudokuArray
+  - lastChange : SudokuChange
+  - difficulty : Difficulty
+  + Sudoku(String id, SudokuArray gameField, SudokuArray initialGameField, SudokuArray solvedGameField, Difficulty difficulty)
+  + getGameField() : SudokuArray
+  + getInitialGameField() : SudokuArray
+  + getSolvedGameField() : SudokuArray
+  + getDifficulty() : Difficulty
+  + getLastChange() : SudokuChange
+  + getId() : String
+  + setInitialGameField(initialGameField)
+  + setSolvedGameField(initialGameField)
+  + setField(row, col, val)
+}
+
+SudokoBuilder -->"erzeugt"Sudoku
+@enduml
