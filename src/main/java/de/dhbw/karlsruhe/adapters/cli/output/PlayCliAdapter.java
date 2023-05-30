@@ -62,6 +62,9 @@ public class PlayCliAdapter implements PlayOutputPort {
         if (setting.getFieldValidation()) {
             cliOutputPort.write("Press V to validate the sudoku.");
         }
+        if (setting.getFixMistakes()) {
+            cliOutputPort.write("Press F to fix all wrong fields.");
+        }
     }
 
     public void notCorrectFields(List<String> notCorrectFields) {
@@ -101,5 +104,14 @@ public class PlayCliAdapter implements PlayOutputPort {
     @Override
     public void noActionToUndo() {
         cliOutputPort.write("You haven't set any field to undo yet!");
+    }
+
+    @Override
+    public void mistakesFixed(List<String> notCorrectFields) {
+        if (notCorrectFields.isEmpty()) {
+            cliOutputPort.write("All fields are correct - Well done!");
+        } else {
+            cliOutputPort.write("The following fields were corrected:" + notCorrectFields);
+        }
     }
 }

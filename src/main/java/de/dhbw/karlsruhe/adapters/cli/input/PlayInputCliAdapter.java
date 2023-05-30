@@ -29,6 +29,9 @@ public class PlayInputCliAdapter implements PlayInputPort {
                 params = getParams(input);
                 return new ValueHintAction(params.get(0), params.get(1));
             }
+            if (isFixMistakesAction(input)) {
+                return new FixMistakesAction();
+            }
             if (isAbortAction(input)) {
                 return new AbortAction();
             }
@@ -78,6 +81,10 @@ public class PlayInputCliAdapter implements PlayInputPort {
 
     private boolean isValueHintAction(String action) {
         return action.toUpperCase().charAt(0) == 'H';
+    }
+
+    private boolean isFixMistakesAction(String action) {
+        return action.equalsIgnoreCase("F");
     }
 
     private boolean isAbortAction(String action) {

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class SudokuValidatorService {
 
-    public boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value) {
+    public boolean isSudokuStandardSizedFieldValid(int[][] sudoku, int row, int col, int value) {
         for (int i = 0; i < sudoku.length; i++) {
             if (sudoku[row][i] == value) {
                 return false;
@@ -60,7 +60,7 @@ public class SudokuValidatorService {
 
                 for (int row=0; row < root;row++) {
                     for (int col=0; col < root; col++) {
-                        block.add(sudoku[row+rowOffset*3][col+colOffset*3]);
+                        block.add(sudoku[row+rowOffset*root][col+colOffset*root]);
                     }
                 }
                 if(isSectionInvalid(block, sudoku.length))

@@ -153,7 +153,7 @@ public class SudokuGeneratorBacktracking extends SudokuGenerator {
   }
 
   private int countPossibleSolutions(SudokuArray sudokuGameField) {
-    int[][] copyOfGameField = sudokuGameField.getCopyOfSudokuArray(sudokuGameField.length());
+    int[][] copyOfGameField = sudokuGameField.getCopyOfSudokuArray();
 
     int numberOfSolutions = 0;
     isSudokuSolvable(copyOfGameField, 0, 0);
