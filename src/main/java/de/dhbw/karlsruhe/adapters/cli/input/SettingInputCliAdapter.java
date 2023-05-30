@@ -26,6 +26,9 @@ public class SettingInputCliAdapter implements SettingInputPort {
             if (isValueHintAction(selectedOption)) {
                 return new ToggleValueHintAction();
             }
+            if (isFixMistakesAction(selectedOption)) {
+                return new ToggleFixMistakesAction();
+            }
             if (isChangeUserNameAction(selectedOption)) {
                 return new ChangeUserNameAction(getUpdatedValue(selectedOption));
             }
@@ -54,16 +57,20 @@ public class SettingInputCliAdapter implements SettingInputPort {
         return selectedOption.charAt(0) == '2';
     }
 
-    private boolean isChangeUserNameAction(String selectedOption) {
+    private boolean isFixMistakesAction(String selectedOption) {
         return selectedOption.charAt(0) == '3';
     }
 
-    private boolean isChangePasswordAction(String selectedOption) {
+    private boolean isChangeUserNameAction(String selectedOption) {
         return selectedOption.charAt(0) == '4';
     }
 
-    private boolean isExitAction(String selectedOption) {
+    private boolean isChangePasswordAction(String selectedOption) {
         return selectedOption.charAt(0) == '5';
+    }
+
+    private boolean isExitAction(String selectedOption) {
+        return selectedOption.charAt(0) == '6';
     }
 
     private String getUpdatedValue(String input) {

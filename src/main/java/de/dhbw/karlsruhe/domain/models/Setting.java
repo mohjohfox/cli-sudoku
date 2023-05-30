@@ -6,15 +6,18 @@ public class Setting {
 
     private boolean valueHint;
     private boolean fieldValidation;
+    private boolean fixMistakes;
 
     public Setting() {
-        this.valueHint = false;
-        this.fieldValidation = false;
+        this.valueHint = true;
+        this.fieldValidation = true;
+        this.fixMistakes = true;
     }
 
-    public Setting(boolean valueHint, boolean fieldValidation) {
+    public Setting(boolean valueHint, boolean fieldValidation, boolean fixMistakes) {
         this.valueHint = valueHint;
         this.fieldValidation = fieldValidation;
+        this.fixMistakes = fixMistakes;
     }
 
     public boolean getValueHint() {
@@ -25,9 +28,12 @@ public class Setting {
         return fieldValidation;
     }
 
+    public boolean getFixMistakes() {
+        return fixMistakes;
+    }
     @Override
     public String toString() {
-        return "valueHint=" + valueHint + ",fieldValidation=" + fieldValidation;
+        return "valueHint=" + valueHint + ",fieldValidation=" + fieldValidation+ ",fixMistakes="+ fixMistakes;
     }
 
     public void setValueHint(boolean valueHint) {
@@ -36,6 +42,10 @@ public class Setting {
 
     public void setFieldValidation(boolean fieldValidation) {
         this.fieldValidation = fieldValidation;
+    }
+
+    public void setFixMistakes(boolean fixMistakes) {
+        this.fixMistakes = fixMistakes;
     }
 
     @Override
