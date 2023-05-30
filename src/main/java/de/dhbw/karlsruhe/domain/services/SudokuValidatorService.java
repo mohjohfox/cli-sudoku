@@ -61,7 +61,7 @@ public class SudokuValidatorService {
 
                 for (int row = 0; row < root; row++) {
                     for (int col = 0; col < root; col++) {
-                        block.add(sudoku[row + rowOffset * 3][col + colOffset * 3]);
+                        block.add(sudoku[row + rowOffset * root][col + colOffset * root]);
                     }
                 }
                 if (isSectionInvalid(block, sudoku.length))
