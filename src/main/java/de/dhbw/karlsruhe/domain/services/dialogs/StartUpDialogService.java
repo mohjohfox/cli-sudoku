@@ -16,6 +16,7 @@ public class StartUpDialogService {
     private final LogoutService logoutService;
     private final StartUpOutputPort outputPort;
     private final InputPort inputPort;
+    private boolean askForTutorial;
 
     public StartUpDialogService() {
         userService = DependencyFactory.getInstance().getDependency(UserService.class);
@@ -26,13 +27,20 @@ public class StartUpDialogService {
 
     public void signIn() {
         boolean successfulSignedIn = false;
-
+        askForTutorial = false;
         while (!successfulSignedIn) {
             outputPort.askForLogin();
             String input = inputPort.getInput();
             successfulSignedIn = signInProcess(input);
         }
-
+        if (askForTutorial) {
+            outputPort.playTutorial();
+            String input = inputPort.getInput();
+            if (tutorialResponse(input)) {
+                TutorialDialogService tutorial = DependencyFactory.getInstance().getDependency(TutorialDialogService.class);
+                tutorial.start();
+            }
+        }
         logoutService.setSignedIn(true);
     }
 
@@ -42,6 +50,8 @@ public class StartUpDialogService {
                 boolean successfulRegistrated = registrationProcess();
                 if (!successfulRegistrated) {
                     return false;
+                } else {
+                    askForTutorial = true;
                 }
             }
             return loginProcess();
@@ -76,6 +86,18 @@ public class StartUpDialogService {
         } else {
             outputPort.failedRegistration();
         }
+    }
+
+    private boolean tutorialResponse(String input) {
+        do {
+            if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
+                return true;
+            } else if (input.equalsIgnoreCase("n") || input.equalsIgnoreCase("no")) {
+                return false;
+            }
+            outputPort.askForYOrN();
+            input = inputPort.getInput();
+        } while (true);
     }
 
     private boolean loginProcess() throws NoSuchAlgorithmException {

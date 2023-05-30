@@ -28,7 +28,7 @@ public class SudokuCliAdapter implements SudokuOutputPort {
     private void printVerticalLine(int columnIndex, int sudokuArrayLength) {
         if (isPrintSeparatorPosition(columnIndex, sudokuArrayLength))  {
             System.out.print("|");
-            System.out.print(" ");
+            System.out.print("  ");
         }
     }
 
@@ -37,12 +37,23 @@ public class SudokuCliAdapter implements SudokuOutputPort {
             for (int i = 0; i < sudokuArrayLength+1; i++) {
                 System.out.print("---");
             }
-            System.out.println("");
+
+            String dynamic = getDynamicSeparator(sudokuArrayLength);
+            System.out.print(dynamic);
+            System.out.println();
         }
     }
 
     private boolean isPrintSeparatorPosition(int index, int sudokuArrayLength) {
         return (index + 1) % Math.sqrt(sudokuArrayLength) == 0 && index != sudokuArrayLength - 1;
+    }
+
+    private static String getDynamicSeparator(int sudokuArrayLength) {
+        StringBuilder dynamic = new StringBuilder();
+        for (int i = 0; i< sudokuArrayLength -(Math.sqrt(sudokuArrayLength *4)); i++){
+            dynamic.append("-");
+        }
+        return dynamic.toString();
     }
 
 }

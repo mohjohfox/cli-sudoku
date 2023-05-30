@@ -57,4 +57,14 @@ public class StartUpCliAdapter implements StartUpOutputPort {
     public void promptPassword() {
         cliOutputPort.write("Please enter your password: ");
     }
+
+    @Override
+    public void playTutorial() {
+        cliOutputPort.write("Do you want to play the tutorial? y/n");
+    }
+
+    @Override
+    public void askForYOrN() {
+        cliOutputPort.write("Please type \"y\" for yes or \"n\" for no.");
+    }
 }
