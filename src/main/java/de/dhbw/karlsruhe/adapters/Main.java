@@ -5,6 +5,8 @@ import de.dhbw.karlsruhe.adapters.cli.output.*;
 import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
+import de.dhbw.karlsruhe.domain.models.MathProblem;
+import de.dhbw.karlsruhe.domain.models.MathProblemUsage;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.*;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
@@ -31,6 +33,8 @@ public class Main {
 
     private static void injectDependencies() {
         DependencyFactory dependencyFactory = DependencyFactory.getInstance();
+        dependencyFactory.registerDependency(new MathProblem());
+        dependencyFactory.registerDependency(new MathProblemUsage());
         dependencyFactory.registerDependency(new SudokuPersistenceAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackService());

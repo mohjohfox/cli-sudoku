@@ -6,30 +6,33 @@ import java.util.Random;
 
 public class MathProblemUsage {
 
+    MathProblem mathProblem;
     Random random = new Random();
 
     public MathProblemUsage() {
+        this.mathProblem = DependencyFactory.getInstance().getDependency(MathProblem.class);
     }
 
     public void generateMathProblem() {
-        // Erstelle eine Additionsaufgabe mit Ergebnissen zwischen 1 und 9
-        String additionProblem = generateAdditionProblem();
-        System.out.println("Additionsaufgabe: " + additionProblem);
+        
+        // Generate addition problem with result between 1 and 9
+        this.generateAdditionProblem();
 
-        // Erstelle eine Subtraktionsaufgabe mit Ergebnissen zwischen 1 und 9
-        String subtractionProblem = generateSubtractionProblem();
-        System.out.println("Subtraktionsaufgabe: " + subtractionProblem);
+        // Generate subtraction problem with result between 1 and 9
+        this.generateSubtractionProblem();
 
-        // Erstelle eine Multiplikationsaufgabe mit Ergebnissen zwischen 1 und 9
-        String multiplicationProblem = generateMultiplicationProblem();
-        System.out.println("Multiplikationsaufgabe: " + multiplicationProblem);
+        // Generate multiplication problem with result between 1 and 9
+        this.generateMultiplicationProblem();
 
-        // Erstelle eine Divisionsaufgabe mit Ergebnissen zwischen 1 und 9
-        String divisionProblem = generateDivisionProblem();
-        System.out.println("Divisionsaufgabe: " + divisionProblem);
+        // Generate division problem with result between 1 and 9
+        this.generateDivisionProblem();
+
     }
 
-    public String generateAdditionProblem() {
+    public void generateAdditionProblem() {
+        String additionProblemAsText;
+        int[] operands = new int[2];
+
         int operand1 = this.random.nextInt(100) + 1;
         int operand2 = this.random.nextInt(100) + 1;
         int sum = operand1 + operand2;
@@ -39,10 +42,20 @@ public class MathProblemUsage {
             sum = operand1 + operand2;
         }
 
-        return operand1 + " + " + operand2 + " = ?";
+        additionProblemAsText = operand1 + " + " + operand2 + " = ?";
+        operands[0] = operand1;
+        operands[1] = operand2;
+
+        this.mathProblem.setProblemAsText(additionProblemAsText);
+        this.mathProblem.setOperands(operands);
+        this.mathProblem.setResult(sum);
+
     }
 
-    public String generateSubtractionProblem() {
+    public void generateSubtractionProblem() {
+        String subtractionProblemAsText;
+        int[] operands = new int[2];
+
         int operand1 = this.random.nextInt(100) + 1;
         int operand2 = this.random.nextInt(operand1) + 1;
         int difference = operand1 - operand2;
@@ -52,10 +65,20 @@ public class MathProblemUsage {
             difference = operand1 - operand2;
         }
 
-        return operand1 + " - " + operand2 + " = ?";
+        subtractionProblemAsText = operand1 + " - " + operand2 + " = ?";
+        operands[0] = operand1;
+        operands[1] = operand2;
+
+        this.mathProblem.setProblemAsText(subtractionProblemAsText);
+        this.mathProblem.setOperands(operands);
+        this.mathProblem.setResult(difference);
+
     }
 
-    public String generateMultiplicationProblem() {
+    public void generateMultiplicationProblem() {
+        String multiplicationProblemAsText;
+        int[] operands = new int[2];
+
         int operand1 = this.random.nextInt(100) + 1;
         int operand2 = this.random.nextInt(100) + 1;
         int product = operand1 * operand2;
@@ -65,10 +88,20 @@ public class MathProblemUsage {
             product = operand1 * operand2;
         }
 
-        return operand1 + " * " + operand2 + " = ?";
+        multiplicationProblemAsText = operand1 + " * " + operand2 + " = ?";
+        operands[0] = operand1;
+        operands[1] = operand2;
+
+        this.mathProblem.setProblemAsText(multiplicationProblemAsText);
+        this.mathProblem.setOperands(operands);
+        this.mathProblem.setResult(product);
     }
 
-    public String generateDivisionProblem() {
+    public void generateDivisionProblem() {
+        String divisionProblemAsText;
+        int[] operands = new int[2];
+        int result = 0;
+
         int product = this.random.nextInt(9) + 1;
         int operand2 = this.random.nextInt(100) + 1;
         int operand1 = product * operand2;
@@ -77,8 +110,16 @@ public class MathProblemUsage {
             product = this.random.nextInt(9) + 1;
             operand2 = this.random.nextInt(100) + 1;
             operand1 = product * operand2;
+
+            result = operand1 / operand2;
         }
 
-        return operand1 + " / " + operand2 + " = ?";
+        divisionProblemAsText = operand1 + " / " + operand2 + " = ?";
+        operands[0] = operand1;
+        operands[1] = operand2;
+
+        this.mathProblem.setProblemAsText(divisionProblemAsText);
+        this.mathProblem.setOperands(operands);
+        this.mathProblem.setResult(result);
     }
 }

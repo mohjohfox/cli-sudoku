@@ -6,6 +6,10 @@ public class MathProblem {
     private int[] operands;
     private int result;
 
+    public MathProblem() {
+
+    }
+
     public MathProblem(String problemAsText, int[] operands, int result) {
         this.setProblemAsText(problemAsText);
         this.setOperands(operands);
