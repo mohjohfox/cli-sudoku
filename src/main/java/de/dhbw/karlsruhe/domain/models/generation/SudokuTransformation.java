@@ -116,7 +116,7 @@ public class SudokuTransformation {
 
         SudokuValidatorService sudokuValidator = new SudokuValidatorService();
         for (int value = 1; value <= 9; value++) {
-            if (sudokuValidator.isSudokuFieldValid(sudokuField, row, col, value)) {
+            if (sudokuValidator.isSudokuStandardSizedFieldValid(sudokuField, row, col, value)) {
                 sudokuField[row][col] = value;
                 if (isSudokuSolvable(sudokuField, nextRow, nextCol)) {
                     return true;
