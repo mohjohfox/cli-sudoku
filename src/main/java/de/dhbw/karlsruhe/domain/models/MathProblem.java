@@ -4,16 +4,18 @@ public class MathProblem {
 
     private String problemAsText;
     private int[] operands;
+    private MathProblemOperation operation;
     private int result;
 
     public MathProblem() {
 
     }
 
-    public MathProblem(String problemAsText, int[] operands, int result) {
+    public MathProblem(String problemAsText, int[] operands, int result, MathProblemOperation operation) {
         this.setProblemAsText(problemAsText);
         this.setOperands(operands);
         this.setResult(result);
+        this.setOperation(operation);
     }
 
     public String getProblemAsText() {
@@ -38,5 +40,21 @@ public class MathProblem {
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    public MathProblemOperation getOperation() {
+        return operation;
+    }
+
+    public String getMathOperationRepresentation() {
+        return operation.getRepresentation();
+    }
+
+    public String getMathOperationSign() {
+        return operation.getSign();
+    }
+
+    public void setOperation(MathProblemOperation operation) {
+        this.operation = operation;
     }
 }

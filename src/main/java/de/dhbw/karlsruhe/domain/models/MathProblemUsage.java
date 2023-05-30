@@ -13,8 +13,8 @@ public class MathProblemUsage {
         this.mathProblem = DependencyFactory.getInstance().getDependency(MathProblem.class);
     }
 
-    public void generateMathProblem() {
-        int problemType = this.random.nextInt(3) + 1;
+    public void generateRandomMathProblem() {
+        int problemType = this.random.nextInt(4) + 1;
 
         switch (problemType) {
             case 1:
@@ -32,12 +32,102 @@ public class MathProblemUsage {
                 this.generateMultiplicationProblem();
 
                 break;
-            default:
+            case 4:
                 // Generate division problem with result between 1 and 9
                 this.generateDivisionProblem();
 
                 break;
+            default:
+                throw new IllegalArgumentException("Not possible to generate a random math problem!");
         }
+
+    }
+
+    public MathProblemOperation getRandomMathProblemOperation() {
+        MathProblemOperation mathProblemOperation = null;
+        int operationType = this.random.nextInt(4) + 1;
+
+        switch (operationType) {
+            case 1:
+                mathProblemOperation = MathProblemOperation.ADDITION;
+                break;
+            case 2:
+                mathProblemOperation = MathProblemOperation.SUBTRACTION;
+                break;
+            case 3:
+                mathProblemOperation = MathProblemOperation.MULTIPLICATION;
+                break;
+            case 4:
+                mathProblemOperation = MathProblemOperation.DIVISION;
+                break;
+            default:
+                throw new IllegalArgumentException("Not possible to generate a random operation!");
+        }
+
+        return mathProblemOperation;
+
+    }
+
+    public void generateMathProblemWithDesiredResult(int desiredResult, MathProblemOperation mathProblemOperation) {
+        int operand1 = 0;
+        int operand2 = 0;
+        int result = 0;
+        int[] operands = new int[2];
+        String operator = "";
+        String problemAsText = "";
+
+        int minResult = 1;
+        int maxResult = 9;
+        int minOperand = 1;
+        int maxOperand = 100;
+
+        do {
+            operand1 = random.nextInt(maxOperand - minOperand + 1) + minOperand;
+            operand2 = random.nextInt(maxOperand - minOperand + 1) + minOperand;
+
+            switch (mathProblemOperation) {
+                case ADDITION:
+                    result = operand1 + operand2;
+                    break;
+                case SUBTRACTION:
+                    result = operand1 - operand2;
+                    break;
+                case MULTIPLICATION:
+                    result = operand1 * operand2;
+                    break;
+                case DIVISION:
+                    result = operand1 / operand2;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown operation: " + mathProblemOperation.getRepresentation());
+            }
+        } while (result != desiredResult || result < minResult || result > maxResult);
+
+        switch (mathProblemOperation) {
+            case ADDITION:
+                operator = " + ";
+                break;
+            case SUBTRACTION:
+                operator = " - ";
+                break;
+            case MULTIPLICATION:
+                operator = " * ";
+                break;
+            case DIVISION:
+                operator = " / ";
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown operation: " + mathProblemOperation.getSign());
+        }
+
+        problemAsText = operand1 + operator + operand2 + " = ?";
+        operands[0] = operand1;
+        operands[1] = operand2;
+
+        this.mathProblem.setProblemAsText(problemAsText);
+        this.mathProblem.setOperands(operands);
+        this.mathProblem.setResult(result);
+        this.mathProblem.setOperation(mathProblemOperation);
 
     }
 
@@ -51,6 +141,14 @@ public class MathProblemUsage {
 
     public int getResult() {
         return this.mathProblem.getResult();
+    }
+
+    public String getMathProblemRepresentation() {
+        return this.mathProblem.getMathOperationRepresentation();
+    }
+
+    public String getMathProblemSign() {
+        return this.mathProblem.getMathOperationSign();
     }
 
     private void generateAdditionProblem() {
@@ -146,6 +244,5 @@ public class MathProblemUsage {
         this.mathProblem.setOperands(operands);
         this.mathProblem.setResult(result);
     }
-
 
 }
