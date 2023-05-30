@@ -1,9 +1,7 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
 import de.dhbw.karlsruhe.adapters.cli.output.ArcadeCliAdapter;
-import de.dhbw.karlsruhe.domain.models.Difficulty;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.SudokuSize;
+import de.dhbw.karlsruhe.domain.models.*;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.ArcadeOutputPort;
@@ -20,12 +18,14 @@ public class ArcadeDialogService {
 
     Random random = new Random();
     private Sudoku sudoku;
+    private int[][] sudokuSolvedArray;
     Set<Integer> levelNumbers;
     private List<String> fieldsToSolve;
     private final SudokuValidatorService sudokuValidatorService = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
     private final SudokuGeneratorBacktracking sgBacktracking = DependencyFactory.getInstance().getDependency(SudokuGeneratorBacktracking.class);
     private final ArcadeOutputPort arcadeOutputPort = DependencyFactory.getInstance().getDependency(ArcadeCliAdapter.class);
     private final SudokuOutputPort sudokuOutputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
+    private final MathProblemUsage mathProblemUsage = DependencyFactory.getInstance().getDependency(MathProblemUsage.class);
 
     public ArcadeDialogService() {
 
@@ -35,7 +35,10 @@ public class ArcadeDialogService {
         this.arcadeOutputPort.introduction();
         this.arcadeOutputPort.emptyLine();
 
-        sudoku = sgBacktracking.generateSudoku(SudokuSize.SMALL, Difficulty.EASY);
+        this.sudoku = sgBacktracking.generateSudoku(SudokuSize.SMALL, Difficulty.EASY);
+        SudokuArray sudokuSolved = sudoku.getSolvedGameField();
+        this.sudokuSolvedArray = sudokuSolved.getCopyOfSudokuArray(sudokuSolved.length());
+
         this.arcadeOutputPort.sudokuIntroduction();
         this.sudokuOutputPort.print(sudoku);
         this.arcadeOutputPort.emptyLine();
@@ -49,6 +52,7 @@ public class ArcadeDialogService {
         this.levelNumbers = new HashSet<>();
         this.fieldsToSolve = this.getSudokuFieldsToSolve();
         int levelNumber;
+        int iterator = 0;
 
         this.levelNumbers.add(1);
 
@@ -59,8 +63,33 @@ public class ArcadeDialogService {
 
         for (int level : levelNumbers) {
             this.loadAndPrintLevel(level);
+
+            String currentFieldToSolve = fieldsToSolve.get(iterator);
+            int[] fieldToSolveInArray = this.parseFieldStringToArray(currentFieldToSolve);
+            int rowToSolve = fieldToSolveInArray[0];
+            int colToSolve = fieldToSolveInArray[1];
+            int solutionOfField = this.sudokuSolvedArray[rowToSolve][colToSolve];
+
+            MathProblemOperation mathProblemOperation = this.mathProblemUsage.getRandomMathProblemOperation();
+            this.mathProblemUsage.generateMathProblemWithDesiredResult(solutionOfField, mathProblemOperation);
+
+            MathProblem mathProblemToSolve = this.mathProblemUsage.getMathProblem();
+
+            // output aufrufen solange bis ergebnis korrekt
+
+            this.sudoku.setField(rowToSolve, colToSolve, solutionOfField);
+            this.arcadeOutputPort.emptyLine();
+            this.sudokuOutputPort.print(this.sudoku);
+            this.arcadeOutputPort.emptyLine();
+
         }
 
+    }
+
+    private int[] parseFieldStringToArray(String currentFieldToSolve) {
+        String[] coordinates = currentFieldToSolve.split(",");
+
+        return new int[]{Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])};
     }
 
     private void loadAndPrintLevel(int level) {

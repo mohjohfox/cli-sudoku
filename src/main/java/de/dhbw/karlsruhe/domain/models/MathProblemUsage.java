@@ -245,4 +245,8 @@ public class MathProblemUsage {
         this.mathProblem.setResult(result);
     }
 
+    public MathProblem getMathProblem() {
+        return this.mathProblem;
+    }
+
 }

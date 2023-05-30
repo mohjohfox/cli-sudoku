@@ -57,13 +57,13 @@ public class Main {
         dependencyFactory.registerDependency(new SudokuSelectionDialog());
         dependencyFactory.registerDependency(new UserService());
         dependencyFactory.registerDependency(new SudokuGeneratorBacktracking());
+        dependencyFactory.registerDependency(new SudokuValidatorService());
         dependencyFactory.registerDependency(new ArcadeCliAdapter());
         dependencyFactory.registerDependency(new ArcadeDialogService());
         dependencyFactory.registerDependency(new SudokuGeneratorTransformation());
         dependencyFactory.registerDependency(new SudokuTransformation());
         dependencyFactory.registerDependency(new SettingsCliAdapter());
         dependencyFactory.registerDependency(new LogoutService());
-        dependencyFactory.registerDependency(new SudokuValidatorService());
         dependencyFactory.registerDependency(new SettingService());
         dependencyFactory.registerDependency(new SettingInputCliAdapter());
         dependencyFactory.registerDependency(new PlayDialogService());
