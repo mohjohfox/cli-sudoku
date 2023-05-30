@@ -48,4 +48,6 @@ public interface ArcadeOutputPort {
 
     void emptyLine();
 
+    void sudokuIntroduction();
+
 }

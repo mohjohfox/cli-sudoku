@@ -30,7 +30,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelTwo() {
         cliOutputPort.write("Level 2: The Subtraction Cavern");
-        cliOutputPort.write("Congratulations on completing Level 1!");
+        cliOutputPort.write("Congratulations on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot enters a dark cavern filled with subtraction puzzles.");
         cliOutputPort.write("To navigate through the cavern, he must solve each subtraction problem correctly.");
         cliOutputPort.write("Can you guide Sir Mathalot through this tricky terrain?");
@@ -40,7 +40,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelThree() {
         cliOutputPort.write("Level 3: The Multiplication Maze");
-        cliOutputPort.write("Well done on completing Level 2!");
+        cliOutputPort.write("Well done on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot stumbles upon a mysterious maze with multiplication challenges.");
         cliOutputPort.write("To find his way out, he must solve the multiplication problems that block his path.");
         cliOutputPort.write("Will you help Sir Mathalot conquer this maze?");
@@ -50,7 +50,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelFour() {
         cliOutputPort.write("Level 4: The Division Dungeon");
-        cliOutputPort.write("Congratulations on completing Level 3!");
+        cliOutputPort.write("Congratulations on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot discovers a daunting dungeon filled with division puzzles.");
         cliOutputPort.write("To unlock the dungeon's secrets, he must solve each division problem he encounters.");
         cliOutputPort.write("Can you aid Sir Mathalot in this division quest?");
@@ -60,7 +60,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelFive() {
         cliOutputPort.write("Level 5: The Math Monster's Lair");
-        cliOutputPort.write("Well done on completing Level 4!");
+        cliOutputPort.write("Well done on completing the previous Level!");
         cliOutputPort.write("After a long and challenging journey, Sir Mathalot finally reaches the Math Monster's Lair.");
         cliOutputPort.write("To defeat the Math Monster and save the kingdom, he must face a series of math puzzles.");
         cliOutputPort.write("The Math Monster's power lies in his knowledge of addition, subtraction, multiplication, and division.");
@@ -81,7 +81,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelSeven() {
         cliOutputPort.write("Level 7: The Geometry Garden");
-        cliOutputPort.write("Well done on completing Level 6!");
+        cliOutputPort.write("Well done on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot arrives at the Geometry Garden, a place filled with shapes and angles.");
         cliOutputPort.write("To unlock the garden's hidden treasures, he must solve geometry problems and identify different shapes.");
         cliOutputPort.write("Will you assist Sir Mathalot in exploring the Geometry Garden?");
@@ -91,7 +91,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelEight() {
         cliOutputPort.write("Level 8: The Time Travel Adventure");
-        cliOutputPort.write("Congratulations on completing Level 7!");
+        cliOutputPort.write("Congratulations on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot embarks on a thrilling time travel adventure.");
         cliOutputPort.write("He encounters time-related math problems, including calculating durations, reading clocks, and solving time word problems.");
         cliOutputPort.write("Can you join Sir Mathalot on this time travel quest?");
@@ -101,7 +101,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelNine() {
         cliOutputPort.write("Level 9: The Data Dungeon");
-        cliOutputPort.write("Well done on completing Level 8!");
+        cliOutputPort.write("Well done on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot finds himself in the depths of the Data Dungeon, a place filled with graphs, charts, and statistics.");
         cliOutputPort.write("To uncover the dungeon's secrets, he must analyze data, interpret graphs, and solve data-related problems.");
         cliOutputPort.write("Can you help Sir Mathalot conquer the Data Dungeon?");
@@ -111,7 +111,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelTen() {
         cliOutputPort.write("Level 10: The Final Challenge");
-        cliOutputPort.write("Congratulations on reaching Level 10!");
+        cliOutputPort.write("Congratulations on reaching this Level!");
         cliOutputPort.write("Sir Mathalot faces the final challenge, a test of all his math skills.");
         cliOutputPort.write("He must solve a variety of math problems, including addition, subtraction, multiplication, division, fractions, geometry, time, and data.");
         cliOutputPort.write("Can you stand with Sir Mathalot and help him overcome this ultimate test?");
@@ -121,7 +121,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelEleven() {
         cliOutputPort.write("Level 11: The Money Market");
-        cliOutputPort.write("Congratulations on completing Level 10!");
+        cliOutputPort.write("Congratulations on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot enters the bustling Money Market, a place filled with coins and currency.");
         cliOutputPort.write("To navigate through the market, he must solve money-related math problems, including counting coins, making change, and calculating total costs.");
         cliOutputPort.write("Can you guide Sir Mathalot through the Money Market and help him master the world of money?");
@@ -131,7 +131,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelTwelve() {
         cliOutputPort.write("Level 12: The Probability Puzzle");
-        cliOutputPort.write("Well done on completing Level 11!");
+        cliOutputPort.write("Well done on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot encounters a mysterious puzzle involving probability.");
         cliOutputPort.write("To solve the puzzle, he must understand concepts like likelihood, chance, and probability calculations.");
         cliOutputPort.write("Will you help Sir Mathalot unravel the secrets of probability?");
@@ -141,7 +141,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelThirteen() {
         cliOutputPort.write("Level 13: The Measurement Mission");
-        cliOutputPort.write("Congratulations on completing Level 12!");
+        cliOutputPort.write("Congratulations on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot embarks on a critical mission to master measurements.");
         cliOutputPort.write("He encounters various measurement tools and must solve problems involving length, weight, capacity, and temperature conversions.");
         cliOutputPort.write("Can you aid Sir Mathalot in this crucial measurement mission?");
@@ -151,7 +151,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelFourteen() {
         cliOutputPort.write("Level 14: The Algebra Adventure");
-        cliOutputPort.write("Well done on completing Level 13!");
+        cliOutputPort.write("Well done on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot embarks on an adventurous journey through the realm of algebra.");
         cliOutputPort.write("He encounters algebraic expressions, equations, and word problems.");
         cliOutputPort.write("To overcome this challenge, he must simplify expressions, solve equations, and find unknown values.");
@@ -162,7 +162,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelFifteen() {
         cliOutputPort.write("Level 15: The Time Warp");
-        cliOutputPort.write("Congratulations on completing Level 14!");
+        cliOutputPort.write("Congratulations on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot finds himself caught in a mysterious time warp, where time behaves strangely.");
         cliOutputPort.write("To navigate through the time warp, he must solve time-related puzzles, including calculating durations, time zones, and solving time word problems.");
         cliOutputPort.write("Can you guide Sir Mathalot through this time-bending challenge?");
@@ -172,7 +172,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelSixteen() {
         cliOutputPort.write("Level 16: The Logic Labyrinth");
-        cliOutputPort.write("Well done on completing Level 15!");
+        cliOutputPort.write("Well done on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot enters the Logic Labyrinth, a place filled with mind-bending logical puzzles.");
         cliOutputPort.write("To navigate through the labyrinth, he must solve problems involving logical reasoning, patterns, and sequences.");
         cliOutputPort.write("Can you help Sir Mathalot unravel the secrets of logic and conquer the labyrinth?");
@@ -182,7 +182,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelSeventeen() {
         cliOutputPort.write("Level 17: The Geometry Galaxy");
-        cliOutputPort.write("Congratulations on completing Level 16!");
+        cliOutputPort.write("Congratulations on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot arrives in the Geometry Galaxy, a place filled with geometric wonders.");
         cliOutputPort.write("He must solve geometry problems, identify shapes, calculate areas, perimeters, and angles.");
         cliOutputPort.write("Will you join Sir Mathalot on this cosmic geometry adventure?");
@@ -192,7 +192,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelEighteen() {
         cliOutputPort.write("Level 18: The Fractions Fortress");
-        cliOutputPort.write("Well done on completing Level 17!");
+        cliOutputPort.write("Well done on completing the previous level!");
         cliOutputPort.write("Sir Mathalot encounters the Fractions Fortress, a stronghold of fractions.");
         cliOutputPort.write("To conquer the fortress, he must solve problems involving fractions, including addition, subtraction, multiplication, and division.");
         cliOutputPort.write("Can you guide Sir Mathalot through the Fractions Fortress and conquer the world of fractions?");
@@ -202,7 +202,7 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void levelNineteen() {
         cliOutputPort.write("Level 19: The Data Dungeon");
-        cliOutputPort.write("Congratulations on completing Level 18!");
+        cliOutputPort.write("Congratulations on completing the previous Level!");
         cliOutputPort.write("Sir Mathalot delves into the depths of the Data Dungeon, a place filled with data and statistics.");
         cliOutputPort.write("To unlock the dungeon's secrets, he must analyze data, interpret graphs, and solve data-related problems.");
         cliOutputPort.write("Will you help Sir Mathalot conquer the Data Dungeon?");
@@ -235,6 +235,11 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void emptyLine() {
         cliOutputPort.writeEmptyLine();
+    }
+
+    @Override
+    public void sudokuIntroduction() {
+        cliOutputPort.write("To reach the castle Sir Mathalot has to solve the following Sudoku:");
     }
 
 }
