@@ -1,4 +1,4 @@
-@startUml
+@startuml
 interface UserPort{
 +save(User user)
 +delete(User user)
@@ -8,4 +8,17 @@ interface UserPort{
 +changeUserName(String newUserName)
 +changePassword(String newPassword)
 }
+
+class UserAdapter{
+-final String userFileName = "userStoreFile";
++save(User user)
++delete(User user)
++String getPasswordByUserName(String userName)
++User findByUserName(String userName)
++updateUser(User user)
++changeUserName(String newUserName)
++changePassword(String newPassword)
+}
+
+UserAdapter --|> UserPort
 @endUml
