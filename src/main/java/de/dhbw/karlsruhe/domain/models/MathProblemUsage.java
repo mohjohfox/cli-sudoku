@@ -14,22 +14,46 @@ public class MathProblemUsage {
     }
 
     public void generateMathProblem() {
-        
-        // Generate addition problem with result between 1 and 9
-        this.generateAdditionProblem();
+        int problemType = this.random.nextInt(3) + 1;
 
-        // Generate subtraction problem with result between 1 and 9
-        this.generateSubtractionProblem();
+        switch (problemType) {
+            case 1:
+                // Generate addition problem with result between 1 and 9
+                this.generateAdditionProblem();
 
-        // Generate multiplication problem with result between 1 and 9
-        this.generateMultiplicationProblem();
+                break;
+            case 2:
+                // Generate subtraction problem with result between 1 and 9
+                this.generateSubtractionProblem();
 
-        // Generate division problem with result between 1 and 9
-        this.generateDivisionProblem();
+                break;
+            case 3:
+                // Generate multiplication problem with result between 1 and 9
+                this.generateMultiplicationProblem();
+
+                break;
+            default:
+                // Generate division problem with result between 1 and 9
+                this.generateDivisionProblem();
+
+                break;
+        }
 
     }
 
-    public void generateAdditionProblem() {
+    public String getProblemAsString() {
+        return this.mathProblem.getProblemAsText();
+    }
+
+    public int[] getOperands() {
+        return this.mathProblem.getOperands();
+    }
+
+    public int getResult() {
+        return this.mathProblem.getResult();
+    }
+
+    private void generateAdditionProblem() {
         String additionProblemAsText;
         int[] operands = new int[2];
 
@@ -52,7 +76,7 @@ public class MathProblemUsage {
 
     }
 
-    public void generateSubtractionProblem() {
+    private void generateSubtractionProblem() {
         String subtractionProblemAsText;
         int[] operands = new int[2];
 
@@ -75,7 +99,7 @@ public class MathProblemUsage {
 
     }
 
-    public void generateMultiplicationProblem() {
+    private void generateMultiplicationProblem() {
         String multiplicationProblemAsText;
         int[] operands = new int[2];
 
@@ -97,7 +121,7 @@ public class MathProblemUsage {
         this.mathProblem.setResult(product);
     }
 
-    public void generateDivisionProblem() {
+    private void generateDivisionProblem() {
         String divisionProblemAsText;
         int[] operands = new int[2];
         int result = 0;
@@ -122,4 +146,6 @@ public class MathProblemUsage {
         this.mathProblem.setOperands(operands);
         this.mathProblem.setResult(result);
     }
+
+
 }
