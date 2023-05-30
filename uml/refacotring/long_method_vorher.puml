@@ -1,0 +1,5 @@
+@startuml
+class PlayDialogService {
+   - boolean userInputDialog()
+}
+@enduml

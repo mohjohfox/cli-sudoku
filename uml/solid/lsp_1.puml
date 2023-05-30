@@ -1,6 +1,6 @@
 @startuml
 abstract class PlayAction {
-   + executeAction(Sudoku sudoku)
+   + {abstract} executeAction(Sudoku sudoku)
 }
 
 class ExitAction {
