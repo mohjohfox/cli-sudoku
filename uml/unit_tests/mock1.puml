@@ -1,0 +1,40 @@
+@startuml
+
+class Sudoku{
+-String Id
+-SudokuArray gameField
+-SudokuArray gameField
+-SudokuArray gameField
+-SudokuChange lastChange
+-Difficulty difficulty
++SudokuArray getInitialGameField()
++SudokuArray getSolvedGameField()
++setInitialGameField(SudokuArray initialGameField)
++setSolvedGameField(SudokuArray solvedGameField)
++boolean setField(int row, int col, int value)
++Difficulty getDifficulty()
++String getId()
++SudokuArray getGameField()
++SudokuChange getLastChange()
++boolean equals(Object o)
++int hashCode()
+}
+
+class MockValidFilledSudoku{
+-String Id
+-SudokuArray gameField
+-SudokuArray gameField
+-SudokuArray gameField
+-SudokuChange lastChange
+-Difficulty difficulty
++@Override SudokuArray getGameField()
+}
+
+class SudokuValidatorTest{
+~isSudokuValidTest()
+}
+
+
+MockValidFilledSudoku --|> Sudoku
+SudokuValidatorTest --> MockValidFilledSudoku
+@endUml
