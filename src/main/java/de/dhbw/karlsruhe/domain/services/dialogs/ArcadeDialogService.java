@@ -37,7 +37,7 @@ public class ArcadeDialogService {
 
         this.sudoku = sgBacktracking.generateSudoku(SudokuSize.SMALL, Difficulty.EASY);
         SudokuArray sudokuSolved = sudoku.getSolvedGameField();
-        this.sudokuSolvedArray = sudokuSolved.getCopyOfSudokuArray(sudokuSolved.length());
+        this.sudokuSolvedArray = sudokuSolved.getCopyOfSudokuArray();
 
         this.arcadeOutputPort.sudokuIntroduction();
         this.sudokuOutputPort.print(sudoku);
