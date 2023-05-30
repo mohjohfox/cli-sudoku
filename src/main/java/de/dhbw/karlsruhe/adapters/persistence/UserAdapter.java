@@ -107,7 +107,8 @@ public class UserAdapter extends AbstractStoreAdapter implements UserPort {
                 String[] settings = getSettingsFromSaveLine(line);
                 boolean valueHint = Boolean.parseBoolean(settings[0].split("=")[1]);
                 boolean fieldValidation = Boolean.parseBoolean(settings[1].split("=")[1]);
-                Setting setting = new Setting(valueHint, fieldValidation);
+                boolean fixMistakes = Boolean.parseBoolean(settings[2].split("=")[1]);
+                Setting setting = new Setting(valueHint, fieldValidation, fixMistakes);
                 return new User(username, password, setting);
             }
         } catch (IOException e) {

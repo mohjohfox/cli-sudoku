@@ -83,7 +83,7 @@ public class UserAdapterTest {
     }
 
     private User createUser(int id) {
-        return new User("user" + id, getEncryptedPassword("password"), new Setting(false, false));
+        return new User("user" + id, getEncryptedPassword("password"), new Setting(true, true, true));
     }
 
     private String getEncryptedPassword(String password) {
