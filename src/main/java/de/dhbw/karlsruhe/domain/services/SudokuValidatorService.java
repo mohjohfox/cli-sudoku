@@ -7,6 +7,14 @@ import java.util.*;
 
 public class SudokuValidatorService {
 
+    /**
+     * Only for sudokus with 9*9 grid.
+     * @param sudoku
+     * @param row
+     * @param col
+     * @param value
+     * @return true, if field would be set correctly
+     */
     public boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value) {
         for (int i = 0; i < sudoku.length; i++) {
             if (sudoku[row][i] == value) {
