@@ -5,11 +5,14 @@ import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.SudokuSize;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
+import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.ArcadeOutputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
+import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -18,7 +21,9 @@ public class ArcadeDialogService {
     Random random = new Random();
     private Sudoku sudoku;
     Set<Integer> levelNumbers;
-    private SudokuGeneratorBacktracking sgBacktracking = DependencyFactory.getInstance().getDependency(SudokuGeneratorBacktracking.class);
+    private List<String> fieldsToSolve;
+    private final SudokuValidatorService sudokuValidatorService = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
+    private final SudokuGeneratorBacktracking sgBacktracking = DependencyFactory.getInstance().getDependency(SudokuGeneratorBacktracking.class);
     private final ArcadeOutputPort arcadeOutputPort = DependencyFactory.getInstance().getDependency(ArcadeCliAdapter.class);
     private final SudokuOutputPort sudokuOutputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
 
@@ -42,6 +47,7 @@ public class ArcadeDialogService {
 
     private void startArcadeSolving() {
         this.levelNumbers = new HashSet<>();
+        this.fieldsToSolve = this.getSudokuFieldsToSolve();
         int levelNumber;
 
         this.levelNumbers.add(1);
@@ -125,6 +131,10 @@ public class ArcadeDialogService {
 
         this.arcadeOutputPort.emptyLine();
 
+    }
+
+    private List<String> getSudokuFieldsToSolve() {
+        return this.sudokuValidatorService.crossCheck(this.sudoku);
     }
 
 }
