@@ -110,6 +110,10 @@ public class MenuDialogService {
                 rulesOutputPort.printGameRules();
                 break;
             case 9:
+                ArcadeDialogService arcadeDialogService = DependencyFactory.getInstance().getDependency(ArcadeDialogService.class);
+                arcadeDialogService.startArcadeGame();
+                break;
+            case 10:
                 this.logoutService.logout();
                 break;
             default:

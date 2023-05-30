@@ -9,6 +9,7 @@ public enum MenuOptions {
     SETTINGS("Settings"),
     TUTORIAL("Tutorial"),
     RULES("Sudoku rules"),
+    ARCADE("Arcade math game"),
     LOGOUT("Logout");
 
     final String representation;
