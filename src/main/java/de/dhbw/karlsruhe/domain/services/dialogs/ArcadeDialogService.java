@@ -163,7 +163,7 @@ public class ArcadeDialogService {
     }
 
     private List<String> getSudokuFieldsToSolve() {
-        return this.sudokuValidatorService.crossCheck(this.sudoku);
+        return this.sudokuValidatorService.crossCheckForArcade(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
     }
 
 }

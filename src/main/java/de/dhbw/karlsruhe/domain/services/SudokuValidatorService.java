@@ -97,4 +97,18 @@ public class SudokuValidatorService {
         return notCorrectFields;
     }
 
+    public List<String> crossCheckForArcade(SudokuArray gameField, SudokuArray initialGameField, SudokuArray solvedGameField) {
+        List<String> fieldsToSolve = new ArrayList<>();
+        for (int row = 0; row < gameField.sudokuArray().length; row++) {
+            for (int col = 0; col < gameField.sudokuArray()[row].length; col++) {
+                if (gameField.sudokuArray()[row][col] == 0 &&
+                        initialGameField.sudokuArray()[row][col] == 0 &&
+                        gameField.sudokuArray()[row][col] != solvedGameField.sudokuArray()[row][col]) {
+                    fieldsToSolve.add((row + 1) + "," + (col + 1));
+                }
+            }
+        }
+        return fieldsToSolve;
+    }
+
 }
