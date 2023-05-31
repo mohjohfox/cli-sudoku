@@ -15,12 +15,16 @@ public class SettingService {
         setting.setValueHint(!setting.getValueHint());
     }
 
+    public void toggleFixMistakes(Setting setting) {
+        setting.setFixMistakes(!setting.getFixMistakes());
+    }
+
     public Setting getSettingFromCurrentUser() {
         return userService.getUser(GameInformation.username).getSetting();
     }
 
     public boolean areHintsActivated() {
-        return getSettingFromCurrentUser().getValueHint() || getSettingFromCurrentUser().getFieldValidation();
+        return getSettingFromCurrentUser().getValueHint() || getSettingFromCurrentUser().getFieldValidation() || getSettingFromCurrentUser().getFixMistakes();
     }
 
 }
