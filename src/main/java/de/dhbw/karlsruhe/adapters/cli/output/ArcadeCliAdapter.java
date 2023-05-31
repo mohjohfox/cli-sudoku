@@ -231,9 +231,9 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
     @Override
     public void congratulationAfterSolving() {
         int option = this.random.nextInt();
-        if (option < 0.333) {
+        if (option < 0.4) {
             cliOutputPort.write("Congratulations on completing the previous Level!");
-        } else if (option < 0.666){
+        } else if (option < 0.8){
             cliOutputPort.write("Well done on completing the previous level!");
         } else {
             cliOutputPort.write("Congratulations on defeating the Math Monster!");

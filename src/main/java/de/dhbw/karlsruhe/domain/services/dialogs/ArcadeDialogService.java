@@ -80,7 +80,6 @@ public class ArcadeDialogService {
             // output aufrufen solange bis ergebnis korrekt
 
             this.sudoku.setField(rowToSolve, colToSolve, solutionOfField);
-            this.arcadeOutputPort.emptyLine();
             this.sudokuOutputPort.print(this.sudoku);
             this.arcadeOutputPort.emptyLine();
 
