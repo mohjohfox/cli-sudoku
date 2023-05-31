@@ -16,6 +16,7 @@ public class LeaderboardDialogService {
     private final LeaderboardOutputPort outputPort;
     private final InputPort inputPort;
     private final LeaderboardStorePort leaderboardStorePort;
+    private LeaderboardType leaderboardType;
 
     public LeaderboardDialogService() {
         this.outputPort = DependencyFactory.getInstance().getDependency(LeaderboardOutputPort.class);
@@ -64,27 +65,32 @@ public class LeaderboardDialogService {
         switch (userInput) {
             case 1:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(1);
-                this.displayLeaderboard(new Leaderboard(LeaderboardType.COMPLETE, leaderboardSaveEntries));
+                this.leaderboardType = LeaderboardType.COMPLETE;
+                this.displayLeaderboard(new Leaderboard(this.leaderboardType, leaderboardSaveEntries));
 
                 break;
             case 2:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(2);
-                this.displayLeaderboard(new Leaderboard(LeaderboardType.SOLVINGTIME, leaderboardSaveEntries));
+                this.leaderboardType = LeaderboardType.SOLVINGTIME;
+                this.displayLeaderboard(new Leaderboard(this.leaderboardType, leaderboardSaveEntries));
 
                 break;
             case 3:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(3);
-                this.displayLeaderboard(new Leaderboard(LeaderboardType.DIFFICULTY_EASY, leaderboardSaveEntries));
+                this.leaderboardType = LeaderboardType.DIFFICULTY_EASY;
+                this.displayLeaderboard(new Leaderboard(this.leaderboardType, leaderboardSaveEntries));
 
                 break;
             case 4:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(4);
-                this.displayLeaderboard(new Leaderboard(LeaderboardType.DIFFICULTY_MEDIUM, leaderboardSaveEntries));
+                this.leaderboardType = LeaderboardType.DIFFICULTY_MEDIUM;
+                this.displayLeaderboard(new Leaderboard(this.leaderboardType, leaderboardSaveEntries));
 
                 break;
             case 5:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(5);
-                this.displayLeaderboard(new Leaderboard(LeaderboardType.DIFFICULTY_HARD, leaderboardSaveEntries));
+                this.leaderboardType = LeaderboardType.DIFFICULTY_HARD;
+                this.displayLeaderboard(new Leaderboard(this.leaderboardType, leaderboardSaveEntries));
 
                 break;
             default:
