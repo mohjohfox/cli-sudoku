@@ -2,20 +2,38 @@
 class User {
   - String userName
   - String password
+  - Setting setting
   + String getUserName()
-  + String getPassword()
-}
 
+  + String getPassword() 
+  + Setting getSetting() 
+
+  + setSetting(Setting setting) 
+
+  + setUserName(String userName)
+  + setPassword(String password)
+}
+ 
 interface UserPort {
-   void saveUser(User user)
+   save(User user)
+   delete()
    String getPassword(String userName)
    List<String> getAllUserNames()
+   User findByUserName(String userName)
+   updateUser (User user)
+   changeUserName(String newUserName)
+   changePassword(String newPassword)
 }
 
-class UserAdapter {
-   + void saveUser(User user)
-   + String getPassword(String userName)
-   + List<String> getAllUserNames()
+class UserAdapter{
++save(User user)
++delete()
++String getPassword(String userName)
++List<String> getAllUserNames()
++User findByUserName(String userName)
++updateUser(User user)
++changeUserName(String newUserName)
++changePassword(String newPassword)
 }
 
 UserAdapter--> "Inheritance" UserPort

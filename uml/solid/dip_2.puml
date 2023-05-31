@@ -13,6 +13,7 @@ class DurationTrackService {
     + void setStartTime()
     + void setEndTime(String sudokuID)
     + void saveDuration(String sudokuID)
+	+ DurationTrackSaveEntry getDurationTrackSaveEntry()
 }
 
 DurationTrackAdapter --|> DurationTrackPort

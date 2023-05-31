@@ -1,9 +1,13 @@
 @startuml
 class SudokuValidatorService {
+	+ boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value)
+	+ boolean isSudokuValid(int[][] sudoku)
    + boolean isSudokuFullyFilled(int[][] gameField)
 }
 
 class PlayDialogService {
+   + void startNewGame(Difficulty dif) 
+   + void startSavedGame(Sudoku loadedSudoku)
    + void startGame()
 }
 

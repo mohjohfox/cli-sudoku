@@ -1,5 +1,8 @@
 @startuml
 class PlayDialogService {
+   + void startNewGame(Difficulty dif) 
+   + void startSavedGame(Sudoku loadedSudoku)
+   + void startGame()
    - boolean userInputDialog()
    - int getCorrectValue(String fieldInput)
    - int[] splitControleInputToIntegers(String input)
