@@ -1,15 +1,15 @@
 package de.dhbw.karlsruhe.domain.models.user.actions;
 
-import de.dhbw.karlsruhe.domain.models.User;
-import de.dhbw.karlsruhe.domain.services.DependencyFactory;
-import de.dhbw.karlsruhe.domain.services.SettingService;
+import de.dhbw.karlsruhe.application.services.DependencyFactory;
+import de.dhbw.karlsruhe.application.services.SettingService;
+import de.dhbw.karlsruhe.domain.models.core.User;
 
-public class ToggleFixMistakesAction extends UserAction{
+public class ToggleFixMistakesAction extends UserAction {
 
-    private final SettingService settingService = DependencyFactory.getInstance().getDependency(SettingService.class);
+  private final SettingService settingService = DependencyFactory.getInstance().getDependency(SettingService.class);
 
-    @Override
-    public void executeAction(User user) {
-        settingService.toggleFixMistakes(user.getSetting());
-    }
+  @Override
+  public void executeAction(User user) {
+    settingService.toggleFixMistakes(user.getSetting());
+  }
 }

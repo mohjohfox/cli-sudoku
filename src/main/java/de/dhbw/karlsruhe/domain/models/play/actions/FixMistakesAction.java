@@ -1,10 +1,10 @@
 package de.dhbw.karlsruhe.domain.models.play.actions;
 
+import de.dhbw.karlsruhe.application.ports.dialogs.output.PlayOutputPort;
+import de.dhbw.karlsruhe.application.services.DependencyFactory;
+import de.dhbw.karlsruhe.application.services.SettingService;
+import de.dhbw.karlsruhe.application.services.SudokuValidatorService;
 import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
-import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
-import de.dhbw.karlsruhe.domain.services.DependencyFactory;
-import de.dhbw.karlsruhe.domain.services.SettingService;
-import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 import java.util.List;
 
 public class FixMistakesAction extends PlayAction {

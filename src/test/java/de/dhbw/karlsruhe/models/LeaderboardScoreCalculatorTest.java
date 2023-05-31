@@ -2,7 +2,7 @@ package de.dhbw.karlsruhe.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.core.Difficulty;
 import de.dhbw.karlsruhe.domain.models.leaderboard.LeaderboardScoreCalculator;
 import org.junit.jupiter.api.Test;
 
