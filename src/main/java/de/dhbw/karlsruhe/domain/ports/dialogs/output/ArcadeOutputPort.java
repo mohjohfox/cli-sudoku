@@ -50,4 +50,6 @@ public interface ArcadeOutputPort {
 
     void sudokuIntroduction();
 
+    void congratulationAfterSolving();
+
 }
