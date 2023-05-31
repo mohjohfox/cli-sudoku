@@ -1,0 +1,10 @@
+@startuml
+class SudokuGeneratorTransformation {
+    + Sudoku generateSudoku(Difficulty difficulty)
+}
+
+class SudokuGeneratorBacktracking {
+    + Sudoku generateSudoku(Difficulty difficulty)
+}
+
+@enduml

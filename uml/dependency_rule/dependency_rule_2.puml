@@ -33,7 +33,7 @@ class SudokuPersistenceAdapter {
   + deleteSudoku(String saveId)
 }
 
-SudokuPersistenceAdapter--> "Inheritance" SudokuPersistencePort
+SudokuPersistenceAdapter--|>SudokuPersistencePort
 SudokuPersistenceAdapter-->Sudoku
 SudokuPersistencePort-->Sudoku
 @enduml

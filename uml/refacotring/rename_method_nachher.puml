@@ -2,7 +2,7 @@
 class SudokuValidatorService {
 	+ boolean isSudokuFieldValid(int[][] sudoku, int row, int col, int value)
 	+ boolean isSudokuValid(int[][] sudoku)
-   + boolean isSudokuFullyFilled(int[][] gameField)
+   + boolean isSudokuNotFullyFilled(int[][] gameField)
 }
 
 class PlayDialogService {

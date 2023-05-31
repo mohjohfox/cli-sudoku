@@ -18,6 +18,6 @@ class SudokuFieldsRemover {
   + Sudoku generateSudoku(Difficulty dif)
  }
 
-SudokuGeneratorTransformation --> FieldsRemover
+SudokuGeneratorTransformation --> SudokuFieldsRemover
 SudokuGeneratorTransformation --> SudokuTransformation
 @enduml

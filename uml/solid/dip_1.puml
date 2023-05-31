@@ -14,7 +14,7 @@ class SudokuPersistenceAdapter {
 }
 
 class AbortAction {
-    + void executeAction(Sudoku sudoku)
+  + void executeAction(Sudoku sudoku)
 	+ boolean isCloseGame()
 }
 

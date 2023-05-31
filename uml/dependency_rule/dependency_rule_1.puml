@@ -4,12 +4,9 @@ class User {
   - String password
   - Setting setting
   + String getUserName()
-
-  + String getPassword() 
+  + String getPassword()
   + Setting getSetting() 
-
-  + setSetting(Setting setting) 
-
+  + setSetting(Setting setting)
   + setUserName(String userName)
   + setPassword(String password)
 }
@@ -36,7 +33,7 @@ class UserAdapter{
 +changePassword(String newPassword)
 }
 
-UserAdapter--> "Inheritance" UserPort
+UserAdapter--|>UserPort
 UserAdapter-->User
 UserPort-->User
 @enduml
