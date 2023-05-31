@@ -9,6 +9,7 @@ import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.LeaderboardOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.LeaderboardStorePort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
+
 import java.util.List;
 
 public class LeaderboardDialogService {
@@ -18,51 +19,51 @@ public class LeaderboardDialogService {
     private final LeaderboardStorePort leaderboardStorePort;
     private LeaderboardType leaderboardType;
 
-  public LeaderboardDialogService() {
-    this.outputPort = DependencyFactory.getInstance().getDependency(LeaderboardOutputPort.class);
-    this.inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
-    this.leaderboardStorePort = DependencyFactory.getInstance().getDependency(LeaderboardStorePort.class);
-  }
+    public LeaderboardDialogService() {
+        this.outputPort = DependencyFactory.getInstance().getDependency(LeaderboardOutputPort.class);
+        this.inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
+        this.leaderboardStorePort = DependencyFactory.getInstance().getDependency(LeaderboardStorePort.class);
+    }
 
-  public void startLeaderboardDialog() {
-    outputPort.displayLeaderboardIntroduction();
+    public void startLeaderboardDialog() {
+        outputPort.displayLeaderboardIntroduction();
 
-    outputPort.displayLeaderboardOptions();
+        outputPort.displayLeaderboardOptions();
 
-    int userInput = this.awaitUserInput();
+        int userInput = this.awaitUserInput();
 
-    this.loadAndDisplayCorrectLeaderboard(userInput);
-  }
+        this.loadAndDisplayCorrectLeaderboard(userInput);
+    }
 
-  private int awaitUserInput() {
-    int userInput = -1;
+    private int awaitUserInput() {
+        int userInput = -1;
 
-    while (userInput == -1) {
-      try {
-        userInput = inputPort.getInputAsInt();
-        if (!this.validateInputIsInRange(userInput)) {
-          userInput = -1;
-          outputPort.invalidInput();
-          outputPort.displayLeaderboardOptions();
+        while (userInput == -1) {
+            try {
+                userInput = inputPort.getInputAsInt();
+                if (!this.validateInputIsInRange(userInput)) {
+                    userInput = -1;
+                    outputPort.invalidInput();
+                    outputPort.displayLeaderboardOptions();
+                }
+            } catch (InvalidOptionException e) {
+                outputPort.invalidInput();
+            }
         }
-      } catch (InvalidOptionException e) {
-        outputPort.invalidInput();
-      }
+
+        return userInput;
     }
 
-    return userInput;
-  }
+    private boolean validateInputIsInRange(int userInput) {
+        if (userInput >= 1 && userInput <= 5) {
+            return true;
+        }
 
-  private boolean validateInputIsInRange(int userInput) {
-    if (userInput >= 1 && userInput <= 5) {
-      return true;
+        return false;
     }
 
-    return false;
-  }
-
-  private void loadAndDisplayCorrectLeaderboard(int userInput) {
-    List<LeaderboardSaveEntry> leaderboardSaveEntries;
+    private void loadAndDisplayCorrectLeaderboard(int userInput) {
+        List<LeaderboardSaveEntry> leaderboardSaveEntries;
         switch (userInput) {
             case 1:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(1);
@@ -93,34 +94,34 @@ public class LeaderboardDialogService {
                 this.leaderboardType = LeaderboardType.DIFFICULTY_HARD;
                 this.displayLeaderboard(new Leaderboard(this.leaderboardType, leaderboardSaveEntries));
 
-        break;
-      default:
-        outputPort.noLeaderboardDisplayed();
+                break;
+            default:
+                outputPort.noLeaderboardDisplayed();
 
-        break;
-    }
-  }
-
-  private void displayLeaderboard(Leaderboard leaderboard) {
-    LeaderboardType leaderboardType = leaderboard.getLeaderboardType();
-    List<LeaderboardSaveEntry> leaderboardSaveEntries = leaderboard.getLeaderboardSaveEntries();
-
-    outputPort.leaderboardExplanation(leaderboardType);
-    outputPort.writeEmptyLine();
-
-    if (leaderboardSaveEntries.size() == 0) {
-      outputPort.noLeaderboardEntriesYet();
-      outputPort.writeEmptyLine();
-      return;
+                break;
+        }
     }
 
-    this.sortLeaderboardEntries(leaderboardSaveEntries);
+    private void displayLeaderboard(Leaderboard leaderboard) {
+        LeaderboardType leaderboardType = leaderboard.getLeaderboardType();
+        List<LeaderboardSaveEntry> leaderboardSaveEntries = leaderboard.getLeaderboardSaveEntries();
 
-    outputPort.displayLeaderboard(leaderboard);
-  }
+        outputPort.leaderboardExplanation(leaderboardType);
+        outputPort.writeEmptyLine();
 
-  private void sortLeaderboardEntries(List<LeaderboardSaveEntry> leaderboardSaveEntries) {
-    leaderboardSaveEntries.sort(new LeaderboardSaveEntryComparator());
-  }
+        if (leaderboardSaveEntries.size() == 0) {
+            outputPort.noLeaderboardEntriesYet();
+            outputPort.writeEmptyLine();
+            return;
+        }
+
+        this.sortLeaderboardEntries(leaderboardSaveEntries);
+
+        outputPort.displayLeaderboard(leaderboard);
+    }
+
+    private void sortLeaderboardEntries(List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+        leaderboardSaveEntries.sort(new LeaderboardSaveEntryComparator());
+    }
 
 }
