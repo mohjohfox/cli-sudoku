@@ -19,13 +19,13 @@
       <scope>test</scope>
       <version>5.9.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/junit/junit -->
+    <!-- https://mvnrepository.com/artifact/junit/junit
     <dependency>
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
       <version>5.9.0</version>
       <scope>test</scope>
-    </dependency>
+    </dependency>  -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -71,6 +71,12 @@
           <source>${maven.compiler.source}</source>
           <target>${maven.compiler.target}</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <!-- JUnit 5 requires Surefire version 2.22.0 or higher -->
+        <version>2.22.0</version>
       </plugin>
     </plugins>
   </build>
