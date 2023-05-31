@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
+import de.dhbw.karlsruhe.domain.models.Leaderboard;
 import de.dhbw.karlsruhe.domain.models.LeaderboardSaveEntry;
 import de.dhbw.karlsruhe.domain.models.LeaderboardType;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.LeaderboardOutputPort;
@@ -23,10 +24,12 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
     }
 
     @Override
-    public void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+    public void displayLeaderboard(Leaderboard leaderboard) {
         int rank = 1;
+        LeaderboardType leaderboardType = leaderboard.getLeaderboardType();
+        List<LeaderboardSaveEntry> leaderboardSaveEntries = leaderboard.getLeaderboardSaveEntries();
 
-        StringBuilder leaderboardDialog = new StringBuilder(leaderboardTypeRepresentation + " Leaderboard:");
+        StringBuilder leaderboardDialog = new StringBuilder(leaderboardType.getRepresentation() + " Leaderboard:");
         leaderboardDialog.append(System.getProperty("line.separator"));
         leaderboardDialog.append(System.getProperty("line.separator"));
 

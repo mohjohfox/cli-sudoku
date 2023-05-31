@@ -11,6 +11,11 @@ public class Leaderboard {
         this.leaderboardSaveEntries = new ArrayList<>();
     }
 
+    public Leaderboard(LeaderboardType leaderboardType, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+        this.leaderboardType = leaderboardType;
+        this.leaderboardSaveEntries = leaderboardSaveEntries;
+    }
+
     public String getLeaderboardTypeRepresentation() {
         return this.leaderboardType.getRepresentation();
     }
@@ -33,4 +38,7 @@ public class Leaderboard {
         this.leaderboardType = leaderboardType;
     }
 
+    public LeaderboardType getLeaderboardType() {
+        return this.leaderboardType;
+    }
 }

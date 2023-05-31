@@ -64,27 +64,27 @@ public class LeaderboardDialogService {
         switch (userInput) {
             case 1:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(1);
-                this.displayLeaderboard(LeaderboardType.COMPLETE, leaderboardSaveEntries);
+                this.displayLeaderboard(new Leaderboard(LeaderboardType.COMPLETE, leaderboardSaveEntries));
 
                 break;
             case 2:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(2);
-                this.displayLeaderboard(LeaderboardType.SOLVINGTIME, leaderboardSaveEntries);
+                this.displayLeaderboard(new Leaderboard(LeaderboardType.SOLVINGTIME, leaderboardSaveEntries));
 
                 break;
             case 3:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(3);
-                this.displayLeaderboard(LeaderboardType.DIFFICULTY_EASY, leaderboardSaveEntries);
+                this.displayLeaderboard(new Leaderboard(LeaderboardType.DIFFICULTY_EASY, leaderboardSaveEntries));
 
                 break;
             case 4:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(4);
-                this.displayLeaderboard(LeaderboardType.DIFFICULTY_MEDIUM, leaderboardSaveEntries);
+                this.displayLeaderboard(new Leaderboard(LeaderboardType.DIFFICULTY_MEDIUM, leaderboardSaveEntries));
 
                 break;
             case 5:
                 leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(5);
-                this.displayLeaderboard(LeaderboardType.DIFFICULTY_HARD, leaderboardSaveEntries);
+                this.displayLeaderboard(new Leaderboard(LeaderboardType.DIFFICULTY_HARD, leaderboardSaveEntries));
 
                 break;
             default:
@@ -94,7 +94,10 @@ public class LeaderboardDialogService {
         }
     }
 
-    private void displayLeaderboard(LeaderboardType leaderboardType, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+    private void displayLeaderboard(Leaderboard leaderboard) {
+        LeaderboardType leaderboardType = leaderboard.getLeaderboardType();
+        List<LeaderboardSaveEntry> leaderboardSaveEntries = leaderboard.getLeaderboardSaveEntries();
+
         outputPort.leaderboardExplanation(leaderboardType);
         outputPort.writeEmptyLine();
 
@@ -106,7 +109,7 @@ public class LeaderboardDialogService {
 
         this.sortLeaderboardEntries(leaderboardSaveEntries);
 
-        outputPort.displayLeaderboard(leaderboardType.getRepresentation(), leaderboardSaveEntries);
+        outputPort.displayLeaderboard(leaderboard);
     }
 
     private void sortLeaderboardEntries(List<LeaderboardSaveEntry> leaderboardSaveEntries) {
