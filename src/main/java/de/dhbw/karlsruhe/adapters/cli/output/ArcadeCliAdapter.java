@@ -1,5 +1,6 @@
 package de.dhbw.karlsruhe.adapters.cli.output;
 
+import de.dhbw.karlsruhe.domain.models.MathProblem;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.ArcadeOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
@@ -233,11 +234,40 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
         int option = this.random.nextInt();
         if (option < 0.4) {
             cliOutputPort.write("Congratulations on completing the previous Level!");
-        } else if (option < 0.8){
+        } else if (option < 0.8) {
             cliOutputPort.write("Well done on completing the previous level!");
         } else {
             cliOutputPort.write("Congratulations on defeating the Math Monster!");
         }
+    }
+
+    @Override
+    public void mathProblem(MathProblem mathProblemToSolve) {
+        cliOutputPort.write("A almost impossible to solve math problem has arisen.");
+        cliOutputPort.write("But as soon as Sir Mathalot has a closer look he realizes, that it's very easy.");
+        cliOutputPort.write("Please type in the answer of the following math problem:");
+
+        cliOutputPort.writeEmptyLine();
+
+        cliOutputPort.write(mathProblemToSolve.getProblemAsText());
+    }
+
+    @Override
+    public void optionError() {
+        cliOutputPort.write("Invalid Input - Please enter a valid number!");
+    }
+
+    @Override
+    public void correctAnswer() {
+        cliOutputPort.write("Yeah, that's correct!");
+        cliOutputPort.write("Congratulations. You are getting closer to Sir Mathalots castle!");
+    }
+
+    @Override
+    public void wrongAnswer() {
+        cliOutputPort.write("Pity, that's not the correct answer!");
+        cliOutputPort.write("Please try again to solve the question.");
+        cliOutputPort.write("Stay calm and breath in and out. Sir Mathalot will honour it.");
     }
 
 }

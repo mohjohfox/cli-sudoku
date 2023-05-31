@@ -4,15 +4,13 @@ import de.dhbw.karlsruhe.adapters.cli.output.ArcadeCliAdapter;
 import de.dhbw.karlsruhe.domain.models.*;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
+import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.ArcadeOutputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class ArcadeDialogService {
 
@@ -26,6 +24,7 @@ public class ArcadeDialogService {
     private final ArcadeOutputPort arcadeOutputPort = DependencyFactory.getInstance().getDependency(ArcadeCliAdapter.class);
     private final SudokuOutputPort sudokuOutputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
     private final MathProblemUsage mathProblemUsage = DependencyFactory.getInstance().getDependency(MathProblemUsage.class);
+    private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
 
     public ArcadeDialogService() {
 
@@ -77,8 +76,10 @@ public class ArcadeDialogService {
 
             MathProblem mathProblemToSolve = this.mathProblemUsage.getMathProblem();
 
-            // output aufrufen solange bis ergebnis korrekt
+            this.arcadeOutputPort.mathProblem(mathProblemToSolve);
 
+            this.waitAndValidateResult(mathProblemToSolve);
+            
             this.sudoku.setField(rowToSolve, colToSolve, solutionOfField);
             this.sudokuOutputPort.print(this.sudoku);
             this.arcadeOutputPort.emptyLine();
@@ -167,6 +168,46 @@ public class ArcadeDialogService {
 
     private List<String> getSudokuFieldsToSolve() {
         return this.sudokuValidatorService.crossCheckForArcade(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
+    }
+
+    private int awaitUserInput() {
+        int input = -1;
+        while (input == -1) {
+            try {
+                input = inputPort.getInputAsInt();
+                if (!(input > 0 && input <= 4)) {
+                    input = -1;
+                    this.arcadeOutputPort.optionError();
+                }
+            } catch (InputMismatchException ie) {
+                this.arcadeOutputPort.optionError();
+                inputPort.cleanInput();
+            } catch (InvalidOptionException ioe) {
+                this.arcadeOutputPort.optionError();
+            }
+        }
+        return input;
+    }
+
+    private boolean userInputMatchesResult(int userInput, int result) {
+        return userInput == result;
+    }
+
+    private void waitAndValidateResult(MathProblem mathProblemToSolve) {
+        boolean isCorrectAnswer = false;
+
+        do {
+            int userInput = this.awaitUserInput();
+            isCorrectAnswer = this.userInputMatchesResult(userInput, mathProblemToSolve.getResult());
+
+            if (isCorrectAnswer) {
+                this.arcadeOutputPort.correctAnswer();
+            } else {
+                this.arcadeOutputPort.wrongAnswer();
+            }
+
+        } while (!isCorrectAnswer);
+
     }
 
 }

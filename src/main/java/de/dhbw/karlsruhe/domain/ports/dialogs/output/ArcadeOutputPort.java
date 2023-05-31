@@ -1,5 +1,7 @@
 package de.dhbw.karlsruhe.domain.ports.dialogs.output;
 
+import de.dhbw.karlsruhe.domain.models.MathProblem;
+
 public interface ArcadeOutputPort {
 
     void introduction();
@@ -52,4 +54,11 @@ public interface ArcadeOutputPort {
 
     void congratulationAfterSolving();
 
+    void mathProblem(MathProblem mathProblemToSolve);
+
+    void optionError();
+
+    void correctAnswer();
+
+    void wrongAnswer();
 }
