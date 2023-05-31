@@ -8,12 +8,9 @@ import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Leaderboard;
 import de.dhbw.karlsruhe.domain.models.LeaderboardScoreCalculator;
-import de.dhbw.karlsruhe.domain.models.LeaderboardType;
 import de.dhbw.karlsruhe.domain.models.MathProblem;
 import de.dhbw.karlsruhe.domain.models.MathProblemUsage;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.*;
-import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.*;
 import de.dhbw.karlsruhe.domain.services.dialogs.*;
 

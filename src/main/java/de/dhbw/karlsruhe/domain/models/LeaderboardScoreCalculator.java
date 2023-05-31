@@ -26,8 +26,8 @@ public class LeaderboardScoreCalculator {
             score += scoreForSolvedFields;
         }
 
-        score += difficultyAsInt * 0.75 * 66;
-        score += (System.currentTimeMillis() - timeInMillis) * 0.000001;
+        score += difficultyAsInt * 0.75 * 6;
+        score += (System.currentTimeMillis() - timeInMillis) * 0.000000001;
 
         return score;
     }
@@ -36,7 +36,7 @@ public class LeaderboardScoreCalculator {
         int score = 0;
         int scoreForSolvedFields = 0;
 
-        score += (System.currentTimeMillis() - timeInMillis) * 0.000001;
+        score += (System.currentTimeMillis() - timeInMillis) * 0.00000000001;
 
         scoreForSolvedFields = this.calculateScoreForUnsolvedOrWrongFields(unsolvedOrWrongFields, isCorrect);
         score += scoreForSolvedFields;
@@ -57,7 +57,7 @@ public class LeaderboardScoreCalculator {
             difficultyAsInt = 3;
         }
 
-        score += difficultyAsInt * 0.75 * 66;
+        score += difficultyAsInt * 0.75 * 6;
 
         scoreForSolvedFields = this.calculateScoreForUnsolvedOrWrongFields(unsolvedOrWrongFields, isCorrect);
         score += scoreForSolvedFields;
