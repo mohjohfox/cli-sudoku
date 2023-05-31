@@ -1,51 +1,41 @@
 package de.dhbw.karlsruhe.models;
 
-import de.dhbw.karlsruhe.domain.models.Difficulty;
-import de.dhbw.karlsruhe.domain.models.LeaderboardScoreCalculator;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.leaderboard.LeaderboardScoreCalculator;
+import org.junit.jupiter.api.Test;
 
 public class LeaderboardScoreCalculatorTest {
 
-    @Test
-    void calculateDifficultyLeaderboardScoreTest() {
-        LeaderboardScoreCalculator calculator = new LeaderboardScoreCalculator();
-        String[] wrongFields = new String[3];
-        wrongFields[1] = "1,1";
-        wrongFields[2] = "2,2";
-        wrongFields[0] = "3,3";
-        boolean isCorrectNeinLol = false;
-        String difficultySoSadAsString = Difficulty.EASY.getName();
+  @Test
+  void calculateDifficultyLeaderboardScoreTest() {
+    LeaderboardScoreCalculator calculator = new LeaderboardScoreCalculator();
+    String[] wrongFields = new String[3];
+    wrongFields[1] = "1,1";
+    wrongFields[2] = "2,2";
+    wrongFields[0] = "3,3";
 
-        int score = calculator.calculateDifficultyLeaderboardScore(wrongFields, isCorrectNeinLol, difficultySoSadAsString);
+    int score = calculator.calculateDifficultyLeaderboardScore(wrongFields, false, Difficulty.EASY);
 
-        assertTrue(score == 254);
+    assertEquals(254, score);
 
-        difficultySoSadAsString = Difficulty.MEDIUM.getName();
+    score = calculator.calculateDifficultyLeaderboardScore(wrongFields, false, Difficulty.MEDIUM);
 
-        score = calculator.calculateDifficultyLeaderboardScore(wrongFields, isCorrectNeinLol, difficultySoSadAsString);
+    assertEquals(304, score);
 
-        assertTrue(score == 304);
+    score = calculator.calculateDifficultyLeaderboardScore(wrongFields, false, Difficulty.HARD);
 
-        difficultySoSadAsString = Difficulty.HARD.getName();
+    assertEquals(353, score);
 
-        score = calculator.calculateDifficultyLeaderboardScore(wrongFields, isCorrectNeinLol, difficultySoSadAsString);
+    wrongFields = new String[0];
+    int scoreMax = calculator.calculateDifficultyLeaderboardScore(wrongFields, true, Difficulty.EASY);
+    assertEquals(299, scoreMax);
 
-        assertTrue(score == 353);
+    scoreMax = calculator.calculateDifficultyLeaderboardScore(wrongFields, true, Difficulty.MEDIUM);
+    assertEquals(349, scoreMax);
 
-
-        wrongFields = new String[0];
-        difficultySoSadAsString = Difficulty.EASY.getName();
-        int scoreMax = calculator.calculateDifficultyLeaderboardScore(wrongFields, true, difficultySoSadAsString);
-        assertTrue(scoreMax == 299);
-
-        difficultySoSadAsString = Difficulty.MEDIUM.getName();
-        scoreMax = calculator.calculateDifficultyLeaderboardScore(wrongFields, true, difficultySoSadAsString);
-        assertTrue(scoreMax == 349);
-
-        difficultySoSadAsString = Difficulty.HARD.getName();
-        scoreMax = calculator.calculateDifficultyLeaderboardScore(wrongFields, true, difficultySoSadAsString);
-        assertTrue(scoreMax == 398);
-    }
+    scoreMax = calculator.calculateDifficultyLeaderboardScore(wrongFields, true, Difficulty.HARD);
+    assertEquals(398, scoreMax);
+  }
 }

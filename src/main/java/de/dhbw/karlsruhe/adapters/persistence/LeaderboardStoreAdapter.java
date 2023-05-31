@@ -1,11 +1,15 @@
 package de.dhbw.karlsruhe.adapters.persistence;
 
 import de.dhbw.karlsruhe.domain.Location;
-import de.dhbw.karlsruhe.domain.models.Leaderboard;
-import de.dhbw.karlsruhe.domain.models.LeaderboardSaveEntry;
+import de.dhbw.karlsruhe.domain.models.leaderboard.Leaderboard;
+import de.dhbw.karlsruhe.domain.models.leaderboard.LeaderboardSaveEntry;
 import de.dhbw.karlsruhe.domain.ports.persistence.LeaderboardStorePort;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -13,101 +17,102 @@ import java.util.List;
 
 public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements LeaderboardStorePort {
 
-    private final String LEADERBOARDFILENAME = "LeaderboardStoreFile";
+  private final String LEADERBOARDFILENAME = "LeaderboardStoreFile";
 
-    public LeaderboardStoreAdapter(Location filePath) {
-        super(filePath);
+  public LeaderboardStoreAdapter(Location filePath) {
+    super(filePath);
+  }
+
+  @Override
+  public void saveLeaderboard(Leaderboard leaderboard) {
+    String completeFileName = LEADERBOARDFILENAME;
+    List<LeaderboardSaveEntry> leaderboardSaveEntries = leaderboard.getLeaderboardSaveEntries();
+
+    prepareFileStructure(completeFileName);
+
+    try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(getFullFilePath(completeFileName), false))) {
+
+      for (LeaderboardSaveEntry leaderboardSaveEntry : leaderboardSaveEntries) {
+        bufferedWriter.append(leaderboardSaveEntry.getFormattedLeaderboardSaveEntry());
+        bufferedWriter.newLine();
+      }
+
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public List<LeaderboardSaveEntry> loadSavedEntriesFromLeaderboard(int leaderboardTypeID) {
+    String completeFileName = LEADERBOARDFILENAME;
+    List<LeaderboardSaveEntry> readLeaderboardSaveEntries = new ArrayList<>();
+    List<LeaderboardSaveEntry> readLeaderboardSaveEntriesForID;
+
+    if (!this.fileIsAvailable(completeFileName)) {
+
+      return readLeaderboardSaveEntries;
     }
 
-    @Override
-    public void saveLeaderboard(Leaderboard leaderboard) {
-        // int leaderboardType = leaderboard.getLeaderboardTypeID();
-        String completeFileName = LEADERBOARDFILENAME;
-        List<LeaderboardSaveEntry> leaderboardSaveEntries = leaderboard.getLeaderboardSaveEntries();
+    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(getFullFilePath(completeFileName)))) {
+      String readLine = "";
 
-        prepareFileStructure(completeFileName);
+      while ((readLine = bufferedReader.readLine()) != null) {
+        readLeaderboardSaveEntries.add(this.parseReadLineToEntry(readLine));
+      }
 
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(getFullFilePath(completeFileName), true))) {
-
-            for (LeaderboardSaveEntry leaderboardSaveEntry : leaderboardSaveEntries) {
-                bufferedWriter.append(leaderboardSaveEntry.getFormattedLeaderboardSaveEntry());
-                bufferedWriter.newLine();
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
 
-    @Override
-    public List<LeaderboardSaveEntry> loadSavedEntriesFromLeaderboard(int leaderboardTypeID) {
-        String completeFileName = LEADERBOARDFILENAME;
-        List<LeaderboardSaveEntry> readLeaderboardSaveEntries = new ArrayList<>();
-        List<LeaderboardSaveEntry> readLeaderboardSaveEntriesForID;
+    readLeaderboardSaveEntriesForID = this.filterReadLeaderboardSaveEntries(readLeaderboardSaveEntries,
+        leaderboardTypeID);
 
-        if (!this.fileIsAvailable(completeFileName)) {
+    return readLeaderboardSaveEntriesForID;
 
-            return readLeaderboardSaveEntries;
-        }
+  }
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(getFullFilePath(completeFileName)))) {
-            String readLine = "";
+  private List<LeaderboardSaveEntry> filterReadLeaderboardSaveEntries(
+      List<LeaderboardSaveEntry> readLeaderboardSaveEntries, int leaderboardTypeID) {
+    List<LeaderboardSaveEntry> readLeaderboardSaveEntriesForID = new ArrayList<>();
 
-            while ((readLine=bufferedReader.readLine())!=null) {
-                readLeaderboardSaveEntries.add(this.parseReadLineToEntry(readLine));
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        readLeaderboardSaveEntriesForID = this.filterReadLeaderboardSaveEntries(readLeaderboardSaveEntries, leaderboardTypeID);
-
-        return readLeaderboardSaveEntriesForID;
-
+    // Filter for relevant entries
+    for (LeaderboardSaveEntry leaderboardSaveEntry : readLeaderboardSaveEntries) {
+      if (leaderboardSaveEntry.getLeaderboardTypeID() == leaderboardTypeID) {
+        readLeaderboardSaveEntriesForID.add(leaderboardSaveEntry);
+      }
     }
 
-    private List<LeaderboardSaveEntry> filterReadLeaderboardSaveEntries(List<LeaderboardSaveEntry> readLeaderboardSaveEntries, int leaderboardTypeID) {
-        List<LeaderboardSaveEntry> readLeaderboardSaveEntriesForID = new ArrayList<>();
+    return readLeaderboardSaveEntriesForID;
+  }
 
-        // Filter for relevant entries
-        for (LeaderboardSaveEntry leaderboardSaveEntry : readLeaderboardSaveEntries) {
-            if (leaderboardSaveEntry.getLeaderboardTypeID() == leaderboardTypeID) {
-                readLeaderboardSaveEntriesForID.add(leaderboardSaveEntry);
-            }
-        }
+  private boolean fileIsAvailable(String completeFileName) {
+    boolean fileIsAvailable = false;
 
-        return readLeaderboardSaveEntriesForID;
+    File f = new File(getFullFilePath(completeFileName));
+    if (f.exists() && !f.isDirectory()) {
+      fileIsAvailable = true;
     }
 
-    private boolean fileIsAvailable(String completeFileName) {
-        boolean fileIsAvailable = false;
+    return fileIsAvailable;
+  }
 
-        File f = new File(getFullFilePath(completeFileName));
-        if(f.exists() && !f.isDirectory()) {
-            fileIsAvailable = true;
-        }
+  private LeaderboardSaveEntry parseReadLineToEntry(String line) {
+    Dictionary tempDict = new Hashtable();
+    String[] splitArray = line.split("&");
 
-        return fileIsAvailable;
+    for (String s : splitArray) {
+      String[] tempSplit = s.split("=");
+
+      tempDict.put(tempSplit[0], tempSplit[1]);
     }
 
-    private LeaderboardSaveEntry parseReadLineToEntry(String line) {
-        Dictionary tempDict = new Hashtable();
-        String[] splitArray = line.split("&");
+    String saveEntryID = String.valueOf(tempDict.get("SaveID"));
+    int leaderboardTypeID = Integer.parseInt((String) tempDict.get("LeaderboardID"));
+    String username = String.valueOf(tempDict.get("Username"));
+    int score = Integer.parseInt((String) tempDict.get("Score"));
+    String date = String.valueOf(tempDict.get("Date"));
 
-        for (String s : splitArray) {
-            String[] tempSplit = s.split("=");
-
-            tempDict.put(tempSplit[0], tempSplit[1]);
-        }
-
-        String saveEntryID = String.valueOf(tempDict.get("SaveID"));
-        int leaderboardTypeID = Integer.parseInt((String) tempDict.get("LeaderboardID"));
-        String username = String.valueOf(tempDict.get("Username"));
-        int score = Integer.parseInt((String) tempDict.get("Score"));
-        String date = String.valueOf(tempDict.get("Date"));
-
-        return new LeaderboardSaveEntry(saveEntryID, leaderboardTypeID, username, score, date);
-    }
+    return new LeaderboardSaveEntry(saveEntryID, leaderboardTypeID, username, score, date);
+  }
 
 }
