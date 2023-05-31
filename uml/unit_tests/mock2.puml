@@ -1,0 +1,25 @@
+@startuml
+
+class UserAdapter{
++save(User user)
++delete()
++String getPassword(String userName)
++List<String> getAllUserNames()
++User findByUserName(String userName)
++updateUser(User user)
++changeUserName(String newUserName)
++changePassword(String newPassword)
+}
+
+class MockUserAdapter{
++@Override save(User user)
+}
+
+class UserServiceTest{
+~isSudokuValidTest()
+}
+
+
+MockUserAdapter --|> UserAdapter
+UserServiceTest --> MockUserAdapter
+@endUml

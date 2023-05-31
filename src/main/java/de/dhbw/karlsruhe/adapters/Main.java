@@ -5,6 +5,7 @@ import de.dhbw.karlsruhe.adapters.cli.output.*;
 import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.LeaderboardStoreAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.adapters.persistence.UserAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Leaderboard;
 import de.dhbw.karlsruhe.domain.models.LeaderboardScoreCalculator;
@@ -36,6 +37,7 @@ public class Main {
     private static void injectDependencies() {
         DependencyFactory dependencyFactory = DependencyFactory.getInstance();
         dependencyFactory.registerDependency(new Leaderboard());
+        dependencyFactory.registerDependency(new UserAdapter(Location.PROD));
         dependencyFactory.registerDependency(new SudokuPersistenceAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackService());

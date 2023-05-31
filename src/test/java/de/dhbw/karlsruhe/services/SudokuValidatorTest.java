@@ -4,7 +4,7 @@ import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
-import de.dhbw.karlsruhe.services.mocks.MockValidFilledSudoku;
+import de.dhbw.karlsruhe.mocks.MockValidFilledSudoku;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
