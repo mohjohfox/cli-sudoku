@@ -24,7 +24,11 @@ public class MathProblemDialogService {
         MathProblemOperation mathProblemOperation = this.mathProblemUsage.getRandomMathProblemOperation();
         this.mathProblemUsage.generateMathProblemWithDesiredResult(solutionOfField, mathProblemOperation);
 
-        this.waitAndValidateResult(mathProblemUsage.getMathProblem());
+        MathProblem mathProblemToSolve = this.mathProblemUsage.getMathProblem();
+
+        this.arcadeOutputPort.mathProblem(mathProblemToSolve);
+
+        this.waitAndValidateResult(mathProblemToSolve);
 
     }
 
@@ -37,8 +41,11 @@ public class MathProblemDialogService {
 
             if (isCorrectAnswer) {
                 this.arcadeOutputPort.correctAnswer();
+                this.arcadeOutputPort.emptyLine();
             } else {
                 this.arcadeOutputPort.wrongAnswer();
+                this.arcadeOutputPort.emptyLine();
+                this.arcadeOutputPort.singleMathProblem(mathProblemToSolve);
             }
 
         } while (!isCorrectAnswer);

@@ -61,4 +61,6 @@ public interface ArcadeOutputPort {
     void correctAnswer();
 
     void wrongAnswer();
+
+    void singleMathProblem(MathProblem mathProblemToSolve);
 }

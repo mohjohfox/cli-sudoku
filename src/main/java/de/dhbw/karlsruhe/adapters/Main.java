@@ -35,7 +35,6 @@ public class Main {
         DependencyFactory dependencyFactory = DependencyFactory.getInstance();
         dependencyFactory.registerDependency(new MathProblem());
         dependencyFactory.registerDependency(new MathProblemUsage());
-        dependencyFactory.registerDependency(new MathProblemDialogService());
         dependencyFactory.registerDependency(new SudokuPersistenceAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackService());
@@ -60,7 +59,6 @@ public class Main {
         dependencyFactory.registerDependency(new SudokuGeneratorBacktracking());
         dependencyFactory.registerDependency(new SudokuValidatorService());
         dependencyFactory.registerDependency(new ArcadeCliAdapter());
-        dependencyFactory.registerDependency(new ArcadeDialogService());
         dependencyFactory.registerDependency(new SudokuGeneratorTransformation());
         dependencyFactory.registerDependency(new SudokuTransformation());
         dependencyFactory.registerDependency(new SettingsCliAdapter());
@@ -76,6 +74,8 @@ public class Main {
         dependencyFactory.registerDependency(new TutorialOutputCliAdapter());
         dependencyFactory.registerDependency(new TutorialInputCliAdapter());
         dependencyFactory.registerDependency(new TutorialDialogService());
+        dependencyFactory.registerDependency(new MathProblemDialogService());
+        dependencyFactory.registerDependency(new ArcadeDialogService());
     }
 
 }

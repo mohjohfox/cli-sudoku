@@ -270,4 +270,9 @@ public class ArcadeCliAdapter implements ArcadeOutputPort {
         cliOutputPort.write("Stay calm and breath in and out. Sir Mathalot will honour it.");
     }
 
+    @Override
+    public void singleMathProblem(MathProblem mathProblemToSolve) {
+        cliOutputPort.write(mathProblemToSolve.getProblemAsText());
+    }
+
 }
