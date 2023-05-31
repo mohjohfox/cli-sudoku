@@ -1,6 +1,7 @@
 @startuml
 abstract class SudokuGenerator {
    + {abstract} Sudoku generateSudoku(Difficulty difficulty)
+   + SudokuArray getGameField(Sudoku sudoku)
 }
 
 class SudokuGeneratorTransformation {

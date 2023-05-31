@@ -18,24 +18,24 @@ public class LeaderboardScoreCalculatorTest {
 
     int score = calculator.calculateDifficultyLeaderboardScore(wrongFields, false, Difficulty.EASY);
 
-    assertEquals(254, score);
+    assertEquals(209, score);
 
     score = calculator.calculateDifficultyLeaderboardScore(wrongFields, false, Difficulty.MEDIUM);
 
-    assertEquals(304, score);
+    assertEquals(214, score);
 
     score = calculator.calculateDifficultyLeaderboardScore(wrongFields, false, Difficulty.HARD);
 
-    assertEquals(353, score);
+    assertEquals(218, score);
 
     wrongFields = new String[0];
     int scoreMax = calculator.calculateDifficultyLeaderboardScore(wrongFields, true, Difficulty.EASY);
-    assertEquals(299, scoreMax);
+    assertEquals(254, scoreMax);
 
     scoreMax = calculator.calculateDifficultyLeaderboardScore(wrongFields, true, Difficulty.MEDIUM);
-    assertEquals(349, scoreMax);
+    assertEquals(259, scoreMax);
 
     scoreMax = calculator.calculateDifficultyLeaderboardScore(wrongFields, true, Difficulty.HARD);
-    assertEquals(398, scoreMax);
+    assertEquals(263, scoreMax);
   }
 }

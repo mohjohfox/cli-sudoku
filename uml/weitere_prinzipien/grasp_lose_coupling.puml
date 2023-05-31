@@ -1,0 +1,19 @@
+@startuml
+enum LeaderboardType {
+    + COMPLETE
+    + SOLVINGTIME
+    + DIFFICULTY_EASY
+    + DIFFICULTY_MEDIUM
+    + DIFFICULTY_HARD
+    +  String getRepresentation()
+    + int getTypeID()
+}
+
+class LeaderboardDialogService {
+    + void startLeaderboardDialog()
+    - void loadAndDisplayCorrectLeaderboard(int userInput)
+    - void displayLeaderboard(Leaderboard leaderboard)
+}
+
+LeaderboardDialogService --> LeaderboardType
+@enduml

@@ -1,9 +1,4 @@
 @startuml
-interface DurationTrackPort {
-   + void saveSolvingTime(DurationTrackSaveEntry durationTrackSaveEntry)
-   + long loadSolvingTime(String sudokuId)
-}
-
 class DurationTrackAdapter {
     + void saveSolvingTime(DurationTrackSaveEntry durationTrackSaveEntry)
     + long loadSolvingTime(String sudokuId)
@@ -15,7 +10,6 @@ class DurationTrackService {
     + void saveDuration(String sudokuID)
 	+ DurationTrackSaveEntry getDurationTrackSaveEntry()
 }
-
-DurationTrackAdapter --|> DurationTrackPort
-DurationTrackService --> DurationTrackPort
+ 
+DurationTrackService --> DurationTrackAdapter
 @enduml

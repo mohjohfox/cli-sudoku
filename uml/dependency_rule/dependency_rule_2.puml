@@ -1,15 +1,22 @@
 @startuml
-class Sudoku {
-  - String id;
-  - SudokuArray gameField;
-  - SudokuArray initialGameField;
-  - SudokuArray solvedGameField;
-  - Difficulty difficulty;
-  + int getId()
-  + SudokuArray getGameField()
-  + SudokuArray getInitialGameField()
-  + SudokuArray getSolvedGameField()
-  + Difficulty getDifficulty()
+class Sudoku{
+-String Id
+-SudokuArray gameField
+-SudokuArray gameField
+-SudokuArray gameField
+-SudokuChange lastChange
+-Difficulty difficulty
++SudokuArray getInitialGameField()
++SudokuArray getSolvedGameField()
++setInitialGameField(SudokuArray initialGameField)
++setSolvedGameField(SudokuArray solvedGameField)
++boolean setField(int row, int col, int value)
++Difficulty getDifficulty()
++String getId()
++SudokuArray getGameField()
++SudokuChange getLastChange()
++boolean equals(Object o)
++int hashCode()
 }
 
 interface SudokuPersistencePort {
@@ -26,7 +33,7 @@ class SudokuPersistenceAdapter {
   + deleteSudoku(String saveId)
 }
 
-SudokuPersistenceAdapter--> "Inheritance" SudokuPersistencePort
+SudokuPersistenceAdapter--|>SudokuPersistencePort
 SudokuPersistenceAdapter-->Sudoku
 SudokuPersistencePort-->Sudoku
 @enduml

@@ -1,0 +1,10 @@
+@startuml
+class TimeWrapper {
+    - String durationAsString
+    - long durationInMillis
+    + String getTimeAsString()
+    + long getTimeAsLong()
+    - String millisToTime(long durationInMillis)
+    - long timeToMillis(String hours, String mins, String secs, String millis)
+}
+@enduml

@@ -77,7 +77,6 @@ public class LeaderboardDialogService {
       case 3:
         leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(3);
         this.displayLeaderboard(new Leaderboard(LeaderboardType.DIFFICULTY_EASY, leaderboardSaveEntries));
-
         break;
       case 4:
         leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(4);
