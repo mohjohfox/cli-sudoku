@@ -1,11 +1,11 @@
 package de.dhbw.karlsruhe.domain.models.generation;
 
-import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.application.services.DependencyFactory;
+import de.dhbw.karlsruhe.domain.models.core.Difficulty;
 import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
 import de.dhbw.karlsruhe.domain.models.sudoku.SudokuBuilder;
 import de.dhbw.karlsruhe.domain.models.sudoku.SudokuSize;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
-import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

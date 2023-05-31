@@ -1,10 +1,10 @@
 package de.dhbw.karlsruhe.domain.models.play.actions;
 
-import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.application.ports.dialogs.output.PlayOutputPort;
+import de.dhbw.karlsruhe.application.ports.persistence.SudokuPersistencePort;
+import de.dhbw.karlsruhe.application.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
-import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
-import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
-import de.dhbw.karlsruhe.domain.services.DependencyFactory;
+import de.dhbw.karlsruhe.infrastructure.persistence.adapter.SudokuPersistenceAdapter;
 
 public class AbortAction extends PlayAction {
 

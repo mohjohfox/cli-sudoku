@@ -1,9 +1,9 @@
 package de.dhbw.karlsruhe.domain.models.generation;
 
-import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.application.services.SudokuValidatorService;
+import de.dhbw.karlsruhe.domain.models.core.Difficulty;
 import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
-import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
