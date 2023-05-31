@@ -8,6 +8,7 @@ import de.dhbw.karlsruhe.domain.models.SudokuSize;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorBacktracking;
 import de.dhbw.karlsruhe.domain.models.generation.SudokuGeneratorTransformation;
 import de.dhbw.karlsruhe.domain.models.play.actions.PlayAction;
+import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.PlayInputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
@@ -103,12 +104,13 @@ public class PlayDialogService {
             DurationTrackSaveEntry durationTrackSaveEntry = this.durationTrackService.getDurationTrackSaveEntry();
             boolean isSudokuValid = this.sudokuValidator.isSudokuValid(sudoku.getGameField().sudokuArray());
             String difficultyAsString = sudoku.getDifficulty().getShortDifficultyName();
+            List<String> unsolvedOrWrongFields = this.sudokuValidator.crossCheck(sudoku);
             String username = GameInformation.username;
             long durationInMillis = durationTrackSaveEntry.getDuration();
 
-            int scoreComplete = this.leaderboardScoreCalculator.calculateCompleteLeaderboardScore(isSudokuValid, durationInMillis, difficultyAsString);
-            int scoreTime = this.leaderboardScoreCalculator.calculateTimeLeaderboardScore(durationInMillis);
-            int scoreDifficulty = this.leaderboardScoreCalculator.calculateDifficultyLeaderboardScore(difficultyAsString);
+            int scoreComplete = this.leaderboardScoreCalculator.calculateCompleteLeaderboardScore(unsolvedOrWrongFields.toArray(new String[0]) ,isSudokuValid, durationInMillis, difficultyAsString);
+            int scoreTime = this.leaderboardScoreCalculator.calculateTimeLeaderboardScore(unsolvedOrWrongFields.toArray(new String[0]) ,isSudokuValid, durationInMillis);
+            int scoreDifficulty = this.leaderboardScoreCalculator.calculateDifficultyLeaderboardScore(unsolvedOrWrongFields.toArray(new String[0]) ,isSudokuValid, difficultyAsString);
 
             this.leaderboard.addToLeaderboard(1, username, scoreComplete);
             this.leaderboard.addToLeaderboard(2, username, scoreTime);

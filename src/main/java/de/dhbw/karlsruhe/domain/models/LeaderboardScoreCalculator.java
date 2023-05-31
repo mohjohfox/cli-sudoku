@@ -6,9 +6,10 @@ public class LeaderboardScoreCalculator {
 
     }
 
-    public int calculateCompleteLeaderboardScore(boolean isCorrect, long timeInMillis, String difficultyAsString) {
+    public int calculateCompleteLeaderboardScore(String[] unsolvedOrWrongFields, boolean isCorrect, long timeInMillis, String difficultyAsString) {
         int score = 0;
         int difficultyAsInt = 0;
+        int scoreForSolvedFields;
 
         if (difficultyAsString.equals(Difficulty.EASY.getName())) {
             difficultyAsInt = 1;
@@ -20,6 +21,9 @@ public class LeaderboardScoreCalculator {
 
         if (isCorrect) {
             score += 250;
+        } else {
+            scoreForSolvedFields = this.calculateScoreForUnsolvedOrWrongFields(unsolvedOrWrongFields, isCorrect);
+            score += scoreForSolvedFields;
         }
 
         score += difficultyAsInt * 0.75 * 66;
@@ -28,17 +32,22 @@ public class LeaderboardScoreCalculator {
         return score;
     }
 
-    public int calculateTimeLeaderboardScore(long timeInMillis) {
+    public int calculateTimeLeaderboardScore(String[] unsolvedOrWrongFields, boolean isCorrect, long timeInMillis) {
         int score = 0;
+        int scoreForSolvedFields = 0;
 
         score += (System.currentTimeMillis() - timeInMillis) * 0.000001;
+
+        scoreForSolvedFields = this.calculateScoreForUnsolvedOrWrongFields(unsolvedOrWrongFields, isCorrect);
+        score += scoreForSolvedFields;
 
         return score;
     }
 
-    public int calculateDifficultyLeaderboardScore(String difficultyAsString) {
+    public int calculateDifficultyLeaderboardScore(String[] unsolvedOrWrongFields, boolean isCorrect, String difficultyAsString) {
         int score = 0;
         int difficultyAsInt = 0;
+        int scoreForSolvedFields = 0;
 
         if (difficultyAsString.equals(Difficulty.EASY.getName())) {
             difficultyAsInt = 1;
@@ -50,6 +59,21 @@ public class LeaderboardScoreCalculator {
 
         score += difficultyAsInt * 0.75 * 66;
 
+        scoreForSolvedFields = this.calculateScoreForUnsolvedOrWrongFields(unsolvedOrWrongFields, isCorrect);
+        score += scoreForSolvedFields;
+
         return score;
+    }
+
+    private int calculateScoreForUnsolvedOrWrongFields(String[] unsolvedOrWrongFields, boolean isCorrect) {
+        int initialScore = 250;
+
+        if (isCorrect) {
+            return  initialScore;
+        }
+
+        int negativeScore = unsolvedOrWrongFields.length * 15;
+
+        return initialScore - negativeScore;
     }
 }
