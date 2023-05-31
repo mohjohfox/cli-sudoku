@@ -1,4 +1,5 @@
 package de.dhbw.karlsruhe.domain.services;
+
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 
@@ -32,23 +33,23 @@ public class SudokuValidatorService {
         return true;
     }
 
-    public boolean isSudokuValid(int[][] sudoku){
+    public boolean isSudokuValid(int[][] sudoku) {
 
-        for(int i=0; i < sudoku.length;i++){
+        for (int i = 0; i < sudoku.length; i++) {
             HashSet<Integer> row = new HashSet<>();
-            for(int j=0; j < sudoku.length;j++) {
+            for (int j = 0; j < sudoku.length; j++) {
                 row.add(sudoku[i][j]);
             }
-            if(isSectionInvalid(row, sudoku.length))
+            if (isSectionInvalid(row, sudoku.length))
                 return false;
         }
 
-        for(int i=0; i < sudoku.length;i++){
+        for (int i = 0; i < sudoku.length; i++) {
             HashSet<Integer> column = new HashSet<>();
-            for(int j=0; j < sudoku.length;j++) {
+            for (int j = 0; j < sudoku.length; j++) {
                 column.add(sudoku[j][i]);
             }
-            if(isSectionInvalid(column, sudoku.length))
+            if (isSectionInvalid(column, sudoku.length))
                 return false;
         }
 
@@ -63,7 +64,7 @@ public class SudokuValidatorService {
                         block.add(sudoku[row+rowOffset*root][col+colOffset*root]);
                     }
                 }
-                if(isSectionInvalid(block, sudoku.length))
+                if (isSectionInvalid(block, sudoku.length))
                     return false;
             }
         }
@@ -71,15 +72,15 @@ public class SudokuValidatorService {
         return true;
     }
 
-    private boolean isSectionInvalid(Set<Integer> section, int sudokuLength){
+    private boolean isSectionInvalid(Set<Integer> section, int sudokuLength) {
         return section.size() != sudokuLength;
     }
 
-    public boolean isSudokuNotFullyFilled(int[][] gameField){
+    public boolean isSudokuNotFullyFilled(int[][] gameField) {
         return Arrays.stream(gameField).anyMatch(arr -> Arrays.stream(arr).anyMatch(i -> i == 0));
     }
 
-    public List<String> crossCheck(Sudoku sudoku){
+    public List<String> crossCheck(Sudoku sudoku) {
         return crossCheck(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
     }
 
