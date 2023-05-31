@@ -32,6 +32,7 @@ public class PlayDialogService {
     private SettingService settingService = DependencyFactory.getInstance().getDependency(SettingService.class);
     private DurationTrackService durationTrackService = DependencyFactory.getInstance().getDependency(DurationTrackService.class);
     private LeaderboardDialogService leaderboardDialogService = DependencyFactory.getInstance().getDependency(LeaderboardDialogService.class);
+    private LeaderboardScoreCalculator leaderboardScoreCalculator = DependencyFactory.getInstance().getDependency(LeaderboardScoreCalculator.class);
     private Leaderboard leaderboard = DependencyFactory.getInstance().getDependency(Leaderboard.class);
     private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
     private final PlayInputPort playInputPort = DependencyFactory.getInstance().getDependency(PlayInputPort.class);
@@ -105,9 +106,9 @@ public class PlayDialogService {
             String username = GameInformation.username;
             long durationInMillis = durationTrackSaveEntry.getDuration();
 
-            int scoreComplete = this.leaderboardDialogService.calculateCompleteLeaderboardScore(isSudokuValid, durationInMillis, difficultyAsString);
-            int scoreTime = this.leaderboardDialogService.calculateTimeLeaderboardScore(durationInMillis);
-            int scoreDifficulty = this.leaderboardDialogService.calculateDifficultyLeaderboardScore(difficultyAsString);
+            int scoreComplete = this.leaderboardScoreCalculator.calculateCompleteLeaderboardScore(isSudokuValid, durationInMillis, difficultyAsString);
+            int scoreTime = this.leaderboardScoreCalculator.calculateTimeLeaderboardScore(durationInMillis);
+            int scoreDifficulty = this.leaderboardScoreCalculator.calculateDifficultyLeaderboardScore(difficultyAsString);
 
             this.leaderboard.addToLeaderboard(1, username, scoreComplete);
             this.leaderboard.addToLeaderboard(2, username, scoreTime);

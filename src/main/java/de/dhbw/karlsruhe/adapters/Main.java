@@ -7,6 +7,7 @@ import de.dhbw.karlsruhe.adapters.persistence.LeaderboardStoreAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Leaderboard;
+import de.dhbw.karlsruhe.domain.models.LeaderboardScoreCalculator;
 import de.dhbw.karlsruhe.domain.models.LeaderboardType;
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.models.generation.*;
@@ -47,6 +48,7 @@ public class Main {
         dependencyFactory.registerDependency(new LeaderboardCliAdapter());
         dependencyFactory.registerDependency(new LeaderboardStoreAdapter(Location.PROD));
         dependencyFactory.registerDependency(new LeaderboardDialogService());
+        dependencyFactory.registerDependency(new LeaderboardScoreCalculator());
         dependencyFactory.registerDependency(new RulesCliAdapter());
         dependencyFactory.registerDependency(new DifficultySelectionCliAdapter());
         dependencyFactory.registerDependency(new LogoutCliAdapter());
