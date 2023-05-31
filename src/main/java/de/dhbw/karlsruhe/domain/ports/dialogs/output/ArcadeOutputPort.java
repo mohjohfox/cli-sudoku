@@ -1,66 +1,66 @@
 package de.dhbw.karlsruhe.domain.ports.dialogs.output;
 
-import de.dhbw.karlsruhe.domain.models.MathProblem;
+import de.dhbw.karlsruhe.domain.models.arcade.MathProblem;
 
 public interface ArcadeOutputPort {
 
-    void introduction();
+  void introduction();
 
-    void levelOne();
+  void levelOne();
 
-    void levelTwo();
+  void levelTwo();
 
-    void levelThree();
+  void levelThree();
 
-    void levelFour();
+  void levelFour();
 
-    void levelFive();
+  void levelFive();
 
-    void levelSix();
+  void levelSix();
 
-    void levelSeven();
+  void levelSeven();
 
-    void levelEight();
+  void levelEight();
 
-    void levelNine();
+  void levelNine();
 
-    void levelTen();
+  void levelTen();
 
-    void levelEleven();
+  void levelEleven();
 
-    void levelTwelve();
+  void levelTwelve();
 
-    void levelThirteen();
+  void levelThirteen();
 
-    void levelFourteen();
+  void levelFourteen();
 
-    void levelFifteen();
+  void levelFifteen();
 
-    void levelSixteen();
+  void levelSixteen();
 
-    void levelSeventeen();
+  void levelSeventeen();
 
-    void levelEighteen();
+  void levelEighteen();
 
-    void levelNineteen();
+  void levelNineteen();
 
-    void levelTwenty();
+  void levelTwenty();
 
-    void conclusion();
+  void conclusion();
 
-    void emptyLine();
+  void emptyLine();
 
-    void sudokuIntroduction();
+  void sudokuIntroduction();
 
-    void congratulationAfterSolving();
+  void congratulationAfterSolving();
 
-    void mathProblem(MathProblem mathProblemToSolve);
+  void mathProblem(MathProblem mathProblemToSolve);
 
-    void optionError();
+  void optionError();
 
-    void correctAnswer();
+  void correctAnswer();
 
-    void wrongAnswer();
+  void wrongAnswer();
 
-    void singleMathProblem(MathProblem mathProblemToSolve);
+  void singleMathProblem(MathProblem mathProblemToSolve);
 }

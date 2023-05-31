@@ -1,4 +1,6 @@
-package de.dhbw.karlsruhe.domain.models;
+package de.dhbw.karlsruhe.domain.models.leaderboard;
+
+import de.dhbw.karlsruhe.domain.models.Difficulty;
 
 public class LeaderboardScoreCalculator {
 
@@ -6,7 +8,7 @@ public class LeaderboardScoreCalculator {
 
   }
 
-  public int calculateCompleteLeaderboardScore(String[] unsolvedOrWrongFields, boolean isCorrect, long timeInMillis,
+  public int calculateCompleteLeaderboardScore(String[] wrongFields, boolean isCorrect, long timeInMillis,
       Difficulty difficulty) {
     int score = 0;
     int difficultyAsInt = 0;
@@ -23,7 +25,7 @@ public class LeaderboardScoreCalculator {
     if (isCorrect) {
       score += 250;
     } else {
-      scoreForSolvedFields = this.calculateScoreForUnsolvedOrWrongFields(unsolvedOrWrongFields, isCorrect);
+      scoreForSolvedFields = this.calculateScoreForWrongFields(wrongFields, false);
       score += scoreForSolvedFields;
     }
 
@@ -33,19 +35,19 @@ public class LeaderboardScoreCalculator {
     return score;
   }
 
-  public int calculateTimeLeaderboardScore(String[] unsolvedOrWrongFields, boolean isCorrect, long timeInMillis) {
+  public int calculateTimeLeaderboardScore(String[] wrongFields, boolean isCorrect, long timeInMillis) {
     int score = 0;
     int scoreForSolvedFields = 0;
 
     score += (System.currentTimeMillis() - timeInMillis) * 0.00000000001;
 
-    scoreForSolvedFields = this.calculateScoreForUnsolvedOrWrongFields(unsolvedOrWrongFields, isCorrect);
+    scoreForSolvedFields = this.calculateScoreForWrongFields(wrongFields, isCorrect);
     score += scoreForSolvedFields;
 
     return score;
   }
 
-  public int calculateDifficultyLeaderboardScore(String[] unsolvedOrWrongFields, boolean isCorrect,
+  public int calculateDifficultyLeaderboardScore(String[] wrongFields, boolean isCorrect,
       Difficulty difficulty) {
     int score = 0;
     int difficultyAsInt = 0;
@@ -61,20 +63,20 @@ public class LeaderboardScoreCalculator {
 
     score += difficultyAsInt * 0.75 * 6;
 
-    scoreForSolvedFields = this.calculateScoreForUnsolvedOrWrongFields(unsolvedOrWrongFields, isCorrect);
+    scoreForSolvedFields = this.calculateScoreForWrongFields(wrongFields, isCorrect);
     score += scoreForSolvedFields;
 
     return score;
   }
 
-  private int calculateScoreForUnsolvedOrWrongFields(String[] unsolvedOrWrongFields, boolean isCorrect) {
+  private int calculateScoreForWrongFields(String[] wrongFields, boolean isCorrect) {
     int initialScore = 250;
 
     if (isCorrect) {
       return initialScore;
     }
 
-    int negativeScore = unsolvedOrWrongFields.length * 15;
+    int negativeScore = wrongFields.length * 15;
 
     return initialScore - negativeScore;
   }

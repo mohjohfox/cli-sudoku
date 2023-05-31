@@ -2,9 +2,9 @@ package de.dhbw.karlsruhe.adapters.persistence;
 
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.Difficulty;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.SudokuBuilder;
-import de.dhbw.karlsruhe.domain.models.SudokuSaveEntry;
+import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
+import de.dhbw.karlsruhe.domain.models.sudoku.SudokuBuilder;
+import de.dhbw.karlsruhe.domain.models.sudoku.SudokuSaveEntry;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.wrappers.DateWrapper;
