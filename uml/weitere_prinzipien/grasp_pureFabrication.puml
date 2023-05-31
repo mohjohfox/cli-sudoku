@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class TimeWrapper{
+- String durationAsString
+- long durationInMillis
+--
++ TimeWrapper(long durationInMillis)
++ TimeWrapper(String durationRaw)
+- String millisToTime(long durationInMillis)
+- long timeToMillis(String hours, String mins, String secs, String millis)
+}
+
+@enduml
