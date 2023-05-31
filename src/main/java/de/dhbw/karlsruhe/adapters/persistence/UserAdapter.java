@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UserAdapter extends AbstractStoreAdapter implements UserPort {
 
-    final String userFileName = "userStoreFile";
+    private final String userFileName = "userStoreFile";
 
     public UserAdapter(Location filePath) {
         super(filePath);

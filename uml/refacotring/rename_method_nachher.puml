@@ -1,0 +1,11 @@
+@startuml
+class SudokuValidatorService {
+   + boolean isSudokuFullyFilled(int[][] gameField)
+}
+
+class PlayDialogService {
+   + void startGame()
+}
+
+PlayDialogService --> SudokuValidatorService
+@enduml

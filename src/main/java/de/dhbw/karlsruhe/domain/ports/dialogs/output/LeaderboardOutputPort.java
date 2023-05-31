@@ -1,24 +1,23 @@
 package de.dhbw.karlsruhe.domain.ports.dialogs.output;
 
-import de.dhbw.karlsruhe.domain.models.Leaderboard;
-import de.dhbw.karlsruhe.domain.models.LeaderboardSaveEntry;
-import de.dhbw.karlsruhe.domain.models.LeaderboardType;
-
-import java.util.List;
+import de.dhbw.karlsruhe.domain.models.leaderboard.Leaderboard;
+import de.dhbw.karlsruhe.domain.models.leaderboard.LeaderboardType;
 
 public interface LeaderboardOutputPort {
 
-    void displayLeaderboardOptions();
+  void displayLeaderboardOptions();
 
-    void displayLeaderboard(Leaderboard leaderboard);
+  void displayLeaderboard(Leaderboard leaderboard);
 
-    void invalidInput();
+  void invalidInput();
 
-    void noLeaderboardDisplayed();
+  void noLeaderboardDisplayed();
 
-    void noLeaderboardEntriesYet();
+  void noLeaderboardEntriesYet();
 
-    void writeEmptyLine();
+  void writeEmptyLine();
 
-    void leaderboardExplanation(LeaderboardType leaderboardType);
+  void leaderboardExplanation(LeaderboardType leaderboardType);
+
+  void displayLeaderboardIntroduction();
 }

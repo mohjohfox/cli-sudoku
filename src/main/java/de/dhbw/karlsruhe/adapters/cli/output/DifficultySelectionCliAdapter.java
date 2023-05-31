@@ -10,7 +10,7 @@ public class DifficultySelectionCliAdapter implements DifficultySelectionOutputP
 
     @Override
     public void noEqualDifficulty() {
-        cliOutputPort.write("The input did not equal a difficulty. Please try again!");
+        cliOutputPort.writeLine("The input did not equal a difficulty. Please try again!");
     }
 
     @Override
@@ -19,6 +19,6 @@ public class DifficultySelectionCliAdapter implements DifficultySelectionOutputP
         Difficulty.stream()
                 .forEach(d -> difficultyDialog.append(d.getName()).append(" (")
                         .append(d.getShortDifficultyName()).append(") "));
-        cliOutputPort.write(difficultyDialog.toString());
+        cliOutputPort.writeLine(difficultyDialog.toString());
     }
 }

@@ -1,5 +1,6 @@
-package de.dhbw.karlsruhe.domain.models;
+package de.dhbw.karlsruhe.domain.models.sudoku;
 
+import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import java.util.Arrays;
 import java.util.Objects;

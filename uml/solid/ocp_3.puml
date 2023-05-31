@@ -1,6 +1,6 @@
 @startuml
 abstract class UserAction {
-   + executeAction(User user)
+   + {abstract} executeAction(User user)
 }
 
 class ToggleValueHintAction {

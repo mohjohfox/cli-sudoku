@@ -1,9 +1,9 @@
 package de.dhbw.karlsruhe.domain.models.generation;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
-import de.dhbw.karlsruhe.domain.models.Sudoku;
-import de.dhbw.karlsruhe.domain.models.SudokuBuilder;
-import de.dhbw.karlsruhe.domain.models.SudokuSize;
+import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
+import de.dhbw.karlsruhe.domain.models.sudoku.SudokuBuilder;
+import de.dhbw.karlsruhe.domain.models.sudoku.SudokuSize;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 import java.util.Random;
 
