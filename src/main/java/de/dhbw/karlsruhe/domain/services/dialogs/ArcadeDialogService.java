@@ -25,6 +25,7 @@ public class ArcadeDialogService {
     private final SudokuOutputPort sudokuOutputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
     private final MathProblemUsage mathProblemUsage = DependencyFactory.getInstance().getDependency(MathProblemUsage.class);
     private final InputPort inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
+    private final MathProblemDialogService mathProblemDialogService = DependencyFactory.getInstance().getDependency(MathProblemDialogService.class);
 
     public ArcadeDialogService() {
 
@@ -71,15 +72,8 @@ public class ArcadeDialogService {
             int colToSolve = fieldToSolveInArray[1];
             int solutionOfField = this.sudokuSolvedArray.sudokuArray()[rowToSolve][colToSolve];
 
-            MathProblemOperation mathProblemOperation = this.mathProblemUsage.getRandomMathProblemOperation();
-            this.mathProblemUsage.generateMathProblemWithDesiredResult(solutionOfField, mathProblemOperation);
+            this.mathProblemDialogService.startMathProblemDialog(solutionOfField);
 
-            MathProblem mathProblemToSolve = this.mathProblemUsage.getMathProblem();
-
-            this.arcadeOutputPort.mathProblem(mathProblemToSolve);
-
-            this.waitAndValidateResult(mathProblemToSolve);
-            
             this.sudoku.setField(rowToSolve, colToSolve, solutionOfField);
             this.sudokuOutputPort.print(this.sudoku);
             this.arcadeOutputPort.emptyLine();
@@ -168,46 +162,6 @@ public class ArcadeDialogService {
 
     private List<String> getSudokuFieldsToSolve() {
         return this.sudokuValidatorService.crossCheckForArcade(sudoku.getGameField(), sudoku.getInitialGameField(), sudoku.getSolvedGameField());
-    }
-
-    private int awaitUserInput() {
-        int input = -1;
-        while (input == -1) {
-            try {
-                input = inputPort.getInputAsInt();
-                if (!(input > 0 && input <= 4)) {
-                    input = -1;
-                    this.arcadeOutputPort.optionError();
-                }
-            } catch (InputMismatchException ie) {
-                this.arcadeOutputPort.optionError();
-                inputPort.cleanInput();
-            } catch (InvalidOptionException ioe) {
-                this.arcadeOutputPort.optionError();
-            }
-        }
-        return input;
-    }
-
-    private boolean userInputMatchesResult(int userInput, int result) {
-        return userInput == result;
-    }
-
-    private void waitAndValidateResult(MathProblem mathProblemToSolve) {
-        boolean isCorrectAnswer = false;
-
-        do {
-            int userInput = this.awaitUserInput();
-            isCorrectAnswer = this.userInputMatchesResult(userInput, mathProblemToSolve.getResult());
-
-            if (isCorrectAnswer) {
-                this.arcadeOutputPort.correctAnswer();
-            } else {
-                this.arcadeOutputPort.wrongAnswer();
-            }
-
-        } while (!isCorrectAnswer);
-
     }
 
 }

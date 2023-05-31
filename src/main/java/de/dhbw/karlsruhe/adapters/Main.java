@@ -35,6 +35,7 @@ public class Main {
         DependencyFactory dependencyFactory = DependencyFactory.getInstance();
         dependencyFactory.registerDependency(new MathProblem());
         dependencyFactory.registerDependency(new MathProblemUsage());
+        dependencyFactory.registerDependency(new MathProblemDialogService());
         dependencyFactory.registerDependency(new SudokuPersistenceAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackAdapter(Location.PROD));
         dependencyFactory.registerDependency(new DurationTrackService());
