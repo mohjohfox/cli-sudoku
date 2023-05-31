@@ -15,7 +15,7 @@ public class LeaderboardDialogService {
 
     private final LeaderboardOutputPort outputPort;
     private final InputPort inputPort;
-    private LeaderboardStorePort leaderboardStorePort;
+    private final LeaderboardStorePort leaderboardStorePort;
 
     public LeaderboardDialogService() {
         this.outputPort = DependencyFactory.getInstance().getDependency(LeaderboardOutputPort.class);
@@ -115,27 +115,27 @@ public class LeaderboardDialogService {
         switch (userInput) {
             case 1:
                 leaderboardSaveEntries = this.loadLeaderboardEntries(1);
-                this.displayLeaderboard(LeaderboardType.COMPLETE.getRepresentation(), leaderboardSaveEntries);
+                this.displayLeaderboard(LeaderboardType.COMPLETE, leaderboardSaveEntries);
 
                 break;
             case 2:
                 leaderboardSaveEntries = this.loadLeaderboardEntries(2);
-                this.displayLeaderboard(LeaderboardType.SOLVINGTIME.getRepresentation(), leaderboardSaveEntries);
+                this.displayLeaderboard(LeaderboardType.SOLVINGTIME, leaderboardSaveEntries);
 
                 break;
             case 3:
                 leaderboardSaveEntries = this.loadLeaderboardEntries(3);
-                this.displayLeaderboard(LeaderboardType.DIFFICULTY_EASY.getRepresentation(), leaderboardSaveEntries);
+                this.displayLeaderboard(LeaderboardType.DIFFICULTY_EASY, leaderboardSaveEntries);
 
                 break;
             case 4:
                 leaderboardSaveEntries = this.loadLeaderboardEntries(4);
-                this.displayLeaderboard(LeaderboardType.DIFFICULTY_MEDIUM.getRepresentation(), leaderboardSaveEntries);
+                this.displayLeaderboard(LeaderboardType.DIFFICULTY_MEDIUM, leaderboardSaveEntries);
 
                 break;
             case 5:
                 leaderboardSaveEntries = this.loadLeaderboardEntries(5);
-                this.displayLeaderboard(LeaderboardType.DIFFICULTY_HARD.getRepresentation(), leaderboardSaveEntries);
+                this.displayLeaderboard(LeaderboardType.DIFFICULTY_HARD, leaderboardSaveEntries);
 
                 break;
             default:
@@ -149,7 +149,10 @@ public class LeaderboardDialogService {
         return this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(leaderboardTypeID);
     }
 
-    private void displayLeaderboard(String leaderboardTypeRepresentation, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+    private void displayLeaderboard(LeaderboardType leaderboardType, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
+        outputPort.leaderboardExplanation(leaderboardType);
+        outputPort.writeEmptyLine();
+
         if (leaderboardSaveEntries.size() == 0) {
             outputPort.noLeaderboardEntriesYet();
             outputPort.writeEmptyLine();
@@ -158,7 +161,7 @@ public class LeaderboardDialogService {
 
         this.sortLeaderboardEntries(leaderboardSaveEntries);
 
-        outputPort.displayLeaderboard(leaderboardTypeRepresentation, leaderboardSaveEntries);
+        outputPort.displayLeaderboard(leaderboardType.getRepresentation(), leaderboardSaveEntries);
     }
 
     private void sortLeaderboardEntries(List<LeaderboardSaveEntry> leaderboardSaveEntries) {

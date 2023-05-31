@@ -65,4 +65,41 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
     public void writeEmptyLine() {
         cliOutputPort.writeEmptyLine();
     }
+
+    @Override
+    public void leaderboardExplanation(LeaderboardType leaderboardType) {
+        cliOutputPort.write("Subsequent is a short explanation for entries of the \"" + leaderboardType.getRepresentation() + "\" Leaderboard and how the score is calculated:");
+        cliOutputPort.writeEmptyLine();
+
+        switch (leaderboardType.getTypeID()) {
+            case 1:
+                cliOutputPort.write("In the \"" + leaderboardType.getRepresentation() + "\" Leaderboard all possible metrics are considered.");
+                cliOutputPort.write("All possible metrics are considered such as validity, duration and difficulty.");
+                cliOutputPort.write("The score is calculated according to weighted values of the considered metrics validity, duration and difficulty.");
+                break;
+            case 2:
+                cliOutputPort.write("In the \"" + leaderboardType.getRepresentation() + "\" Leaderboard the duration is considered.");
+                cliOutputPort.write("The score is calculated according to weighted values of the duration and validity of the Sudoku.");
+                break;
+            case 3:
+                cliOutputPort.write("The \"" + leaderboardType.getRepresentation() + "\" Leaderboard displays only scores of Sudokus for the difficulty easy.");
+                cliOutputPort.write("Therefore the validity and the difficulty is considered.");
+                cliOutputPort.write("The score is calculated according to the weighted metrics validity and difficulty.");
+                break;
+            case 4:
+                cliOutputPort.write("The \"" + leaderboardType.getRepresentation() + "\" Leaderboard displays only scores of Sudokus for the difficulty medium.");
+                cliOutputPort.write("Therefore the validity and the difficulty is considered.");
+                cliOutputPort.write("The score is calculated according to the weighted metrics validity and difficulty.");
+                cliOutputPort.write("The score here is usually higher, because the difficulty gets more basic points.");
+                break;
+            case 5:
+                cliOutputPort.write("The \"" + leaderboardType.getRepresentation() + "\" Leaderboard displays only scores of Sudokus for the difficulty hard.");
+                cliOutputPort.write("Therefore the validity and the difficulty is considered.");
+                cliOutputPort.write("The score is calculated according to the weighted metrics validity and difficulty.");
+                cliOutputPort.write("The score here is usually higher than for difficulty easy or medium.");
+                break;
+            default:
+
+        }
+    }
 }
