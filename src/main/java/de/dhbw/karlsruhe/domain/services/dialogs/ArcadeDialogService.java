@@ -18,7 +18,7 @@ public class ArcadeDialogService {
 
     Random random = new Random();
     private Sudoku sudoku;
-    private int[][] sudokuSolvedArray;
+    private SudokuArray sudokuSolvedArray;
     Set<Integer> levelNumbers;
     private List<String> fieldsToSolve;
     private final SudokuValidatorService sudokuValidatorService = DependencyFactory.getInstance().getDependency(SudokuValidatorService.class);
@@ -36,8 +36,7 @@ public class ArcadeDialogService {
         this.arcadeOutputPort.emptyLine();
 
         this.sudoku = sgBacktracking.generateSudoku(SudokuSize.SMALL, Difficulty.EASY);
-        SudokuArray sudokuSolved = sudoku.getSolvedGameField();
-        this.sudokuSolvedArray = sudokuSolved.getCopyOfSudokuArray();
+        this.sudokuSolvedArray = sudoku.getSolvedGameField();
 
         this.arcadeOutputPort.sudokuIntroduction();
         this.sudokuOutputPort.print(sudoku);
@@ -62,13 +61,16 @@ public class ArcadeDialogService {
         }
 
         for (int level : levelNumbers) {
+            if (iterator != 0) {
+                this.arcadeOutputPort.congratulationAfterSolving();
+            }
             this.loadAndPrintLevel(level);
 
             String currentFieldToSolve = fieldsToSolve.get(iterator);
             int[] fieldToSolveInArray = this.parseFieldStringToArray(currentFieldToSolve);
             int rowToSolve = fieldToSolveInArray[0];
             int colToSolve = fieldToSolveInArray[1];
-            int solutionOfField = this.sudokuSolvedArray[rowToSolve][colToSolve];
+            int solutionOfField = this.sudokuSolvedArray.sudokuArray()[rowToSolve][colToSolve];
 
             MathProblemOperation mathProblemOperation = this.mathProblemUsage.getRandomMathProblemOperation();
             this.mathProblemUsage.generateMathProblemWithDesiredResult(solutionOfField, mathProblemOperation);
@@ -81,6 +83,8 @@ public class ArcadeDialogService {
             this.arcadeOutputPort.emptyLine();
             this.sudokuOutputPort.print(this.sudoku);
             this.arcadeOutputPort.emptyLine();
+
+            iterator++;
 
         }
 
