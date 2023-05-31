@@ -28,7 +28,9 @@ public class MenuDialogService {
 
     public MenuDialogService() {
         this.sudokuSelectionDialog = DependencyFactory.getInstance().getDependency(SudokuSelectionDialog.class);
+
         this.playDialogService = DependencyFactory.getInstance().getDependency(PlayDialogService.class);
+
         this.logoutService = DependencyFactory.getInstance().getDependency(LogoutService.class);
         this.outputPort = DependencyFactory.getInstance().getDependency(MenuOutputPort.class);
         this.inputPort = DependencyFactory.getInstance().getDependency(InputPort.class);
