@@ -9,7 +9,7 @@ public class StartUpCliAdapter implements StartUpOutputPort {
 
     @Override
     public void askForLogin() {
-        cliOutputPort.write("Do you already have an account? y/n");
+        cliOutputPort.writeLine("Do you already have an account? y/n");
     }
 
     @Override
@@ -20,12 +20,12 @@ public class StartUpCliAdapter implements StartUpOutputPort {
 
     @Override
     public void loginSuccess() {
-        cliOutputPort.write("Login was successful!");
+        cliOutputPort.writeLine("Login was successful!");
     }
 
     @Override
     public void errorDuringLogin() {
-        cliOutputPort.write("Username or password is wrong!");
+        cliOutputPort.writeLine("Username or password is wrong!");
     }
 
     @Override
@@ -35,36 +35,36 @@ public class StartUpCliAdapter implements StartUpOutputPort {
 
     @Override
     public void successRegistration() {
-        cliOutputPort.write("Registration was successful. Please login now!");
+        cliOutputPort.writeLine("Registration was successful. Please login now!");
     }
 
     @Override
     public void failedRegistration() {
-        cliOutputPort.write("Registration failed!");
+        cliOutputPort.writeLine("Registration failed!");
     }
 
     @Override
     public void askForLoginOrRegistration() {
-        cliOutputPort.write("Please type \"y\" if you want to login or \"n\" if you want to register a new account.");
+        cliOutputPort.writeLine("Please type \"y\" if you want to login or \"n\" if you want to register a new account.");
     }
 
     @Override
     public void promptUserName() {
-        cliOutputPort.write("Please enter your username: ");
+        cliOutputPort.writeLine("Please enter your username: ");
     }
 
     @Override
     public void promptPassword() {
-        cliOutputPort.write("Please enter your password: ");
+        cliOutputPort.writeLine("Please enter your password: ");
     }
 
     @Override
     public void playTutorial() {
-        cliOutputPort.write("Do you want to play the tutorial? y/n");
+        cliOutputPort.writeLine("Do you want to play the tutorial? y/n");
     }
 
     @Override
     public void askForYOrN() {
-        cliOutputPort.write("Please type \"y\" for yes or \"n\" for no.");
+        cliOutputPort.writeLine("Please type \"y\" for yes or \"n\" for no.");
     }
 }

@@ -14,13 +14,13 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
 
     @Override
     public void displayLeaderboardOptions() {
-        cliOutputPort.write("Please select a leaderboard:");
+        cliOutputPort.writeLine("Please select a leaderboard:");
 
-        cliOutputPort.write("[" + LeaderboardType.COMPLETE.getTypeID() + "] " + LeaderboardType.COMPLETE.getRepresentation());
-        cliOutputPort.write("[" + LeaderboardType.SOLVINGTIME.getTypeID() + "] " + LeaderboardType.SOLVINGTIME.getRepresentation());
-        cliOutputPort.write("[" + LeaderboardType.DIFFICULTY_EASY.getTypeID() + "] " + LeaderboardType.DIFFICULTY_EASY.getRepresentation());
-        cliOutputPort.write("[" + LeaderboardType.DIFFICULTY_MEDIUM.getTypeID() + "] " + LeaderboardType.DIFFICULTY_MEDIUM.getRepresentation());
-        cliOutputPort.write("[" + LeaderboardType.DIFFICULTY_HARD.getTypeID() + "] " + LeaderboardType.DIFFICULTY_HARD.getRepresentation());
+        cliOutputPort.writeLine("[" + LeaderboardType.COMPLETE.getTypeID() + "] " + LeaderboardType.COMPLETE.getRepresentation());
+        cliOutputPort.writeLine("[" + LeaderboardType.SOLVINGTIME.getTypeID() + "] " + LeaderboardType.SOLVINGTIME.getRepresentation());
+        cliOutputPort.writeLine("[" + LeaderboardType.DIFFICULTY_EASY.getTypeID() + "] " + LeaderboardType.DIFFICULTY_EASY.getRepresentation());
+        cliOutputPort.writeLine("[" + LeaderboardType.DIFFICULTY_MEDIUM.getTypeID() + "] " + LeaderboardType.DIFFICULTY_MEDIUM.getRepresentation());
+        cliOutputPort.writeLine("[" + LeaderboardType.DIFFICULTY_HARD.getTypeID() + "] " + LeaderboardType.DIFFICULTY_HARD.getRepresentation());
     }
 
     @Override
@@ -45,23 +45,23 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
             rank++;
         }
 
-        cliOutputPort.write(leaderboardDialog.toString());
+        cliOutputPort.writeLine(leaderboardDialog.toString());
 
     }
 
     @Override
     public void invalidInput() {
-        cliOutputPort.write("This isn't a valid option!");
+        cliOutputPort.writeLine("This isn't a valid option!");
     }
 
     @Override
     public void noLeaderboardDisplayed() {
-        cliOutputPort.write("No Leaderboard displayed!");
+        cliOutputPort.writeLine("No Leaderboard displayed!");
     }
 
     @Override
     public void noLeaderboardEntriesYet() {
-        cliOutputPort.write("No Leaderboard entries yet!");
+        cliOutputPort.writeLine("No Leaderboard entries yet!");
     }
 
     @Override
@@ -71,35 +71,35 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
 
     @Override
     public void leaderboardExplanation(LeaderboardType leaderboardType) {
-        cliOutputPort.write("Subsequent is a short explanation for entries of the \"" + leaderboardType.getRepresentation() + "\" Leaderboard and how the score is calculated:");
+        cliOutputPort.writeLine("Subsequent is a short explanation for entries of the \"" + leaderboardType.getRepresentation() + "\" Leaderboard and how the score is calculated:");
         cliOutputPort.writeEmptyLine();
 
         switch (leaderboardType.getTypeID()) {
             case 1:
-                cliOutputPort.write("In the \"" + leaderboardType.getRepresentation() + "\" Leaderboard all possible metrics are considered.");
-                cliOutputPort.write("All possible metrics are considered such as validity, duration and difficulty.");
-                cliOutputPort.write("The score is calculated according to weighted values of the considered metrics validity, duration and difficulty.");
+                cliOutputPort.writeLine("In the \"" + leaderboardType.getRepresentation() + "\" Leaderboard all possible metrics are considered.");
+                cliOutputPort.writeLine("All possible metrics are considered such as validity, duration and difficulty.");
+                cliOutputPort.writeLine("The score is calculated according to weighted values of the considered metrics validity, duration and difficulty.");
                 break;
             case 2:
-                cliOutputPort.write("In the \"" + leaderboardType.getRepresentation() + "\" Leaderboard the duration is considered.");
-                cliOutputPort.write("The score is calculated according to weighted values of the duration and validity of the Sudoku.");
+                cliOutputPort.writeLine("In the \"" + leaderboardType.getRepresentation() + "\" Leaderboard the duration is considered.");
+                cliOutputPort.writeLine("The score is calculated according to weighted values of the duration and validity of the Sudoku.");
                 break;
             case 3:
-                cliOutputPort.write("The \"" + leaderboardType.getRepresentation() + "\" Leaderboard displays only scores of Sudokus for the difficulty easy.");
-                cliOutputPort.write("Therefore the validity and the difficulty is considered.");
-                cliOutputPort.write("The score is calculated according to the weighted metrics validity and difficulty.");
+                cliOutputPort.writeLine("The \"" + leaderboardType.getRepresentation() + "\" Leaderboard displays only scores of Sudokus for the difficulty easy.");
+                cliOutputPort.writeLine("Therefore the validity and the difficulty is considered.");
+                cliOutputPort.writeLine("The score is calculated according to the weighted metrics validity and difficulty.");
                 break;
             case 4:
-                cliOutputPort.write("The \"" + leaderboardType.getRepresentation() + "\" Leaderboard displays only scores of Sudokus for the difficulty medium.");
-                cliOutputPort.write("Therefore the validity and the difficulty is considered.");
-                cliOutputPort.write("The score is calculated according to the weighted metrics validity and difficulty.");
-                cliOutputPort.write("The score here is usually higher, because the difficulty gets more basic points.");
+                cliOutputPort.writeLine("The \"" + leaderboardType.getRepresentation() + "\" Leaderboard displays only scores of Sudokus for the difficulty medium.");
+                cliOutputPort.writeLine("Therefore the validity and the difficulty is considered.");
+                cliOutputPort.writeLine("The score is calculated according to the weighted metrics validity and difficulty.");
+                cliOutputPort.writeLine("The score here is usually higher, because the difficulty gets more basic points.");
                 break;
             case 5:
-                cliOutputPort.write("The \"" + leaderboardType.getRepresentation() + "\" Leaderboard displays only scores of Sudokus for the difficulty hard.");
-                cliOutputPort.write("Therefore the validity and the difficulty is considered.");
-                cliOutputPort.write("The score is calculated according to the weighted metrics validity and difficulty.");
-                cliOutputPort.write("The score here is usually higher than for difficulty easy or medium.");
+                cliOutputPort.writeLine("The \"" + leaderboardType.getRepresentation() + "\" Leaderboard displays only scores of Sudokus for the difficulty hard.");
+                cliOutputPort.writeLine("Therefore the validity and the difficulty is considered.");
+                cliOutputPort.writeLine("The score is calculated according to the weighted metrics validity and difficulty.");
+                cliOutputPort.writeLine("The score here is usually higher than for difficulty easy or medium.");
                 break;
             default:
 
@@ -108,7 +108,7 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
 
     @Override
     public void displayLeaderboardIntroduction() {
-        cliOutputPort.write("Depending on which kind of Leaderboard you select, the people to compete with differ.");
-        cliOutputPort.write("After choosing one of the option a short explanation about metrics and competitors will be displayed.");
+        cliOutputPort.writeLine("Depending on which kind of Leaderboard you select, the people to compete with differ.");
+        cliOutputPort.writeLine("After choosing one of the option a short explanation about metrics and competitors will be displayed.");
     }
 }

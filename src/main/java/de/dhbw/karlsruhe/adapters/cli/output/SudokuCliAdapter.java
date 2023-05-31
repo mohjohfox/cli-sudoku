@@ -2,50 +2,53 @@ package de.dhbw.karlsruhe.adapters.cli.output;
 
 import de.dhbw.karlsruhe.domain.models.Sudoku;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
+import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class SudokuCliAdapter implements SudokuOutputPort {
+
+    private final CliOutputPort cliOutputPort = DependencyFactory.getInstance().getDependency(CliOutputPort.class);
 
     @Override
     public void print(Sudoku sudokuArray) {
         for (int rowIndex = 0; rowIndex < sudokuArray.getGameField().sudokuArray().length; rowIndex++) {
             for (int columnIndex = 0; columnIndex < sudokuArray.getGameField().sudokuArray()[rowIndex].length; columnIndex++) {
                 if (sudokuArray.getGameField().sudokuArray()[rowIndex][columnIndex] == 0) {
-                    System.out.print("  ");
+                    cliOutputPort.write("  ");
                 } else {
-                    System.out.print(sudokuArray.getGameField().sudokuArray()[rowIndex][columnIndex]);
+                    cliOutputPort.write(String.valueOf(sudokuArray.getGameField().sudokuArray()[rowIndex][columnIndex]));
                     if (sudokuArray.getGameField().sudokuArray()[rowIndex][columnIndex] < 10) {
-                        System.out.print(" ");
+                        cliOutputPort.write(" ");
                     }
                 }
-                System.out.print(" ");
+                cliOutputPort.write(" ");
                 printVerticalLine(columnIndex, sudokuArray.getGameField().sudokuArray().length);
             }
-            System.out.println();
+            cliOutputPort.writeEmptyLine();
             printHorizontalLine(rowIndex, sudokuArray.getGameField().sudokuArray().length);
         }
     }
 
     @Override
     public void emptyLine() {
-        System.out.println();
+        cliOutputPort.writeEmptyLine();
     }
 
     private void printVerticalLine(int columnIndex, int sudokuArrayLength) {
         if (isPrintSeparatorPosition(columnIndex, sudokuArrayLength))  {
-            System.out.print("|");
-            System.out.print("  ");
+            cliOutputPort.write("|");
+            cliOutputPort.write("  ");
         }
     }
 
     private void printHorizontalLine(int rowIndex, int sudokuArrayLength) {
         if (isPrintSeparatorPosition(rowIndex, sudokuArrayLength)) {
             for (int i = 0; i < sudokuArrayLength+1; i++) {
-                System.out.print("---");
+                cliOutputPort.write("---");
             }
 
             String dynamic = getDynamicSeparator(sudokuArrayLength);
-            System.out.print(dynamic);
-            System.out.println();
+            cliOutputPort.write(dynamic);
+            cliOutputPort.writeEmptyLine();
         }
     }
 

@@ -9,17 +9,17 @@ public class LogoutCliAdapter implements LogoutOutputPort {
 
     @Override
     public void logout() {
-        cliOutputPort.write("You have successfully logged out!");
+        cliOutputPort.writeLine("You have successfully logged out!");
     }
 
     @Override
     public void relogin() {
-        cliOutputPort.write("----------------------------------------");
-        cliOutputPort.write("Do you want to re login? y/n");
+        cliOutputPort.writeLine("----------------------------------------");
+        cliOutputPort.writeLine("Do you want to re login? y/n");
     }
 
     @Override
     public void exit() {
-        cliOutputPort.write("Please type \"y\" if you want to login or \"n\" if you want to end the application");
+        cliOutputPort.writeLine("Please type \"y\" if you want to login or \"n\" if you want to end the application");
     }
 }

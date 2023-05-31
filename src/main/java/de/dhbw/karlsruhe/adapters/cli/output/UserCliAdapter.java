@@ -9,6 +9,6 @@ public class UserCliAdapter implements UserOutputPort {
 
     @Override
     public void error() {
-        cliOutputPort.write("Username is already assigned or username / password contains forbidden characters!");
+        cliOutputPort.writeLine("Username is already assigned or username / password contains forbidden characters!");
     }
 }

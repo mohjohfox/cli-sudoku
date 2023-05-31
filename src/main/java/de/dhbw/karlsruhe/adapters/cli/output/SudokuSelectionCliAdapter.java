@@ -12,20 +12,20 @@ public class SudokuSelectionCliAdapter implements SudokuSelectionOutputPort {
 
     @Override
     public void noSudokuFound() {
-        cliOutputPort.write("No sudokus found!");
+        cliOutputPort.writeLine("No sudokus found!");
     }
 
     @Override
     public void promptSudoku() {
-        cliOutputPort.write("Please select a sudoku:");
+        cliOutputPort.writeLine("Please select a sudoku:");
     }
 
     @Override
     public void allSudokus(List<SudokuSaveEntry> sudokuSaveEntryList) {
         int i = 1;
         for (SudokuSaveEntry sudoku : sudokuSaveEntryList) {
-            cliOutputPort.write(i + ": Save with id: " + sudoku.getSaveId());
-            cliOutputPort.write("Sudoku: " + sudoku.getSudoku().getId());
+            cliOutputPort.writeLine(i + ": Save with id: " + sudoku.getSaveId());
+            cliOutputPort.writeLine("Sudoku: " + sudoku.getSudoku().getId());
             cliOutputPort.writeEmptyLine();
             i++;
         }
