@@ -1,14 +1,11 @@
 package de.dhbw.karlsruhe.domain.services.dialogs;
 
-import de.dhbw.karlsruhe.adapters.cli.output.CliOutputPort;
 import de.dhbw.karlsruhe.domain.models.*;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.LeaderboardOutputPort;
 import de.dhbw.karlsruhe.domain.ports.persistence.LeaderboardStorePort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LeaderboardDialogService {
@@ -24,6 +21,8 @@ public class LeaderboardDialogService {
     }
 
     public void startLeaderboardDialog() {
+        outputPort.displayLeaderboardIntroduction();
+
         outputPort.displayLeaderboardOptions();
 
         int userInput = this.awaitUserInput();

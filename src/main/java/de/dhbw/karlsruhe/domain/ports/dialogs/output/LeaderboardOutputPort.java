@@ -1,10 +1,7 @@
 package de.dhbw.karlsruhe.domain.ports.dialogs.output;
 
 import de.dhbw.karlsruhe.domain.models.Leaderboard;
-import de.dhbw.karlsruhe.domain.models.LeaderboardSaveEntry;
 import de.dhbw.karlsruhe.domain.models.LeaderboardType;
-
-import java.util.List;
 
 public interface LeaderboardOutputPort {
 
@@ -21,4 +18,6 @@ public interface LeaderboardOutputPort {
     void writeEmptyLine();
 
     void leaderboardExplanation(LeaderboardType leaderboardType);
+
+    void displayLeaderboardIntroduction();
 }

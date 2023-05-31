@@ -105,4 +105,10 @@ public class LeaderboardCliAdapter implements LeaderboardOutputPort {
 
         }
     }
+
+    @Override
+    public void displayLeaderboardIntroduction() {
+        cliOutputPort.write("Depending on which kind of Leaderboard you select, the people to compete with differ.");
+        cliOutputPort.write("After choosing one of the option a short explanation about metrics and competitors will be displayed.");
+    }
 }
