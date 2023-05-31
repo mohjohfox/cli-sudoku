@@ -94,9 +94,6 @@ public class PlayDialogService {
             }
         }
 
-        List<String> notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
-        outputPort.notCorrectSudoku(notCorrectFields);
-
         // Save game duration
         this.durationTrackService.setEndTime(sudoku.getId());
         this.durationTrackService.saveDuration(sudoku.getId());
@@ -129,7 +126,7 @@ public class PlayDialogService {
         }
 
         if (!sudokuValidator.isSudokuNotFullyFilled(sudoku.getGameField().sudokuArray())) {
-            notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
+            List<String> notCorrectFields = this.sudokuValidator.crossCheck(sudoku);
             outputPort.notCorrectSudoku(notCorrectFields);
         }
     }
