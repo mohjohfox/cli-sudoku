@@ -25,13 +25,12 @@ public class LeaderboardStoreAdapter extends AbstractStoreAdapter implements Lea
 
   @Override
   public void saveLeaderboard(Leaderboard leaderboard) {
-    // int leaderboardType = leaderboard.getLeaderboardTypeID();
     String completeFileName = LEADERBOARDFILENAME;
     List<LeaderboardSaveEntry> leaderboardSaveEntries = leaderboard.getLeaderboardSaveEntries();
 
     prepareFileStructure(completeFileName);
 
-    try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(getFullFilePath(completeFileName), true))) {
+    try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(getFullFilePath(completeFileName), false))) {
 
       for (LeaderboardSaveEntry leaderboardSaveEntry : leaderboardSaveEntries) {
         bufferedWriter.append(leaderboardSaveEntry.getFormattedLeaderboardSaveEntry());
