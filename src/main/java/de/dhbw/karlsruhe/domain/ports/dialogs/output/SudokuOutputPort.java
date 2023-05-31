@@ -6,4 +6,6 @@ public interface SudokuOutputPort {
 
     void print(Sudoku sudokuArray);
 
+    void emptyLine();
+
 }

@@ -25,6 +25,11 @@ public class SudokuCliAdapter implements SudokuOutputPort {
         }
     }
 
+    @Override
+    public void emptyLine() {
+        System.out.println();
+    }
+
     private void printVerticalLine(int columnIndex, int sudokuArrayLength) {
         if (isPrintSeparatorPosition(columnIndex, sudokuArrayLength))  {
             System.out.print("|");

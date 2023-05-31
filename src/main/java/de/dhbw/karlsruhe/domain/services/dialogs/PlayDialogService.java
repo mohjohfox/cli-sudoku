@@ -94,6 +94,11 @@ public class PlayDialogService {
             }
         }
 
+        if (!sudokuValidator.isSudokuNotFullyFilled(sudoku.getGameField().sudokuArray())) {
+            sudokuOutputPort.print(sudoku);
+            sudokuOutputPort.emptyLine();
+        }
+
         // Save game duration
         this.durationTrackService.setEndTime(sudoku.getId());
         this.durationTrackService.saveDuration(sudoku.getId());
