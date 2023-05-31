@@ -13,6 +13,7 @@ import de.dhbw.karlsruhe.domain.ports.dialogs.input.InputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.input.PlayInputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
 import de.dhbw.karlsruhe.domain.ports.dialogs.output.SudokuOutputPort;
+import de.dhbw.karlsruhe.domain.ports.persistence.LeaderboardStorePort;
 import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.ports.persistence.UserPort;
 import de.dhbw.karlsruhe.domain.services.DependencyFactory;
@@ -39,6 +40,7 @@ public class PlayDialogService {
     private final PlayInputPort playInputPort = DependencyFactory.getInstance().getDependency(PlayInputPort.class);
     private final PlayOutputPort outputPort = DependencyFactory.getInstance().getDependency(PlayOutputPort.class);
     private final SudokuOutputPort sudokuOutputPort = DependencyFactory.getInstance().getDependency(SudokuOutputPort.class);
+    private final LeaderboardStorePort leaderboardStorePort = DependencyFactory.getInstance().getDependency(LeaderboardStorePort .class);
 
     public PlayDialogService() {
         // Empty constructor for JSON parser
@@ -123,7 +125,7 @@ public class PlayDialogService {
                 this.leaderboard.addToLeaderboard(5, username, scoreDifficulty);
             }
 
-            this.leaderboardDialogService.saveLeaderboardEntry(this.leaderboard);
+            this.leaderboardStorePort.saveLeaderboard(this.leaderboard);
         }
 
         if (!sudokuValidator.isSudokuNotFullyFilled(sudoku.getGameField().sudokuArray())) {

@@ -31,10 +31,6 @@ public class LeaderboardDialogService {
         this.loadAndDisplayCorrectLeaderboard(userInput);
     }
 
-    public void saveLeaderboardEntry(Leaderboard leaderboard) {
-        this.leaderboardStorePort.saveLeaderboard(leaderboard);
-    }
-
     private int awaitUserInput() {
         int userInput = -1;
 
@@ -67,27 +63,27 @@ public class LeaderboardDialogService {
 
         switch (userInput) {
             case 1:
-                leaderboardSaveEntries = this.loadLeaderboardEntries(1);
+                leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(1);
                 this.displayLeaderboard(LeaderboardType.COMPLETE, leaderboardSaveEntries);
 
                 break;
             case 2:
-                leaderboardSaveEntries = this.loadLeaderboardEntries(2);
+                leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(2);
                 this.displayLeaderboard(LeaderboardType.SOLVINGTIME, leaderboardSaveEntries);
 
                 break;
             case 3:
-                leaderboardSaveEntries = this.loadLeaderboardEntries(3);
+                leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(3);
                 this.displayLeaderboard(LeaderboardType.DIFFICULTY_EASY, leaderboardSaveEntries);
 
                 break;
             case 4:
-                leaderboardSaveEntries = this.loadLeaderboardEntries(4);
+                leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(4);
                 this.displayLeaderboard(LeaderboardType.DIFFICULTY_MEDIUM, leaderboardSaveEntries);
 
                 break;
             case 5:
-                leaderboardSaveEntries = this.loadLeaderboardEntries(5);
+                leaderboardSaveEntries = this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(5);
                 this.displayLeaderboard(LeaderboardType.DIFFICULTY_HARD, leaderboardSaveEntries);
 
                 break;
@@ -96,10 +92,6 @@ public class LeaderboardDialogService {
 
                 break;
         }
-    }
-
-    private List<LeaderboardSaveEntry> loadLeaderboardEntries(int leaderboardTypeID) {
-        return this.leaderboardStorePort.loadSavedEntriesFromLeaderboard(leaderboardTypeID);
     }
 
     private void displayLeaderboard(LeaderboardType leaderboardType, List<LeaderboardSaveEntry> leaderboardSaveEntries) {
