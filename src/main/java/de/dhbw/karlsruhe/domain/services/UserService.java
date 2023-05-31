@@ -14,7 +14,7 @@ public class UserService {
 
     private final EncryptionService encryptionService = DependencyFactory.getInstance().getDependency(EncryptionService.class);
     private final UserOutputPort outputPort = DependencyFactory.getInstance().getDependency(UserOutputPort.class);
-    private final UserPort userPort = new UserAdapter(Location.PROD);
+    private final UserPort userPort = DependencyFactory.getInstance().getDependency(UserPort.class);
 
     public void saveUser(User user) {
         userPort.save(user);

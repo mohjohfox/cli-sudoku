@@ -1,6 +1,6 @@
 @startuml
 abstract class SudokuGenerator {
-   + Sudoku generateSudoku(Difficulty difficulty)
+   + {abstract} Sudoku generateSudoku(Difficulty difficulty)
 }
 
 class SudokuGeneratorTransformation {

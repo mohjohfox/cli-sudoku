@@ -1,10 +1,6 @@
 @startuml
 class PlayDialogService {
    - boolean userInputDialog()
-}
-
-class PlayDialogServiceUpdated {
-   - boolean userInputDialog()
    - int getCorrectValue(String fieldInput)
    - int[] splitControleInputToIntegers(String input)
    - int getRowFromSplitInput(int[] splitInput)

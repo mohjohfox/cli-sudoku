@@ -1,38 +1,38 @@
 @startuml
 class SudokoBuilder {
-  - id : String
-  - gameField : SudokuArray
-  - initialGameField : SudokuArray
-  - solvedGameField : SudokuArray
-  - difficulty : Difficulty
+  - String id
+  - SudokuArray gameField
+  - SudokuArray initialGameField
+  - SudokuArray solvedGameField
+  - Difficulty difficulty
   - SudokuBuilder(SudokuArray sudokuArray)
   - SudokuBuilder(SudokuSize size)
-  + static withGameField(SudokuSize size) : SudokuBuilder
-  + static withSize(SudokuSize size) : SudokuBuilder
-  + withId(String id) : SudokuBuilder
-  + withInitialGameField(SudokuArray initialGameField) : SudokuBuilder
-  + withSolvedGameField(SudokuArray solvedGameField) : SudokuBuilder
-  + withDifficulty(Difficulty difficulty) : SudokuBuilder
-  + build() : Sudoku
+  + {static} SudokuBuilder withGameField(SudokuSize size)
+  + {static} SudokuBuilder withSize(SudokuSize size)
+  + SudokuBuilder withId(String id)
+  + SudokuBuilder withInitialGameField(SudokuArray initialGameField)
+  + SudokuBuilder withSolvedGameField(SudokuArray solvedGameField)
+  + SudokuBuilder withDifficulty(Difficulty difficulty)
+  + Sudoku build()
 }
 
 class Sudoku {
-  - id : String
-  - gameField : SudokuArray
-  - initialGameField : SudokuArray
-  - solvedGameField : SudokuArray
-  - lastChange : SudokuChange
-  - difficulty : Difficulty
+  - String id
+  - SudokuArray gameField
+  - SudokuArray initialGameField
+  - SudokuArray solvedGameField
+  - SudokuChange lastChange
+  - Difficulty difficulty
   + Sudoku(String id, SudokuArray gameField, SudokuArray initialGameField, SudokuArray solvedGameField, Difficulty difficulty)
-  + getGameField() : SudokuArray
-  + getInitialGameField() : SudokuArray
-  + getSolvedGameField() : SudokuArray
-  + getDifficulty() : Difficulty
-  + getLastChange() : SudokuChange
-  + getId() : String
-  + setInitialGameField(initialGameField)
-  + setSolvedGameField(initialGameField)
-  + setField(row, col, val)
+  + SudokuArray getGameField()
+  + SudokuArray getInitialGameField()
+  + SudokuArray getSolvedGameField()
+  + Difficulty getDifficulty()
+  + SudokuChange getLastChange()
+  + String getId()
+  + void setInitialGameField(initialGameField)
+  + void setSolvedGameField(initialGameField)
+  + boolean setField(row, col, val)
 }
 
 SudokoBuilder -->"erzeugt"Sudoku

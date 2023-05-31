@@ -1,4 +1,4 @@
-package de.dhbw.karlsruhe.services.mocks;
+package de.dhbw.karlsruhe.mocks;
 
 import de.dhbw.karlsruhe.domain.models.Difficulty;
 import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;

@@ -1,0 +1,22 @@
+@startuml
+class SudokuTransformator {
+   + Sudoku transform(Sudoku sudoku)
+   - void mirrorVertical()
+   - void mirrorVertical()
+   - void exchangeCols()
+   - void exchangeBlockRows()
+}
+
+class FieldsRemover {
+   + Sudoku removeFields(Sudoku sudoku, Difficulty dif)
+   - void removeNumberOfCells(int amountOfCellsToRemove)
+   - int countPossibleSolutions(int[][] sudokuGameField)
+ }
+
+ class SudokuGeneratorTransformation {
+  + Sudoku generateSudoku(Difficulty dif)
+ }
+
+SudokuGeneratorTransformation --> FieldsRemover
+SudokuGeneratorTransformation --> SudokuTransformator
+@enduml

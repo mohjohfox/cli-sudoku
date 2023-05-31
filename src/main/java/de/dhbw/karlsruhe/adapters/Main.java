@@ -23,6 +23,7 @@ import de.dhbw.karlsruhe.adapters.cli.output.UserCliAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.DurationTrackAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.LeaderboardStoreAdapter;
 import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.adapters.persistence.UserAdapter;
 import de.dhbw.karlsruhe.domain.Location;
 import de.dhbw.karlsruhe.domain.models.arcade.MathProblem;
 import de.dhbw.karlsruhe.domain.models.arcade.MathProblemUsage;
@@ -95,6 +96,7 @@ public class Main {
     dependencyFactory.registerDependency(new StartUpCliAdapter());
     dependencyFactory.registerDependency(new SudokuSelectionCliAdapter());
     dependencyFactory.registerDependency(new UserCliAdapter());
+    dependencyFactory.registerDependency(new UserAdapter(Location.PROD));
     dependencyFactory.registerDependency(new SudokuCliAdapter());
     dependencyFactory.registerDependency(new SudokuSelectionDialog());
     dependencyFactory.registerDependency(new UserService());
