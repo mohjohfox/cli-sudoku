@@ -1,21 +1,21 @@
 package de.dhbw.karlsruhe.domain.models.user.actions;
 
-import de.dhbw.karlsruhe.domain.models.User;
-import de.dhbw.karlsruhe.domain.services.DependencyFactory;
-import de.dhbw.karlsruhe.domain.services.UserService;
+import de.dhbw.karlsruhe.application.services.DependencyFactory;
+import de.dhbw.karlsruhe.application.services.UserService;
+import de.dhbw.karlsruhe.domain.models.core.User;
 
 public class ChangeUserNameAction extends UserAction {
 
-    private final UserService userService = DependencyFactory.getInstance().getDependency(UserService.class);
-    private final String newUserName;
+  private final UserService userService = DependencyFactory.getInstance().getDependency(UserService.class);
+  private final String newUserName;
 
-    public ChangeUserNameAction(String newUserName) {
-        this.newUserName = newUserName;
-    }
+  public ChangeUserNameAction(String newUserName) {
+    this.newUserName = newUserName;
+  }
 
-    @Override
-    public void executeAction(User user) {
-        userService.changeUserName(newUserName);
-    }
+  @Override
+  public void executeAction(User user) {
+    userService.changeUserName(newUserName);
+  }
 
 }

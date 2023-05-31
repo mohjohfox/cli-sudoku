@@ -3,14 +3,14 @@ package de.dhbw.karlsruhe.services;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import de.dhbw.karlsruhe.adapters.cli.output.CliOutputAdapter;
-import de.dhbw.karlsruhe.adapters.cli.output.UserCliAdapter;
+import de.dhbw.karlsruhe.application.services.DependencyFactory;
+import de.dhbw.karlsruhe.application.services.EncryptionService;
+import de.dhbw.karlsruhe.application.services.UserService;
 import de.dhbw.karlsruhe.domain.Location;
-import de.dhbw.karlsruhe.domain.models.User;
-import de.dhbw.karlsruhe.domain.services.DependencyFactory;
-import de.dhbw.karlsruhe.domain.services.EncryptionService;
-import de.dhbw.karlsruhe.domain.services.UserService;
+import de.dhbw.karlsruhe.domain.models.core.User;
 import de.dhbw.karlsruhe.mocks.MockUserAdapter;
+import de.dhbw.karlsruhe.presentation.cli.output.CliOutputAdapter;
+import de.dhbw.karlsruhe.presentation.cli.output.UserCliAdapter;
 import java.security.NoSuchAlgorithmException;
 import org.junit.jupiter.api.Test;
 

@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.application.services.SudokuValidatorService;
+import de.dhbw.karlsruhe.domain.models.core.Difficulty;
 import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
-import de.dhbw.karlsruhe.domain.services.SudokuValidatorService;
 import de.dhbw.karlsruhe.mocks.MockValidFilledSudoku;
 import org.junit.jupiter.api.Test;
 

@@ -58,7 +58,7 @@
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>de.dhbw.karlsruhe.adapters.Main</mainClass>
+              <mainClass>de.dhbw.karlsruhe.presentation.Main</mainClass>
             </manifest>
           </archive>
         </configuration>

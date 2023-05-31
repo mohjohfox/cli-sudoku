@@ -1,9 +1,9 @@
 package de.dhbw.karlsruhe.domain.models.play.actions;
 
+import de.dhbw.karlsruhe.application.ports.dialogs.output.PlayOutputPort;
+import de.dhbw.karlsruhe.application.services.DependencyFactory;
 import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
 import de.dhbw.karlsruhe.domain.models.sudoku.SudokuChange;
-import de.dhbw.karlsruhe.domain.ports.dialogs.output.PlayOutputPort;
-import de.dhbw.karlsruhe.domain.services.DependencyFactory;
 
 public class UndoAction extends PlayAction {
 

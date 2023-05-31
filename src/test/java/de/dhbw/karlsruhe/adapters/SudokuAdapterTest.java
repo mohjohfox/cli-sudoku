@@ -4,14 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import de.dhbw.karlsruhe.adapters.persistence.SudokuPersistenceAdapter;
+import de.dhbw.karlsruhe.application.ports.persistence.SudokuPersistencePort;
 import de.dhbw.karlsruhe.domain.Location;
-import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.core.Difficulty;
 import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
 import de.dhbw.karlsruhe.domain.models.sudoku.SudokuBuilder;
 import de.dhbw.karlsruhe.domain.models.sudoku.SudokuSaveEntry;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
-import de.dhbw.karlsruhe.domain.ports.persistence.SudokuPersistencePort;
+import de.dhbw.karlsruhe.infrastructure.persistence.adapter.SudokuPersistenceAdapter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.domain.models.generation;
 
-import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.core.Difficulty;
 import de.dhbw.karlsruhe.domain.models.sudoku.Sudoku;
 import de.dhbw.karlsruhe.domain.models.wrapper.SudokuArray;
 

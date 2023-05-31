@@ -1,6 +1,6 @@
 package de.dhbw.karlsruhe.domain.models.leaderboard;
 
-import de.dhbw.karlsruhe.domain.models.Difficulty;
+import de.dhbw.karlsruhe.domain.models.core.Difficulty;
 
 public class LeaderboardScoreCalculator {
 
